@@ -1,13 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './assets/scss/index.global.scss'
+import React from "react";
+import { compose } from "@k88/pipe-compose";
 
-function App() {
+import { HistoryMessage } from "./historyMessages/HistoryMessage";
+import { withAntTheme } from "./ant/theme";
+
+const withAppData = (Component: React.FC): React.FC => compose(
+  withAntTheme,
+)(Component);
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <h1>Test</h1>
-    </div>
+    <HistoryMessage />
   );
 }
 
-export default App;
+export default withAppData(App);
