@@ -1,26 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { compose } from "@k88/pipe-compose";
 
-function App() {
+import { HistoryMessage } from "./components/historyMessages/HistoryMessage";
+import { withAntTheme } from "./ant/theme";
+
+const withAppData = (Component: React.FC): React.FC => compose(
+  withAntTheme,
+)(Component);
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HistoryMessage />
   );
 }
 
-export default App;
+export default withAppData(App);
