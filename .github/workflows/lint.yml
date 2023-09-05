@@ -1,0 +1,14 @@
+name: Lint
+
+on: push
+
+jobs:
+  lint:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+      - name: Prepare
+        uses: ./.github/template/build
+      - name: Lint
+        run: npm run lint
