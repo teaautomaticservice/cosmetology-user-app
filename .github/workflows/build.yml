@@ -20,4 +20,4 @@ jobs:
         with:
           file: Dockerfile
           push: true
-          tags: dahakalab/cosmetology-admin-panel:latest
+          tags: dahakalab/cosmetology-user-app:latest
