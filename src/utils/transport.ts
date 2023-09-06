@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const apiUrl = process.env.REACT_APP_API_URL
+
 export const transport = axios.create({
-  baseURL: "http://127.0.0.1:3000",
+  ...(apiUrl && {
+    baseURL: apiUrl,
+  }),
   headers: {
     'Content-Type': 'application/json',
   },
