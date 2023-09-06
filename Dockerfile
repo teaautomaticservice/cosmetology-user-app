@@ -1,5 +1,5 @@
 FROM node:20.4.0-alpine as builder
-ENV REACT_APP_API_URL=http://http://192.168.10.3:3000
+ENV REACT_APP_API_URL=http://192.168.10.3:3000
 COPY . /app
 WORKDIR /app
 RUN npm ci
