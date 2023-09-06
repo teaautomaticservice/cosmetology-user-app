@@ -2,8 +2,6 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-console.log('apiUrl', process.env.REACT_APP_API_URL);
-
 export const transport = axios.create({
   ...(apiUrl && {
     baseURL: apiUrl,
