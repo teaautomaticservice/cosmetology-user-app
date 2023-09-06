@@ -1,4 +1,6 @@
 FROM node:20.4.0-alpine as builder
+ARG API_URL
+ENV REACT_APP_API_URL=${API_URL}
 COPY . /app
 WORKDIR /app
 RUN npm ci

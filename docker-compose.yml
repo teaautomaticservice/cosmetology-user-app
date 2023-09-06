@@ -11,11 +11,11 @@ services:
       - cosmetology-server
     build:
       dockerfile: Dockerfile
+      args:
+        - API_URL=http://host.docker.internal:3000
     container_name: cosmetology-user-app
     ports:
       - 4000:4000
-    environment:
-      - REACT_APP_API_URL=http://host.docker.internal:3000
     volumes:
       - /app/node_modules
       - ./:/app
