@@ -1,5 +1,4 @@
 FROM node:20.4.0-alpine as builder
-ARG API_URL
 ENV REACT_APP_API_URL=http://host.docker.internal:3000
 COPY . /app
 WORKDIR /app
