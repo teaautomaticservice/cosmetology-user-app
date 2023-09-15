@@ -1,3 +1,6 @@
+volumes:
+  build:
+
 services:
   cosmetology-server:
     image: dahakalab/cosmetology-backend:latest
@@ -12,10 +15,17 @@ services:
     build:
       dockerfile: Dockerfile
     container_name: cosmetology-user-app
-    ports:
-      - 4000:4000
-    environment:
-      - API_URL=http://host.docker.internal:3000
     volumes:
-      - /app/node_modules
-      - ./:/app
+      - build:/app/build
+
+  cosmetology-web-server:
+    depends_on:
+      - cosmetology-user-app
+    image: nginx:alpine
+    container_name: cosmetology-client-server
+    restart: always
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - build:/usr/share/nginx/html:ro
