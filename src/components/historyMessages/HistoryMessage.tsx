@@ -1,21 +1,21 @@
 import React from "react";
-import { Layout, Button, Space } from 'antd';
+import { Button, Layout, Space } from 'antd';
 
-import { style } from "./style";
+// import { env } from '../../utils/env';
 import { AddMessageForm } from "./components/addMessageForm/AddMessageForm";
-import { TableMessages } from "./components/tableMessages/TableMessages";
 import { MessageModal } from "./components/messageModal/MessageModal";
+import { TableMessages } from "./components/tableMessages/TableMessages";
 import { useHistoryMessage } from "./services/useHistoryMessage";
-import { env } from '../../utils/env';
+import { style } from "./style";
 
 const { Header, Content, Sider } = Layout;
 
 export const HistoryMessage: React.FC = () => {
   const { updateHistories, isHistoryLoading } = useHistoryMessage();
 
-  const testVars = () => {
-    console.log(env.REACT_APP_API_URL);
-  }
+  // const testVars = () => {
+  //   console.log(env.REACT_APP_API_URL);
+  // }
 
   return (
     <Layout style={style.layout}>

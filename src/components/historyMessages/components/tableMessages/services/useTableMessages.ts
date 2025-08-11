@@ -1,9 +1,9 @@
 
-import type { ID } from '../../../../../typings/common';
-import { useHistoryMessagesStore } from '../../../../../stores/historyMessages';
 import { historyMessagesMethods } from '../../../../../apiMethods/historyMessages';
+import { useHistoryMessagesStore } from '../../../../../stores/historyMessages';
 import { useModalStore } from '../../../../../stores/modal';
 import { History } from '../../../../../typings/api/historyMessage';
+import type { ID } from '../../../../../typings/common';
 
 export const useTableMessages = () => {
   const { historyMessages, updateHistoryMessages, isHistoryLoading } = useHistoryMessagesStore();

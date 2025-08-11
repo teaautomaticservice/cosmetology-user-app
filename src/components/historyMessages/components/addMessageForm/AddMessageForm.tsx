@@ -1,9 +1,9 @@
 import React from "react";
-import { Input, Button, Space } from 'antd';
+import { Button, Input, Space } from 'antd';
 import { Controller } from 'react-hook-form';
 
-import { style } from "./style";
 import { useAddMessageForm } from "./services/useAddMessageForm";
+import { style } from "./style";
 
 export const AddMessageForm: React.FC = () => {
   const { formControl, submitForm } = useAddMessageForm();

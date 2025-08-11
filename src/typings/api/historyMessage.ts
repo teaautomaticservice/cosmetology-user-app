@@ -1,5 +1,6 @@
-import type { List } from "./common";
 import type { ID } from "../common";
+
+import type { List } from "./common";
 
 export interface History {
   id: ID;
