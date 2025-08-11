@@ -1,8 +1,8 @@
 import React from "react";
 import { compose } from "@k88/pipe-compose";
 
-import { HistoryMessage } from "./components/historyMessages/HistoryMessage";
 import { withAntTheme } from "./ant/theme";
+import { HistoryMessage } from "./components/historyMessages/HistoryMessage";
 
 const withAppData = (Component: React.FC): React.FC => compose(
   withAntTheme,

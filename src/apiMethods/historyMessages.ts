@@ -1,6 +1,5 @@
+import type { History,HistoryList } from "../typings/api/historyMessage";
 import type { ID } from "../typings/common";
-import type { HistoryList, History } from "../typings/api/historyMessage";
-
 import { transport } from "../utils/transport";
 
 const baseUrl = (path = "") => `/history${path}`;

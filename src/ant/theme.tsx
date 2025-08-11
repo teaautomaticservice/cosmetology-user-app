@@ -1,5 +1,5 @@
 import React from "react";
-import { ConfigProvider, ThemeConfig, theme } from "antd";
+import { ConfigProvider, theme,ThemeConfig } from "antd";
 
 const colors = theme.getDesignToken();
 

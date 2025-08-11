@@ -1,7 +1,7 @@
-import type { Event } from "effector";
 import type { AxiosError } from "axios";
-import { createStore, createEvent, createEffect } from "effector";
-import { useStore, useEvent } from "effector-react";
+import type { Event } from "effector";
+import { createEffect,createEvent, createStore } from "effector";
+import { useEvent,useStore } from "effector-react";
 
 type Reducer<State, Payload> = (state: State, payload: Payload) => State | void;
 

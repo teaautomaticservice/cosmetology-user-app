@@ -25,9 +25,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "init-submodule": "git submodule update --init --recursive",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -50,6 +52,8 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "eslint-plugin-import-newlines": "^1.4.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "react-inject-env": "^2.1.0"
   }
 }
