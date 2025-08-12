@@ -10,7 +10,7 @@ const { useStore, useChangeEvent } = storeFactory<ModalStore>({
 });
 
 export const useModalStore = () => {
-  const store = useStore();
+  const [state] = useStore();
 
   const close = useChangeEvent<void>((state) => ({
     ...state,
@@ -22,8 +22,8 @@ export const useModalStore = () => {
     history: payload,
   }));
 
-  const isOpen = store.history === null ? false : true;
-  const history = store.history;
+  const isOpen = state.history === null ? false : true;
+  const history = state.history;
 
   return {
     isOpen,

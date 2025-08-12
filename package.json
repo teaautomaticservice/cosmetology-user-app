@@ -14,8 +14,8 @@
     "antd": "^5.7.1",
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
-    "effector": "^22.8.6",
-    "effector-react": "^22.5.3",
+    "effector": "^23.2.2",
+    "effector-react": "^23.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.2",
@@ -28,8 +28,8 @@
     "init-submodule": "git submodule update --init --recursive",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
+    "lint": "eslint \"src/**/*.{ts,tsx}\" && npx tsc --noEmit",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix && npx tsc --noEmit",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

@@ -1,7 +1,7 @@
 import type { AxiosError } from "axios";
-import type { Event } from "effector";
+import type { Event, EventCallable } from "effector";
 import { createEffect,createEvent, createStore } from "effector";
-import { useEvent,useStore } from "effector-react";
+import { useUnit } from "effector-react";
 
 type Reducer<State, Payload> = (state: State, payload: Payload) => State | void;
 
@@ -21,18 +21,17 @@ export const storeFactory = <State>(initValue: State) => {
   const useCreateEffect = <Params>(handler: Function) => {
     const effect = createEffect<Params, State, AxiosError>(handler);
     subscribeTriggerOnStore(effect.doneData, (_, payload) => payload);
-    return useEvent(effect);
+    return useUnit(effect);
   };
 
   const changeEvent = createStoreEvent<State>((_, payload) => payload);
 
   return {
-    createStoreEvent,
-    useEvent: <Payload = State>(event: Event<Payload>) => useEvent(event),
-    useStore: () => useStore($currentStore),
-    useNewDataEvent: () => useEvent(changeEvent),
-    useChangeEvent: <Payload = State>(reducer: Reducer<State, Payload>) => useEvent(createStoreEvent(reducer)),
-    useNewEvent: (reducer: Reducer<State, State>) => useEvent(createStoreEvent(reducer)),
+    useStore: () => useUnit([$currentStore, changeEvent]),
     useCreateEffect,
+    createStoreEvent,
+    useEvent: <Payload = State>(event: EventCallable<Payload>) => useUnit(event),
+    useChangeEvent: <Payload = State>(reducer: Reducer<State, Payload>) => useUnit(createStoreEvent(reducer)),
+    useNewEvent: (reducer: Reducer<State, State>) => useUnit(createStoreEvent(reducer)),
   };
 };
