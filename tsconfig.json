@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
+   "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -18,7 +18,20 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "@ant/*": ["./src/ant/*"],
+      "@apiMethods/*": ["./src/apiMethods/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@router/*": ["./src/router/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@typings/*": ["./src/typings/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@shared/*": ["./src/libs/shared//src/*"]
+    }
   },
   "include": [
     "src"

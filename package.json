@@ -16,21 +16,22 @@
     "date-fns": "^2.30.0",
     "effector": "^23.2.2",
     "effector-react": "^23.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.45.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
+    "react-router-dom": "^6.26.1",
     "react-scripts": "5.0.1",
-    "sass": "^1.64.0",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "typescript": "5.1.6",
+    "web-vitals": "^4.2.3"
   },
   "scripts": {
     "init-submodule": "git submodule update --init --recursive",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "lint": "eslint \"src/**/*.{ts,tsx}\" && npx tsc --noEmit",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix && npx tsc --noEmit",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "openapi": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 openapi -i https://localhost:3000/swagger/json -o src/typings/api/generated --request ./openapi/request.ts --useOptions"
   },
   "eslintConfig": {
     "extends": [
@@ -52,8 +53,17 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "cross-env": "^10.0.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-import-newlines": "^1.4.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "openapi-typescript": "^7.9.1",
+    "openapi-typescript-codegen": "^0.29.0",
+    "react-app-rewired": "^2.2.1",
     "react-inject-env": "^2.1.0"
+  },
+  "overrides": {
+    "typescript": "5.1.6"
   }
 }

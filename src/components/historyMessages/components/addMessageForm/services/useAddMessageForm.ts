@@ -1,8 +1,8 @@
 import { useEffect } from "react";
+import { historyMessagesMethods } from "@apiMethods/historyMessages";
+import { useHistoryMessagesStore } from "@stores/historyMessages";
 import { SubmitHandler,useForm } from 'react-hook-form';
 
-import { historyMessagesMethods } from "../../../../../apiMethods/historyMessages";
-import { useHistoryMessagesStore } from "../../../../../stores/historyMessages";
 import type { HistoryForm } from "../types";
 
 export const useAddMessageForm = () => {
