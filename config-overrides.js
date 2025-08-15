@@ -8,6 +8,7 @@ module.exports = (config, env) => {
 			"@assets": path.resolve(__dirname, './src/assets'),
 			"@components": path.resolve(__dirname, './src/components'),
 			"@hooks": path.resolve(__dirname, './src/hooks'),
+			"@hocs": path.resolve(__dirname, './src/hocs'),
 			"@router": path.resolve(__dirname, './src/router'),
 			"@stores": path.resolve(__dirname, './src/stores'),
 			"@typings": path.resolve(__dirname, './src/typings'),

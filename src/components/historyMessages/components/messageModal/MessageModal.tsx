@@ -2,7 +2,7 @@ import React from "react";
 import { Input,Modal } from 'antd';
 import { Controller } from 'react-hook-form';
 
-import { dateUtils } from "../../../../utils/dateUtils";
+import { dateUtils } from "@shared/utils/dateUtils";
 
 import { useMessageModal } from "./services/useMessageModal";
 

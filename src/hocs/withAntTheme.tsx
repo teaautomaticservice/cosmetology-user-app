@@ -1,22 +1,23 @@
 import React from "react";
-import { ConfigProvider, theme,ThemeConfig } from "antd";
-
-const colors = theme.getDesignToken();
+import { colors } from '@ant/colors';
+// import { Toasts } from '@components/ui/toasts/Toasts';
+import { ConfigProvider, ThemeConfig, } from "antd";
 
 const themeConfig: ThemeConfig = {
   components: {
     Layout: {
-      colorBgBody: colors.blue1,
-      colorBgHeader: colors.colorWhite,
+      bodyBg: colors.blue1,
+      headerBg: colors.colorWhite,
     }
   }
-}
+};
 
 export const withAntTheme = (Component: React.FC): React.FC => {
   return (props: any) => {
     return (
       <ConfigProvider theme={themeConfig}>
         <Component {...props} />
+        {/* <Toasts /> */}
       </ConfigProvider>
     );
   };
