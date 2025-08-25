@@ -31,6 +31,7 @@
       "@stores/*": ["./src/stores/*"],
       "@typings/*": ["./src/typings/*"],
       "@utils/*": ["./src/utils/*"],
+      "@constants/*": ["./src/constants/*"],
       "@shared/*": ["./src/libs/shared//src/*"]
     }
   },

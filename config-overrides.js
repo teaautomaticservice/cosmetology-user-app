@@ -13,6 +13,7 @@ module.exports = (config, env) => {
 			"@stores": path.resolve(__dirname, './src/stores'),
 			"@typings": path.resolve(__dirname, './src/typings'),
 			"@utils": path.resolve(__dirname, './src/utils'),
+			"@constants": path.resolve(__dirname, './src/constants'),
 			"@shared": path.resolve(__dirname, './src/libs/shared/src'),
 		}
 

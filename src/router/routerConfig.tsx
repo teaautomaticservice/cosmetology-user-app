@@ -1,3 +1,4 @@
+import { GenericLayout } from "@components/layouts/genericLayout/GenericLayout";
 import { LoginPage } from "@components/pages/login/LoginPage";
 import { MySpacePage } from "@components/pages/mySpace/MySpacePage";
 
@@ -7,6 +8,7 @@ import { RouterPage, RouterRoleEnum } from "./types";
 const unauthorized: RouterPage[] = [
   {
     path: paths.login,
+    Layout: GenericLayout,
     Component: LoginPage,
     roles: [RouterRoleEnum.UNAUTHORIZED],
   },
@@ -15,6 +17,7 @@ const unauthorized: RouterPage[] = [
 const mySpace: RouterPage[] = [
   {
     path: paths.main,
+    Layout: GenericLayout,
     Component: MySpacePage,
     roles: [RouterRoleEnum.OPERATOR],
   },
