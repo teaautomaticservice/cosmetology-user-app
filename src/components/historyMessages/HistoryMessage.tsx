@@ -3,7 +3,6 @@ import { Button, Layout, Space } from 'antd';
 
 // import { env } from '../../utils/env';
 import { AddMessageForm } from "./components/addMessageForm/AddMessageForm";
-import { MessageModal } from "./components/messageModal/MessageModal";
 import { TableMessages } from "./components/tableMessages/TableMessages";
 import { useHistoryMessage } from "./services/useHistoryMessage";
 import { style } from "./style";
@@ -33,7 +32,6 @@ export const HistoryMessage: React.FC = () => {
           </Space>
         </Content>
       </Layout>
-      <MessageModal />
     </Layout>
   );
 };
