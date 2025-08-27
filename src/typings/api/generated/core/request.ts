@@ -24,6 +24,6 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
       data: options.body,
     })
       .then(({ data }) => resolve(data))
-      .catch((error) => reject(error));
+      .catch((error) => reject(error.response?.data ?? error));
   })
 }
