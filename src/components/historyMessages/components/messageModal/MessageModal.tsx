@@ -1,13 +1,40 @@
 import React from "react";
+import { historyMessagesMethods } from "@apiMethods/historyMessages";
+import { dateUtils } from "@shared/utils/dateUtils";
+import { useHistoryMessagesStore } from "@stores/historyMessages";
+import { useModalStore } from "@stores/modal";
+import { History } from "@typings/api/historyMessage";
 import { Input,Modal } from 'antd';
-import { Controller } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import { dateUtils } from "../../../../utils/dateUtils";
+import { UpdateMessageForm } from "./types";
 
-import { useMessageModal } from "./services/useMessageModal";
+type Props = {
+  history: History;
+}
 
-export const MessageModal: React.FC = () => {
-  const { isOpen, close, history, submitForm, formControl, okClick } = useMessageModal();
+export const MessageModal: React.FC<Props> = ({ history }) => {
+  const { isOpen, close } = useModalStore();
+  const { updateHistoryMessages } = useHistoryMessagesStore();
+  const { handleSubmit, control: formControl, reset, getValues } = useForm({
+    defaultValues: {
+      message: "",
+    }
+  });
+
+  const updateMessage: SubmitHandler<UpdateMessageForm> = async ({ message }) => {
+    if (!history) {
+      return null;
+    }
+
+    const { data } = await historyMessagesMethods.updateHistory(history.id, message);
+    updateHistoryMessages(data);
+    close();
+    reset();
+  };
+
+  const okClick = () => updateMessage(getValues());
+  const submitForm = handleSubmit(updateMessage);
 
   if (!history) {
     return null;

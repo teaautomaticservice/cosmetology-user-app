@@ -4,7 +4,7 @@ import { storeFactory } from "../utils/storeFactory";
 
 const {
   useStore: useHistoryStore,
-  useCreateEffect: useHistoryCreateEffect,
+  useMiddleWare: useHistoryCreateEffect,
 } = storeFactory<History[]>([]);
 const { useStore: useIsLoadingStore } = storeFactory<boolean>(false);
 
