@@ -1,3 +1,4 @@
+import { DashboardLayout } from "@components/layouts/dashboardLayout/DashboardLayout";
 import { GenericLayout } from "@components/layouts/genericLayout/GenericLayout";
 import { LoginPage } from "@components/pages/login/LoginPage";
 import { MySpacePage } from "@components/pages/mySpace/MySpacePage";
@@ -17,7 +18,7 @@ const unauthorized: RouterPage[] = [
 const mySpace: RouterPage[] = [
   {
     path: paths.main,
-    Layout: GenericLayout,
+    Layout: DashboardLayout,
     Component: MySpacePage,
     roles: [RouterRoleEnum.OPERATOR],
   },

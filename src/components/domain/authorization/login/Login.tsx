@@ -12,7 +12,7 @@ const { Text } = Typography;
 
 export const Login: React.FC = () => {
   const [formInstance] = Form.useForm<LoginForm>();
-  const { login, isAuthLoading } = useAppConfigStore()
+  const { login, isAuthLoading } = useAppConfigStore();
 
   formInstance.setFieldsValue({ isRemember: false });
 
