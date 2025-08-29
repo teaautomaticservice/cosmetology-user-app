@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { type UserType,UserTypeEnum } from '@typings/api/users';
+import { type UserType,UserTypeEnum } from 'src/typings/api/users';
 
 export type RouterRole = UserType | 'unauthorized' | 'all';
 export const RouterRoleEnum = {

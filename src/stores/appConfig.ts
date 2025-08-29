@@ -1,8 +1,8 @@
 import { getConfig } from '@apiMethods/appConfigApi';
 import { sendLogin,sendLogOut } from '@apiMethods/authorizationApi';
-import { AppConfig } from '@typings/api/appConfig';
-import { LoginFormDto } from '@typings/api/generated';
 import { storeFactory } from '@utils/storeFactory';
+import { AppConfig } from 'src/typings/api/appConfig';
+import { LoginFormDto } from 'src/typings/api/generated';
 
 const {
   useStore,

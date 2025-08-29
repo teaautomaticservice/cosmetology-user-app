@@ -1,0 +1,2 @@
+
+export { default as TeaLeafSvg } from '@assets/svg/tea-leaf.svg';

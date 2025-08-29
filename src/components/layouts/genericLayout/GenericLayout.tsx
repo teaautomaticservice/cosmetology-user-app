@@ -1,5 +1,5 @@
-import { colors } from '@ant/colors';
 import { RootModal } from '@components/domain/rootModal/RootModal';
+import { colors } from '@constants/colors';
 import { cssVars } from '@constants/theme';
 import { ConfigProvider, ThemeConfig } from 'antd';
 import cn from 'classnames';
@@ -8,9 +8,13 @@ import s from './genericLayout.module.css';
 
 const themeConfig: ThemeConfig = {
   components: {
-    Layout: {
-      bodyBg: colors.blue1,
-      headerBg: colors.colorWhite,
+    Button: {
+      colorPrimary: colors['--accent'],
+      primaryColor: colors['--text-invert'],
+    },
+    Input: {
+      colorBorder: colors['--light-accent'],
+      activeBorderColor: colors['--accent'],
     }
   }
 };

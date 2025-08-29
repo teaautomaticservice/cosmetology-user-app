@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
-import { MODALS_TYPE } from '@typings/modals';
 import { storeFactory } from "@utils/storeFactory";
 import { ModalsMap } from 'src/constants/modals';
+import { MODALS_TYPE } from 'src/typings/modals';
 
 type GetComponentsMapProp<T extends MODALS_TYPE> = ComponentProps<(typeof ModalsMap)[T]>;
 

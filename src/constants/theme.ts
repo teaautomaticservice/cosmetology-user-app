@@ -1,6 +1,6 @@
-import { colors } from "@ant/colors";
+import { colors } from "./colors";
 
 export const cssVars = {
-  '--accent': colors.blue7,
-  '--light-accent': colors.blue3,
+  ...colors,
 } as const;
+

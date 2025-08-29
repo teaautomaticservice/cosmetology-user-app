@@ -29,13 +29,15 @@
       "@hocs/*": ["./src/hocs/*"],
       "@router/*": ["./src/router/*"],
       "@stores/*": ["./src/stores/*"],
-      "@typings/*": ["./src/typings/*"],
+      "@typings/*": ["src/typings/*"],
       "@utils/*": ["./src/utils/*"],
       "@constants/*": ["./src/constants/*"],
-      "@shared/*": ["./src/libs/shared//src/*"]
+      "@shared/*": ["./src/libs/shared//src/*"],
+			"@svg": ["./src/components/ui/svg/svg.ts"]
     }
   },
   "include": [
-    "src"
+    "src",
+    "src/typings/declare/types.d.ts",
   ]
 }
