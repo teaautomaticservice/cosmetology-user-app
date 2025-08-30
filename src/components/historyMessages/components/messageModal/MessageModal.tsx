@@ -3,9 +3,9 @@ import { historyMessagesMethods } from "@apiMethods/historyMessages";
 import { dateUtils } from "@shared/utils/dateUtils";
 import { useHistoryMessagesStore } from "@stores/historyMessages";
 import { useModalStore } from "@stores/modal";
+import { History } from "@typings/api/historyMessage";
 import { Input,Modal } from 'antd';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { History } from "src/typings/api/historyMessage";
 
 import { UpdateMessageForm } from "./types";
 

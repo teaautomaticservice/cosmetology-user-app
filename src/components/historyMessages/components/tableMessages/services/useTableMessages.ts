@@ -2,9 +2,9 @@
 import { historyMessagesMethods } from '@apiMethods/historyMessages';
 import { useHistoryMessagesStore } from '@stores/historyMessages';
 import { useModalStore } from '@stores/modal';
-import { History } from 'src/typings/api/historyMessage';
-import { ID } from 'src/typings/common';
-import { MODALS_TYPE } from 'src/typings/modals';
+import { History } from '@typings/api/historyMessage';
+import { ID } from '@typings/common';
+import { MODALS_TYPE } from '@typings/modals';
 
 export const useTableMessages = () => {
   const { historyMessages, updateHistoryMessages, isHistoryLoading } = useHistoryMessagesStore();

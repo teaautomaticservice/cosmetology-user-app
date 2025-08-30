@@ -1,6 +1,6 @@
 import { useAppConfigStore } from '@stores/appConfig';
+import { UserDataApiError } from '@typings/errors';
 import { Button, Checkbox, Form, Input, Typography } from 'antd';
-import { UserDataApiError } from 'src/typings/errors';
 
 import { AuthFormWrapper } from '../formWrapper/AuthFormWrapper';
 
