@@ -49,8 +49,10 @@ export const useAppConfigStore = () => {
     }
   };
 
+  const { currentUser } = appConfigStore;
+
   return {
-    appConfigStore,
+    currentUser,
     isAppConfigLoaded,
     isAuthLoading,
     logOut,
