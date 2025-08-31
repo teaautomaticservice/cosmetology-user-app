@@ -1,3 +1,5 @@
+import '@assets/css/index.css'
+
 import { RootModal } from '@components/domain/rootModal/RootModal';
 import { colors } from '@constants/colors';
 import { cssVars } from '@constants/theme';

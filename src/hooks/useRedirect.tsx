@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { paths } from "@router/paths"
 import { routerConfig } from "@router/routerConfig";
 import { RouterRoleEnum } from "@router/types";
@@ -7,12 +6,8 @@ import { generatePath, useLocation, useParams } from "react-router-dom";
 
 export const useRedirect = () => {
   const { pathname } = useLocation();
-  const { appConfigStore, getAppConfigFromApi } = useAppConfigStore();
+  const { currentUser } = useAppConfigStore();
   const params = useParams();
-
-  useEffect(() => {
-    getAppConfigFromApi();
-  }, []);
 
   const getRedirectPath = (): string | null => {
     const currentConfig = routerConfig.find(({ path }) => {
@@ -31,7 +26,6 @@ export const useRedirect = () => {
       return null;
     }
 
-    const { currentUser } = appConfigStore;
     const { roles } = currentConfig;
     const isUnauthorizedRoute = roles.includes('unauthorized');
 
