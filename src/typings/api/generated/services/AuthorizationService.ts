@@ -16,7 +16,7 @@ export class AuthorizationService {
         requestBody,
     }: {
         /**
-         * User update
+         * User login
          */
         requestBody: LoginFormDto,
     }): CancelablePromise<CurrentUserDto> {
@@ -35,6 +35,23 @@ export class AuthorizationService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/authorization/logout',
+        });
+    }
+    /**
+     * @returns CurrentUserDto User success login
+     * @throws ApiError
+     */
+    public static authorizationControllerAuthByUserToken({
+        userToken,
+    }: {
+        userToken: string,
+    }): CancelablePromise<CurrentUserDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/authorization/auth-by-user-token',
+            path: {
+                'userToken': userToken,
+            },
         });
     }
 }

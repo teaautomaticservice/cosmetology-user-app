@@ -1,7 +1,7 @@
 import { getConfig } from '@apiMethods/appConfigApi';
-import { sendLogin,sendLogOut } from '@apiMethods/authorizationApi';
+import { sendLogin, sendLogOut } from '@apiMethods/authorizationApi';
 import { AppConfig } from '@typings/api/appConfig';
-import { LoginFormDto } from '@typings/api/generated';
+import { AuthorizationService, LoginFormDto } from '@typings/api/generated';
 import { storeFactory } from '@utils/storeFactory';
 
 const {
@@ -49,6 +49,20 @@ export const useAppConfigStore = () => {
     }
   };
 
+  const loginByUserToken = async (userToken: string) => {
+    setIsAuthLoading(true);
+    try {
+      const currentUser = await AuthorizationService.authorizationControllerAuthByUserToken({
+        userToken,
+      });
+      if (currentUser) {
+        updateAppConfig({ currentUser });
+      }
+    } finally {
+      setIsAuthLoading(false);
+    }
+  }
+
   const { currentUser } = appConfigStore;
 
   return {
@@ -58,5 +72,6 @@ export const useAppConfigStore = () => {
     logOut,
     login,
     getAppConfigFromApi,
+    loginByUserToken,
   }
 }
