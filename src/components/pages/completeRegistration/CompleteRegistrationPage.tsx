@@ -1,5 +1,10 @@
 import { useEffect } from "react";
+import { CompleteRegistration } from "@components/domain/completeRegistration/CompleteRegistration";
+import {
+  RegistrationFallback
+} from "@components/domain/completeRegistration/registrationFallback/RegistrationFallback";
 import { useAppConfigStore } from "@stores/appConfig";
+import { UserStatusEnum } from "@typings/api/users";
 import { useSearchParams } from "react-router-dom"
 
 export const CompleteRegistrationPage: React.FC = () => {
@@ -9,19 +14,18 @@ export const CompleteRegistrationPage: React.FC = () => {
 
   useEffect(() => {
     if (userToken) {
-      loginByUserToken(userToken)
+      loginByUserToken(userToken);
     }
   }, []);
 
+  if (
+    (!currentUser && !userToken) ||
+    (currentUser && currentUser.status !== UserStatusEnum.PENDING)
+  ) {
+    return <RegistrationFallback />;
+  }
+
   return (
-    <div>
-      <div>Hello new user!</div>
-      {currentUser && (
-        <div>
-          Name: {currentUser.displayName}
-          Email: {currentUser.email}
-        </div>
-      )}
-    </div>
+    <CompleteRegistration />
   )
 }

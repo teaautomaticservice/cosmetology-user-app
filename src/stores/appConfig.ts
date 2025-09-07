@@ -58,6 +58,9 @@ export const useAppConfigStore = () => {
       if (currentUser) {
         updateAppConfig({ currentUser });
       }
+    } catch(error) {
+      // eslint-disable-next-line no-console
+      console.error(error)
     } finally {
       setIsAuthLoading(false);
     }

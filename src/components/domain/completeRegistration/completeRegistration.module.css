@@ -1,0 +1,45 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 20px;
+  max-width: 900px;
+
+  .contentContainer {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    border-radius: 16px;
+    padding: 16px;
+    background-color: var(--background-light);
+  }
+
+  .leftSection {
+    width: 50%;
+  }
+
+  .rightSection {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+  }
+
+  .bannerImg {
+    display: block;
+    width: 100%;
+    min-height: 1px;
+    flex: 1 1 1px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 16px;
+  }
+
+  .rightBottomSection {
+    position: relative;
+    margin-top: auto;
+    margin-bottom: 24px;
+  }
+}

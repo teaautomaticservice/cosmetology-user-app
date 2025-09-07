@@ -85,4 +85,21 @@ export class UsersService {
             mediaType: 'application/json',
         });
     }
+    /**
+     * @returns UsersDto Restart complete registration has been initiated
+     * @throws ApiError
+     */
+    public static usersControllerRestartCompleteRegistration({
+        id,
+    }: {
+        id: number,
+    }): CancelablePromise<UsersDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/users/restart-complete-registration/{id}',
+            query: {
+                'id': id,
+            },
+        });
+    }
 }

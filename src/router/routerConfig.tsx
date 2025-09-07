@@ -21,8 +21,8 @@ const service: RouterPage[] = [
     path: paths.completeRegistration,
     Layout: GenericLayout,
     Component: CompleteRegistrationPage,
-    roles: [RouterRoleEnum.UNAUTHORIZED, RouterRoleEnum.PENDING]
-  }
+    roles: [RouterRoleEnum.UNAUTHORIZED, RouterRoleEnum.PENDING],
+  },
 ]
 
 const mySpace: RouterPage[] = [

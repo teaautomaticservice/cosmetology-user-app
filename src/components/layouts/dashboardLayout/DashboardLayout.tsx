@@ -1,4 +1,4 @@
-import { Navbar } from "@components/dashboard/navbar/Navbar";
+import { Navbar } from "@components/domain/dashboard/navbar/Navbar";
 import { Footer } from "@components/domain/footer/Footer";
 import { Header } from "@components/domain/header/Header";
 
