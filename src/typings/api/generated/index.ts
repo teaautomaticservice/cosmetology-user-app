@@ -17,6 +17,7 @@ export type { LoginFormDto } from './models/LoginFormDto';
 export type { LogsDto } from './models/LogsDto';
 export type { LogsPaginatedDto } from './models/LogsPaginatedDto';
 export type { PaginationMetaDto } from './models/PaginationMetaDto';
+export type { SetupNewPasswordDto } from './models/SetupNewPasswordDto';
 export type { UpdateHistoryDto } from './models/UpdateHistoryDto';
 export { UsersDto } from './models/UsersDto';
 export type { UsersPaginatedDto } from './models/UsersPaginatedDto';

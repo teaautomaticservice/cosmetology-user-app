@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { setupNewPassword } from '@apiMethods/authorizationApi';
 import { useAppConfigStore } from "@stores/appConfig";
 import { Button, Form, Input, Typography } from "antd";
 import Title from "antd/es/typography/Title";
@@ -9,17 +11,25 @@ import s from './completeRegistration.module.css';
 import banner from '@assets/png/tea-on-sunrise.png';
 
 export const CompleteRegistration: React.FC = () => {
-  const { currentUser, logOut } = useAppConfigStore();
+  const { currentUser, logOut, getAppConfigFromApi } = useAppConfigStore();
   const [formInstance] = Form.useForm<CompleteRegistrationForm>();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const isFormLoading = false;
-
-  const onSubmit = (form: CompleteRegistrationForm) => {
+  const onSubmit = async (form: CompleteRegistrationForm) => {
     if (form.password !== form.repeatPassword) {
       formInstance.setFields([{
         name: 'repeatPassword',
-        errors: [`Password didn't match`],
+        errors: [`Passwords didn't match`],
       }])
+    }
+
+    setIsLoading(true);
+
+    try {
+      await setupNewPassword(form);
+      await getAppConfigFromApi();
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -41,7 +51,7 @@ export const CompleteRegistration: React.FC = () => {
               labelCol={{ span: 8 }}
               autoComplete="off"
               onFinish={onSubmit}
-              disabled={isFormLoading}
+              disabled={isLoading}
               form={formInstance}
             >
               <Form.Item<CompleteRegistrationForm>
@@ -65,7 +75,7 @@ export const CompleteRegistration: React.FC = () => {
                   type="primary"
                   htmlType="submit"
                   className={s.button}
-                  loading={isFormLoading}
+                  loading={isLoading}
                 >
                   Complete registration
                 </Button>
