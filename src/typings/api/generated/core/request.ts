@@ -1,3 +1,4 @@
+import { interpolate } from '@shared/utils/interpolate';
 import { transport } from '@utils/transport';
 
 import { ApiRequestOptions } from './ApiRequestOptions';
@@ -7,10 +8,15 @@ import type { OpenAPIConfig } from './OpenAPI';
 export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): CancelablePromise<T> => {
   return new CancelablePromise((resolve, reject, onCancel) => {
     let params: URLSearchParams | undefined;
+    let interpolatedUrl = options.url;
 
     if (options.path) {
-      params = new URLSearchParams();
-      Object.entries(options.path).forEach(([key, val]) => {
+      interpolatedUrl = interpolate(options.url, options.path);
+    }
+
+    if (options.query) {
+      params = params || new URLSearchParams();
+      Object.entries(options.query).forEach(([key, val]) => {
         if (val !== undefined) {
           (params as URLSearchParams).set(key, val)
         }
@@ -18,12 +24,12 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
     }
     
     transport.request<T>({
-      url: options.url,
+      url: interpolatedUrl,
       method: options.method,
       params,
       data: options.body,
     })
       .then(({ data }) => resolve(data))
-      .catch((error) => reject(error.response?.data ?? error));
+      .catch((error) => reject(error));
   })
 }

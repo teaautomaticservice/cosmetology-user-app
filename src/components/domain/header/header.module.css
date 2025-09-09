@@ -23,4 +23,8 @@
     margin: 0;
     color: var(--accent);
   }
+
+  .displayName {
+    margin-right: 16px;
+  }
 }

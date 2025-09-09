@@ -1,5 +1,6 @@
 import { DashboardLayout } from "@components/layouts/dashboardLayout/DashboardLayout";
 import { GenericLayout } from "@components/layouts/genericLayout/GenericLayout";
+import { CompleteRegistrationPage } from "@components/pages/completeRegistration/CompleteRegistrationPage";
 import { LoginPage } from "@components/pages/login/LoginPage";
 import { MySpacePage } from "@components/pages/mySpace/MySpacePage";
 
@@ -15,6 +16,15 @@ const unauthorized: RouterPage[] = [
   },
 ];
 
+const service: RouterPage[] = [
+  {
+    path: paths.completeRegistration,
+    Layout: GenericLayout,
+    Component: CompleteRegistrationPage,
+    roles: [RouterRoleEnum.UNAUTHORIZED, RouterRoleEnum.PENDING],
+  },
+]
+
 const mySpace: RouterPage[] = [
   {
     path: paths.main,
@@ -26,5 +36,6 @@ const mySpace: RouterPage[] = [
 
 export const routerConfig: RouterPage[] = [
   ...unauthorized,
+  ...service,
   ...mySpace,
 ]

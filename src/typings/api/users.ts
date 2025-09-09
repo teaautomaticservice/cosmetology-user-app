@@ -6,3 +6,5 @@ export type CurrentUser = CurrentUserDto;
 
 export type User = UsersDto;
 export type UsersList = UsersPaginatedDto;
+
+export const UserStatusEnum = CurrentUserDto['status'];

@@ -21,7 +21,7 @@ export class LogsService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/logs/list',
-            path: {
+            query: {
                 'page': page,
                 'pageSize': pageSize,
             },

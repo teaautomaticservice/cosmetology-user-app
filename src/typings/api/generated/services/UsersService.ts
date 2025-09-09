@@ -24,7 +24,7 @@ export class UsersService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/users',
-            path: {
+            query: {
                 'page': page,
                 'pageSize': pageSize,
             },
@@ -83,6 +83,23 @@ export class UsersService {
             url: '/users/initiate-hard-reset-password',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns UsersDto Restart complete registration has been initiated
+     * @throws ApiError
+     */
+    public static usersControllerRestartCompleteRegistration({
+        id,
+    }: {
+        id: number,
+    }): CancelablePromise<UsersDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/users/restart-complete-registration/{id}',
+            query: {
+                'id': id,
+            },
         });
     }
 }
