@@ -20,7 +20,9 @@ export const CompleteRegistration: React.FC = () => {
       formInstance.setFields([{
         name: 'repeatPassword',
         errors: [`Passwords didn't match`],
-      }])
+      }]);
+
+      return undefined;
     }
 
     setIsLoading(true);
