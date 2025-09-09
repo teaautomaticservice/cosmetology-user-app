@@ -50,7 +50,7 @@ export class AuthorizationService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/authorization/auth-by-user-token',
-            path: {
+            query: {
                 'userToken': userToken,
             },
         });

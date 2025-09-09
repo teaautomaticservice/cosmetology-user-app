@@ -1,4 +1,5 @@
 import { transport } from '@utils/transport';
+import { interpolate } from '@shared/utils/interpolate';
 
 import { ApiRequestOptions } from './ApiRequestOptions';
 import { CancelablePromise } from './CancelablePromise';
@@ -7,14 +8,10 @@ import type { OpenAPIConfig } from './OpenAPI';
 export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): CancelablePromise<T> => {
   return new CancelablePromise((resolve, reject, onCancel) => {
     let params: URLSearchParams | undefined;
+    let interpolatedUrl = options.url;
 
     if (options.path) {
-      params = new URLSearchParams();
-      Object.entries(options.path).forEach(([key, val]) => {
-        if (val !== undefined) {
-          (params as URLSearchParams).set(key, val)
-        }
-      });
+      interpolatedUrl = interpolate(options.url, options.path);
     }
 
     if (options.query) {
@@ -27,7 +24,7 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
     }
     
     transport.request<T>({
-      url: options.url,
+      url: interpolatedUrl,
       method: options.method,
       params,
       data: options.body,

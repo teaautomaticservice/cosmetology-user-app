@@ -24,7 +24,7 @@ export class UsersService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/users',
-            path: {
+            query: {
                 'page': page,
                 'pageSize': pageSize,
             },
