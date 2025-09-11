@@ -1,4 +1,4 @@
-import { AddMessageForm } from "@components/historyMessages/components/addMessageForm/AddMessageForm";
+import { AddMessageForm } from "@components/domain/historyMessages/components/addMessageForm/AddMessageForm";
 
 import s from './navbar.module.css';
 

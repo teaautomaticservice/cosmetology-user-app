@@ -1,8 +1,10 @@
+import { AuthorizedLayout } from "@components/layouts/authorizedLayout/AuthorizedLayout";
 import { DashboardLayout } from "@components/layouts/dashboardLayout/DashboardLayout";
 import { GenericLayout } from "@components/layouts/genericLayout/GenericLayout";
 import { CompleteRegistrationPage } from "@components/pages/completeRegistration/CompleteRegistrationPage";
+import { HistoryPage } from "@components/pages/history/HistoryPage";
 import { LoginPage } from "@components/pages/login/LoginPage";
-import { MySpacePage } from "@components/pages/mySpace/MySpacePage";
+import { MainPage } from "@components/pages/main/MainPage";
 
 import { paths } from "./paths";
 import { RouterPage, RouterRoleEnum } from "./types";
@@ -23,19 +25,29 @@ const service: RouterPage[] = [
     Component: CompleteRegistrationPage,
     roles: [RouterRoleEnum.UNAUTHORIZED, RouterRoleEnum.PENDING],
   },
-]
+];
 
 const mySpace: RouterPage[] = [
   {
     path: paths.main,
     Layout: DashboardLayout,
-    Component: MySpacePage,
+    Component: MainPage,
     roles: [RouterRoleEnum.OPERATOR],
   },
-]
+];
+
+const history: RouterPage[] = [
+  {
+    path: paths.history,
+    Layout: AuthorizedLayout,
+    Component: HistoryPage,
+    roles: [RouterRoleEnum.OPERATOR],
+  },
+];
 
 export const routerConfig: RouterPage[] = [
   ...unauthorized,
   ...service,
   ...mySpace,
-]
+  ...history,
+];

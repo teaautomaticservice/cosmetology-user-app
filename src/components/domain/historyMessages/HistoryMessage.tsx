@@ -6,6 +6,8 @@ import { TableMessages } from "./components/tableMessages/TableMessages";
 import { useHistoryMessage } from "./services/useHistoryMessage";
 import { style } from "./style";
 
+import s from './historyMessage.module.css';
+
 const { Content } = Layout;
 
 export const HistoryMessage: React.FC = () => {
@@ -16,7 +18,7 @@ export const HistoryMessage: React.FC = () => {
   // }
 
   return (
-    <div>
+    <div className={s.root}>
       <Content style={style.content}>
         <Space direction="vertical" style={style.tableWrap}>
           <Button type="primary" loading={isHistoryLoading} onClick={updateHistories}>Refresh data</Button>

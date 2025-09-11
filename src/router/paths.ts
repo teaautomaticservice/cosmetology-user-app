@@ -7,4 +7,7 @@ export const paths = {
 
   // mySpace
   main: '/',
+
+  // history
+  history: '/history'
 }

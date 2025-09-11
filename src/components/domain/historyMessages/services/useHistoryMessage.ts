@@ -1,4 +1,4 @@
-import { useHistoryMessagesStore } from "../../../stores/historyMessages";
+import { useHistoryMessagesStore } from "../../../../stores/historyMessages";
 
 export const useHistoryMessage = () => {
   const { updateHistoryMessagesFromApi, isHistoryLoading } = useHistoryMessagesStore();

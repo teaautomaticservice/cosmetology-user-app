@@ -3,7 +3,7 @@ import { dateUtils } from "@shared/utils/dateUtils";
 import { Button,Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
-import type { History } from "../../../../typings/api/historyMessage";
+import type { History } from "../../../../../typings/api/historyMessage";
 
 import { useTableMessages } from "./services/useTableMessages";
 
