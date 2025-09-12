@@ -5,20 +5,15 @@ import { Header } from "@components/domain/header/Header";
 import { GenericLayout } from "../genericLayout/GenericLayout";
 
 import s from './dashboardLayout.module.css';
+import { AuthorizedLayout } from "../authorizedLayout/AuthorizedLayout";
 
 export type Props = React.PropsWithChildren<{}>;
 
 export const DashboardLayout: React.FC<Props> = ({ children }) => {
   return (
-    <GenericLayout className={s.root}>
-      <div className={s.mainWrapper}>
-        <Header />
-        <main className={s.contentWrapper}>
-          <Navbar />
-          <div className={s.content}>{ children }</div>
-        </main>
-      </div>
-      <Footer />
-    </GenericLayout>
+    <AuthorizedLayout className={s.root}>
+      <Navbar />
+      <div className={s.content}>{children}</div>
+    </AuthorizedLayout>
   )
 }

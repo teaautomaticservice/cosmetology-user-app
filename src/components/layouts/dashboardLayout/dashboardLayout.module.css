@@ -1,24 +1,8 @@
 .root {
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  height: auto;
-
-  .mainWrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 100vh;
-    height: auto;
-    flex: 1 0 auto;
-  }
-
-  .contentWrapper {
-    width: 100%;
-    display: flex;
-    min-height: 1px;
-    flex-grow: 1;
-  }
+  display: flex;
+  min-height: 1px;
+  flex-grow: 1;
 
   .content {
     width: 100%;
