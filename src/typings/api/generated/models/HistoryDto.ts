@@ -6,6 +6,7 @@ export type HistoryDto = {
     id: number;
     date: string;
     owner: string;
+    updatedBy: string;
     message: string;
 };
 

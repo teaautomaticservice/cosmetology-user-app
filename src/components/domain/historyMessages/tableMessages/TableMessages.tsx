@@ -41,6 +41,12 @@ export const TableMessages: React.FC = () => {
       width: '300px',
     },
     {
+      title: 'Updated by',
+      dataIndex: 'updatedBy',
+      key: 'id',
+      width: '300px',
+    },
+    {
       title: 'Message',
       dataIndex: 'message',
       key: 'id',
