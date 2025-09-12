@@ -1,6 +1,9 @@
 import { useEffect } from "react"
-import { HistoryMessage } from "@components/domain/historyMessages/HistoryMessage"
+import { HeaderHistory } from "@components/domain/historyMessages/headerHistory/HeaderHistory";
+import { TableMessages } from "@components/domain/historyMessages/tableMessages/TableMessages";
 import { useHistoryMessagesStore } from "@stores/historyMessages";
+
+import s from './historyPage.module.css';
 
 export const HistoryPage: React.FC = () => {
   const { updateHistoryMessagesFromApi } = useHistoryMessagesStore();
@@ -10,6 +13,9 @@ export const HistoryPage: React.FC = () => {
   }, []);
   
   return (
-    <HistoryMessage />
+    <div className={s.root}>
+      <HeaderHistory className={s.header} />
+      <TableMessages />
+    </div>
   )
 }

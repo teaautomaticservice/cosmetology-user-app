@@ -1,0 +1,8 @@
+.root {
+  width: 100%;
+  margin: 16px;
+
+  .header {
+    margin-bottom: 16px;
+  }
+}

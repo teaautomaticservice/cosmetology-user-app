@@ -1,0 +1,16 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  .section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .form {
+    align-items: flex-end;
+  }
+}
