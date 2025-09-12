@@ -1,27 +1,26 @@
-import React from "react";
+import { useHistoryMessagesStore } from '@stores/historyMessages';
 import { Button, Layout, Space } from 'antd';
 
-// import { env } from '../../utils/env';
-import { TableMessages } from "./components/tableMessages/TableMessages";
-import { useHistoryMessage } from "./services/useHistoryMessage";
-import { style } from "./style";
+import { TableMessages } from "./tableMessages/TableMessages";
 
 import s from './historyMessage.module.css';
 
 const { Content } = Layout;
 
 export const HistoryMessage: React.FC = () => {
-  const { updateHistories, isHistoryLoading } = useHistoryMessage();
-
-  // const testVars = () => {
-  //   console.log(env.REACT_APP_API_URL);
-  // }
+  const { updateHistoryMessagesFromApi, isHistoryLoading } = useHistoryMessagesStore();
 
   return (
     <div className={s.root}>
-      <Content style={style.content}>
-        <Space direction="vertical" style={style.tableWrap}>
-          <Button type="primary" loading={isHistoryLoading} onClick={updateHistories}>Refresh data</Button>
+      <Content className={s.content}>
+        <Space direction="vertical" className={s.tableWrap}>
+          <Button
+            type="primary"
+            loading={isHistoryLoading}
+            onClick={() => updateHistoryMessagesFromApi()}
+          >
+            Refresh data
+          </Button>
           <TableMessages />
         </Space>
       </Content>
