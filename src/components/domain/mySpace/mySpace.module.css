@@ -1,0 +1,9 @@
+.root {
+  width: 100%;
+
+  .icon svg {
+    width: 100px;
+    height: 100px;
+    fill: red;
+  }
+}

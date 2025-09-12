@@ -1,33 +1,19 @@
-import type { History,HistoryList } from "../typings/api/historyMessage";
-import type { ID } from "../typings/common";
-import { transport } from "../utils/transport";
+import { HistoryService } from "@typings/api/generated";
 
-const baseUrl = (path = "") => `/history${path}`;
+import type { HistoriesList } from "../typings/api/historyMessage";
 
-const historyMessagesUrls = {
-  messageList: baseUrl("/list"),
-  messageById: (id: ID) => baseUrl(`/${id}`),
-};
+export const getHistoriesMessageListApi = async (): Promise<HistoriesList> => {
+  return HistoryService.historyControllerGetList();
+}
 
-export const historyMessagesMethods = {
-  getMessageList: async () => {
-    const { data } = await transport.get<HistoryList>(historyMessagesUrls.messageList);
-    return data;
-  },
-  getHistoryById: async (id: ID) => {
-    const { data } = await transport.get<History>(historyMessagesUrls.messageById(id));
-    return data;
-  },
-  addHistory: async (message: string) => {
-    const { data } = await transport.post<HistoryList>(baseUrl(), { message });
-    return data;
-  },
-  updateHistory: async (id: ID, message: string) => {
-    const { data } = await transport.patch<HistoryList>(historyMessagesUrls.messageById(id), { message });
-    return data;
-  },
-  removeHistory: async (id: ID) => {
-    const { data } = await transport.delete<HistoryList>(historyMessagesUrls.messageById(id));
-    return data;
-  },
-};
+export const createNewHistoryMessageApi = async (message: string): Promise<HistoriesList> => {
+  return HistoryService.historyControllerAddItem({ requestBody: { message }})
+}
+
+export const deleteHistoryMessageByIdApi = async (id: string): Promise<HistoriesList> => {
+  return HistoryService.historyControllerRemoveItem({ id });
+}
+
+export const updateHistoryMessageByIdApi = async (id: string, message: string) => {
+  return HistoryService.historyControllerUpdateItem({ id, requestBody: { message }});
+}

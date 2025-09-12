@@ -1,5 +1,4 @@
 import React from "react";
-import { historyMessagesMethods } from "@apiMethods/historyMessages";
 import { dateUtils } from "@shared/utils/dateUtils";
 import { useHistoryMessagesStore } from "@stores/historyMessages";
 import { useModalStore } from "@stores/modal";
@@ -15,7 +14,7 @@ type Props = {
 
 export const MessageModal: React.FC<Props> = ({ history }) => {
   const { isOpen, close } = useModalStore();
-  const { updateHistoryMessages } = useHistoryMessagesStore();
+  const { updateHistoryMessageById } = useHistoryMessagesStore();
   const { handleSubmit, control: formControl, reset, getValues } = useForm({
     defaultValues: {
       message: "",
@@ -27,8 +26,7 @@ export const MessageModal: React.FC<Props> = ({ history }) => {
       return null;
     }
 
-    const { data } = await historyMessagesMethods.updateHistory(history.id, message);
-    updateHistoryMessages(data);
+    await updateHistoryMessageById(history.id.toString(), message);
     close();
     reset();
   };
