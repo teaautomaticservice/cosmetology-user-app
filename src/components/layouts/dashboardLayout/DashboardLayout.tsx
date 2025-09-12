@@ -1,11 +1,8 @@
 import { Navbar } from "@components/domain/dashboard/navbar/Navbar";
-import { Footer } from "@components/domain/footer/Footer";
-import { Header } from "@components/domain/header/Header";
 
-import { GenericLayout } from "../genericLayout/GenericLayout";
+import { AuthorizedLayout } from "../authorizedLayout/AuthorizedLayout";
 
 import s from './dashboardLayout.module.css';
-import { AuthorizedLayout } from "../authorizedLayout/AuthorizedLayout";
 
 export type Props = React.PropsWithChildren<{}>;
 

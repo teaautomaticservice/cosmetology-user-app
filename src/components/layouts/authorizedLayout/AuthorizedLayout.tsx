@@ -1,8 +1,7 @@
-import cn from "classnames";
-
 import { PropsWithChildren } from "react";
 import { Footer } from "@components/domain/footer/Footer";
 import { Header } from "@components/domain/header/Header";
+import cn from "classnames";
 
 import { GenericLayout } from "../genericLayout/GenericLayout";
 
