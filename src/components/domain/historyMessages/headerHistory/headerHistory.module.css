@@ -13,4 +13,8 @@
   .form {
     align-items: flex-end;
   }
+
+  .formItem {
+    flex-shrink: 0;
+  }
 }

@@ -18,7 +18,6 @@ export const HeaderHistory: React.FC<Props> = ({ className }) => {
     isHistoryLoading,
     updateHistoryMessagesFromApi,
     createHistoryMessage,
-
   } = useHistoryMessagesStore();
   const [formInstance] = Form.useForm<MessageForm>();
 
@@ -48,7 +47,6 @@ export const HeaderHistory: React.FC<Props> = ({ className }) => {
       <Form
         layout="vertical"
         name="historyMessage"
-        labelCol={{ span: 8 }}
         autoComplete="off"
         onFinish={submit}
         disabled={isHistoryLoading}
@@ -59,6 +57,7 @@ export const HeaderHistory: React.FC<Props> = ({ className }) => {
           label="Message"
           name="message"
           rules={[{ required: true, message: 'Please input new message!' }]}
+          className={s.formItem}
         >
           <Input />
         </Form.Item>
