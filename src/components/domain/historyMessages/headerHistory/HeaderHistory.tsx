@@ -41,7 +41,6 @@ export const HeaderHistory: React.FC<Props> = ({ className }) => {
     }
   };
 
-
   return (
     <div className={cn(s.root, className)}>
       <Form
