@@ -24,6 +24,7 @@ export const HeaderHistory: React.FC<Props> = ({ className }) => {
   const submit = async ({ message }: MessageForm) => {
     try {
       await createHistoryMessage(message);
+      formInstance.resetFields();
     } catch (e) {
       const { statusCode, message } = e as UserDataApiError;
 
