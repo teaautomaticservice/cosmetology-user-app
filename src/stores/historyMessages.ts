@@ -1,3 +1,5 @@
+import { Pagination } from "@typings/api/common";
+
 import {
   createNewHistoryMessageApi,
   deleteHistoryMessageByIdApi,
@@ -12,8 +14,14 @@ const {
   useMiddleWare: useHistoryCreateEffect,
 } = storeFactory<{
   historyList: History[];
+  pagination: Pagination;
 }>({
   historyList: [],
+  pagination: {
+    count: 0,
+    currentPage: 1,
+    itemsPerPage: 10,
+  }
 });
 const { useStore: useIsLoadingStore } = storeFactory<boolean>(false);
 
@@ -21,13 +29,19 @@ export const useHistoryMessagesStore = () => {
   const [historyMessages, setNewHistory] = useHistoryStore();
   const [isHistoryLoading, setIsLoading] = useIsLoadingStore();
 
-  const { historyList } = historyMessages;
+  const {
+    historyList,
+    pagination,
+  } = historyMessages;
 
   const handleResponse = async () => {
     setIsLoading(true);
-    const { data } = await getHistoriesMessageListApi();
+    const { data, meta } = await getHistoriesMessageListApi();
     setIsLoading(false);
-    return { historyList: data };
+    return {
+      historyList: data,
+      pagination: meta,
+    };
   }
 
   const updateHistoryMessagesFromApi = useHistoryCreateEffect<void>(handleResponse);
@@ -35,9 +49,10 @@ export const useHistoryMessagesStore = () => {
   const createHistoryMessage = async (message: string) => {
     setIsLoading(true);
     try {
-      const { data } = await createNewHistoryMessageApi(message);
+      const { data, meta } = await createNewHistoryMessageApi(message);
       setNewHistory({
         historyList: data,
+        pagination: meta,
       })
     } finally {
       setIsLoading(false);
@@ -47,8 +62,8 @@ export const useHistoryMessagesStore = () => {
   const deleteHistoryMessage = async (id: string) => {
     setIsLoading(true);
     try {
-      const { data } = await deleteHistoryMessageByIdApi(id);
-      setNewHistory({ historyList: data });
+      const { data, meta } = await deleteHistoryMessageByIdApi(id);
+      setNewHistory({ historyList: data, pagination: meta });
     } finally {
       setIsLoading(false);
     }
@@ -57,8 +72,8 @@ export const useHistoryMessagesStore = () => {
   const updateHistoryMessageById = async (id: string, message: string) => {
     setIsLoading(true);
     try {
-      const { data } = await updateHistoryMessageByIdApi(id, message);
-      setNewHistory({ historyList: data });
+      const { data, meta } = await updateHistoryMessageByIdApi(id, message);
+      setNewHistory({ historyList: data, pagination: meta });
     } finally {
       setIsLoading(false);
     }
@@ -67,6 +82,7 @@ export const useHistoryMessagesStore = () => {
   return {
     historyMessages: historyList,
     isHistoryLoading,
+    historyPagination: pagination,
     updateHistoryMessagesFromApi,
     createHistoryMessage,
     deleteHistoryMessage,

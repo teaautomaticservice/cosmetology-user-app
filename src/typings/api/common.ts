@@ -1,13 +1,3 @@
-export interface Pagination {
-  itemsCount: number;
-  itemsCurrent: [number, number];
-}
+import { PaginationMetaDto } from "./generated";
 
-export interface Meta {
-  pagination: Pagination;
-}
-
-export interface List<CurrentType> {
-  data: CurrentType[];
-  meta: Meta;
-}
+export type Pagination = PaginationMetaDto;
