@@ -1,5 +1,5 @@
-import { transport } from '@utils/transport';
 import { interpolate } from '@shared/utils/interpolate';
+import { transport } from '@utils/transport';
 
 import { ApiRequestOptions } from './ApiRequestOptions';
 import { CancelablePromise } from './CancelablePromise';
