@@ -1,0 +1,42 @@
+import { getCurrenciesListApi } from '@apiMethods/cashier';
+import { CurrencyDto } from '@typings/api/generated';
+import { storeFactory } from "@utils/storeFactory";
+
+type Store = {
+  currencies: CurrencyDto[];
+  isLoading: boolean;
+}
+
+const { useStore } = storeFactory<Store>({
+  currencies: [],
+  isLoading: true,
+});
+
+export const useCurrenciesStore = () => {
+  const [state, setState] = useStore();
+
+  const { currencies, isLoading: isCurrenciesLoading } = state;
+
+  const updateCurrenciesList = async () => {
+    setState({
+      isLoading: true,
+    })
+    try {
+      const { data } = await getCurrenciesListApi();
+      setState({
+        currencies: data,
+      })
+    } finally {
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }))
+    }
+  }
+
+  return {
+    currencies,
+    isCurrenciesLoading,
+    updateCurrenciesList,
+  };
+};

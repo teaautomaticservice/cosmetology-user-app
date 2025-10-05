@@ -8,7 +8,10 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { AppConfigDto } from './models/AppConfigDto';
+export type { CreateCurrencyDto } from './models/CreateCurrencyDto';
 export { CreateUserDto } from './models/CreateUserDto';
+export { CurrencyDto } from './models/CurrencyDto';
+export type { CurrencyPaginatedDto } from './models/CurrencyPaginatedDto';
 export { CurrentUserDto } from './models/CurrentUserDto';
 export type { HistoryDto } from './models/HistoryDto';
 export type { HistoryPaginatedDto } from './models/HistoryPaginatedDto';
@@ -16,6 +19,8 @@ export type { InitiateHardResetPasswordDto } from './models/InitiateHardResetPas
 export type { LoginFormDto } from './models/LoginFormDto';
 export type { LogsDto } from './models/LogsDto';
 export type { LogsPaginatedDto } from './models/LogsPaginatedDto';
+export { MoneyStorageDto } from './models/MoneyStorageDto';
+export type { MoneyStoragePaginatedDto } from './models/MoneyStoragePaginatedDto';
 export type { PaginationMetaDto } from './models/PaginationMetaDto';
 export type { SetupNewPasswordDto } from './models/SetupNewPasswordDto';
 export type { UpdateHistoryDto } from './models/UpdateHistoryDto';
@@ -24,6 +29,7 @@ export type { UsersPaginatedDto } from './models/UsersPaginatedDto';
 
 export { AppConfigService } from './services/AppConfigService';
 export { AuthorizationService } from './services/AuthorizationService';
+export { CashierService } from './services/CashierService';
 export { HistoryService } from './services/HistoryService';
 export { LogsService } from './services/LogsService';
 export { UsersService } from './services/UsersService';

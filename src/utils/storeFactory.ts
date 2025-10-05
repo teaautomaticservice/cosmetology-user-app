@@ -1,9 +1,11 @@
 import type { AxiosError } from "axios";
 import type { Event } from "effector";
-import { createEffect,createEvent, createStore } from "effector";
+import { createEffect, createEvent, createStore } from "effector";
 import { useUnit } from "effector-react";
 
 type Reducer<State, Payload> = (state: State, payload: Payload) => State | void;
+
+type UpdateCallback<State> = (prevState: State) => State;
 
 export const storeFactory = <State>(initValue: State) => {
   const $currentStore = createStore<State>(initValue);
@@ -14,7 +16,7 @@ export const storeFactory = <State>(initValue: State) => {
   ) => {
     $currentStore.on(event, reducer);
   };
-  
+
   const createStoreEvent = <Payload = State>(
     reducer: Reducer<State, Payload>,
   ) => {
@@ -31,7 +33,11 @@ export const storeFactory = <State>(initValue: State) => {
     return useUnit(effect);
   }
 
-  const changeEvent = createStoreEvent<Partial<State>>((oldState, payload) => {
+  const changeEvent = createStoreEvent<Partial<State> | UpdateCallback<State>>((oldState, payload) => {
+    if (typeof payload === 'function') {
+      return payload(oldState);
+    }
+
     if (payload !== Object(payload)) {
       return payload as State
     }
