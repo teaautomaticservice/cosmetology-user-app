@@ -1,18 +1,13 @@
-import { useMySpaceStore } from '@stores/mySpace';
 import Title from 'antd/es/typography/Title';
 
 import { CurrentMonthState } from './currentMonthState/CurrentMonthState';
 import { MainActions } from './mainActions/MainActions';
+import { ObligationAccount } from './obligationAccount/ObligationAccount';
+import { SummaryCashier } from './summaryCashier/SummaryCashier';
 
 import s from './mySpace.module.css';
 
 export const MySpace: React.FC = () => {
-  const {
-    currencies,
-    moneyStorages,
-    obligationAccountStorages,
-  } = useMySpaceStore();
-
   return (
     <div className={s.root}>
       <Title>My space</Title>
@@ -23,12 +18,11 @@ export const MySpace: React.FC = () => {
         </div>
 
         <div className={s.sectionContainer}>
-          <span>{JSON.stringify(currencies)}</span>
-          <span>{JSON.stringify(moneyStorages)}</span>
+          <SummaryCashier />
         </div>
 
         <div className={s.sectionContainer}>
-          <span>{JSON.stringify(obligationAccountStorages)}</span>
+          <ObligationAccount />
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import { getMoneyStoragesApi } from '@apiMethods/cashier';
-import { MoneyStorageDto } from '@typings/api/generated';
+import { MoneyStorage } from '@typings/api/moneyStorage';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
-  moneyStorages: MoneyStorageDto[];
+  moneyStorages: MoneyStorage[];
   isLoading: boolean;
 }
 

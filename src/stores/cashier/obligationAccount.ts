@@ -1,9 +1,9 @@
 import { getObligationAccount } from '@apiMethods/cashier';
-import { MoneyStorageDto } from '@typings/api/generated';
+import { MoneyStorage } from '@typings/api/moneyStorage';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
-  obligationAccountStorages: MoneyStorageDto | null;
+  obligationAccountStorages: MoneyStorage | null;
   isLoading: boolean;
 }
 

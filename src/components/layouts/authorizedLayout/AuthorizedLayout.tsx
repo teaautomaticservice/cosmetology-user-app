@@ -11,9 +11,9 @@ type Props = PropsWithChildren<{
   className?: string;
 }>;
 
-export const AuthorizedLayout: React.FC<Props> = ({ children }) => {
+export const AuthorizedLayout: React.FC<Props> = ({ children, className }) => {
   return (
-    <GenericLayout className={cn(s.root)}>
+    <GenericLayout className={cn(s.root, className)}>
       <div className={s.mainWrapper}>
         <Header />
         <main className={s.content}>
