@@ -1,0 +1,11 @@
+{
+  "extends": "./src/libs/shared/src/frontAmbient/.stylelintrc.json",
+  "rules": {
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ]
+  }
+}
