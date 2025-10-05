@@ -1,6 +1,6 @@
-import { useMySpaceStore } from "@stores/mySpace";
+import { useMySpaceStore } from '@stores/mySpace';
 import { Skeleton } from 'antd';
-import Title from "antd/es/typography/Title"
+import Title from 'antd/es/typography/Title';
 
 import s from './currentMonthState.module.css';
 
@@ -16,5 +16,5 @@ export const CurrentMonthState: React.FC = () => {
         <Title level={4}>No Data</Title>
       </Skeleton>
     </div>
-  )
-}
+  );
+};

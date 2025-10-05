@@ -1,4 +1,4 @@
-import { CurrentUserDto, UsersDto, UsersPaginatedDto } from "./generated";
+import { CurrentUserDto, UsersDto, UsersPaginatedDto } from './generated';
 
 export type UserType =  `${CurrentUserDto['type']}`;
 export const UserTypeEnum = CurrentUserDto['type'];

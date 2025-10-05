@@ -1,4 +1,4 @@
-import '@assets/css/index.css'
+import '@assets/css/index.css';
 
 import { RootModal } from '@components/domain/rootModal/RootModal';
 import { colors } from '@constants/colors';
@@ -39,5 +39,5 @@ export const GenericLayout: React.FC<Props> = ({
         <RootModal />
       </div>
     </ConfigProvider>
-  )
-}
+  );
+};

@@ -10,4 +10,4 @@ export const paths = {
 
   // history
   history: '/history'
-}
+};

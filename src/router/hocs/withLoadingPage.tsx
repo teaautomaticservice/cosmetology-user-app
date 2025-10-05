@@ -15,14 +15,14 @@ export const withLoadingPage = (Component: React.FC): React.FC => () => {
   if (!isAppConfigLoaded && !currentUser) {
     return (
       <EmptyLoader />
-    )
+    );
   }
 
-  const path = getRedirectPath()
+  const path = getRedirectPath();
 
   if (!path) {
     return <Component />;
   }
 
   return <Navigate to={path} replace />;
-}
+};

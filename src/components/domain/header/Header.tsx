@@ -1,9 +1,9 @@
-import { CommentOutlined, LogoutOutlined, MenuOutlined } from "@ant-design/icons";
-import { paths } from "@router/paths";
-import { useAppConfigStore } from "@stores/appConfig"
+import { CommentOutlined, LogoutOutlined, MenuOutlined } from '@ant-design/icons';
+import { paths } from '@router/paths';
+import { useAppConfigStore } from '@stores/appConfig';
 import { TeaLeafSvg } from '@svg';
-import { Button, Dropdown, MenuProps, Typography } from "antd"
-import { Link, useNavigate } from "react-router-dom";
+import { Button, Dropdown, MenuProps, Typography } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 
 import s from './header.module.css';
 
@@ -53,5 +53,5 @@ export const Header: React.FC = () => {
         </Dropdown>
       </div>
     </header>
-  )
-}
+  );
+};

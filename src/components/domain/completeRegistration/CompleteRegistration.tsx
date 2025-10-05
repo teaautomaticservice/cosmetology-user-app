@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { setupNewPassword } from '@apiMethods/authorizationApi';
-import { useAppConfigStore } from "@stores/appConfig";
-import { Button, Form, Input, Typography } from "antd";
-import Title from "antd/es/typography/Title";
+import { useAppConfigStore } from '@stores/appConfig';
+import { Button, Form, Input, Typography } from 'antd';
+import Title from 'antd/es/typography/Title';
 
-import { CompleteRegistrationForm } from "./types";
+import { CompleteRegistrationForm } from './types';
 
 import s from './completeRegistration.module.css';
 
@@ -19,7 +19,7 @@ export const CompleteRegistration: React.FC = () => {
     if (form.password !== form.repeatPassword) {
       formInstance.setFields([{
         name: 'repeatPassword',
-        errors: [`Passwords didn't match`],
+        errors: ['Passwords didn\'t match'],
       }]);
 
       return undefined;
@@ -96,5 +96,5 @@ export const CompleteRegistration: React.FC = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};

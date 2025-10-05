@@ -1,13 +1,13 @@
-import { Pagination } from "@typings/api/common";
+import { Pagination } from '@typings/api/common';
 
 import {
   createNewHistoryMessageApi,
   deleteHistoryMessageByIdApi,
   getHistoriesMessageListApi,
   updateHistoryMessageByIdApi,
-} from "../apiMethods/historyMessages";
-import type { History } from "../typings/api/historyMessage";
-import { storeFactory } from "../utils/storeFactory";
+} from '../apiMethods/historyMessages';
+import type { History } from '../typings/api/historyMessage';
+import { storeFactory } from '../utils/storeFactory';
 
 const {
   useStore: useHistoryStore,
@@ -42,7 +42,7 @@ export const useHistoryMessagesStore = () => {
       historyList: data,
       pagination: meta,
     };
-  }
+  };
 
   const updateHistoryMessagesFromApi = useHistoryCreateEffect<void>(handleResponse);
 
@@ -53,7 +53,7 @@ export const useHistoryMessagesStore = () => {
       setNewHistory({
         historyList: data,
         pagination: meta,
-      })
+      });
     } finally {
       setIsLoading(false);
     }
@@ -77,7 +77,7 @@ export const useHistoryMessagesStore = () => {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return {
     historyMessages: historyList,

@@ -5,5 +5,5 @@ export const Navbar: React.FC = () => {
     <div className={s.root}>
       <span>Navbar</span>
     </div>
-  )
-}
+  );
+};

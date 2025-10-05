@@ -6,7 +6,7 @@ import { CancelablePromise } from './CancelablePromise';
 import type { OpenAPIConfig } from './OpenAPI';
 
 export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): CancelablePromise<T> => {
-  return new CancelablePromise((resolve, reject, onCancel) => {
+  return new CancelablePromise((resolve, reject) => {
     let params: URLSearchParams | undefined;
     let interpolatedUrl = options.url;
 

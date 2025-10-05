@@ -1,7 +1,7 @@
-import type { AxiosError } from "axios";
-import type { Event } from "effector";
-import { createEffect, createEvent, createStore } from "effector";
-import { useUnit } from "effector-react";
+import type { AxiosError } from 'axios';
+import type { Event } from 'effector';
+import { createEffect, createEvent, createStore } from 'effector';
+import { useUnit } from 'effector-react';
 
 type Reducer<State, Payload> = (state: State, payload: Payload) => State | void;
 
@@ -31,7 +31,7 @@ export const storeFactory = <State>(initValue: State) => {
     const effect = createEffect<Params, State, AxiosError>(handler);
     subscribeTriggerOnStore(effect.doneData, (_, payload) => payload);
     return useUnit(effect);
-  }
+  };
 
   const changeEvent = createStoreEvent<Partial<State> | UpdateCallback<State>>((oldState, payload) => {
     if (typeof payload === 'function') {
@@ -39,13 +39,13 @@ export const storeFactory = <State>(initValue: State) => {
     }
 
     if (payload !== Object(payload)) {
-      return payload as State
+      return payload as State;
     }
 
     return ({
       ...oldState,
       ...payload,
-    })
+    });
   });
 
   const setEvent = createStoreEvent<State>((_, payload) => payload);

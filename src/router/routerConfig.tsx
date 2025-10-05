@@ -1,13 +1,13 @@
-import { AuthorizedLayout } from "@components/layouts/authorizedLayout/AuthorizedLayout";
-import { DashboardLayout } from "@components/layouts/dashboardLayout/DashboardLayout";
-import { GenericLayout } from "@components/layouts/genericLayout/GenericLayout";
-import { CompleteRegistrationPage } from "@components/pages/completeRegistration/CompleteRegistrationPage";
-import { HistoryPage } from "@components/pages/history/HistoryPage";
-import { LoginPage } from "@components/pages/login/LoginPage";
-import { MainPage } from "@components/pages/main/MainPage";
+import { AuthorizedLayout } from '@components/layouts/authorizedLayout/AuthorizedLayout';
+import { DashboardLayout } from '@components/layouts/dashboardLayout/DashboardLayout';
+import { GenericLayout } from '@components/layouts/genericLayout/GenericLayout';
+import { CompleteRegistrationPage } from '@components/pages/completeRegistration/CompleteRegistrationPage';
+import { HistoryPage } from '@components/pages/history/HistoryPage';
+import { LoginPage } from '@components/pages/login/LoginPage';
+import { MainPage } from '@components/pages/main/MainPage';
 
-import { paths } from "./paths";
-import { RouterPage, RouterRoleEnum } from "./types";
+import { paths } from './paths';
+import { RouterPage, RouterRoleEnum } from './types';
 
 const unauthorized: RouterPage[] = [
   {

@@ -1,6 +1,6 @@
 import { getObligationAccount } from '@apiMethods/cashier';
 import { MoneyStorageDto } from '@typings/api/generated';
-import { storeFactory } from "@utils/storeFactory";
+import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
   obligationAccountStorages: MoneyStorageDto | null;
@@ -20,19 +20,19 @@ export const useObligationAccountStore = () => {
   const updateObligationAccountList = async () => {
     setState({
       isLoading: true,
-    })
+    });
     try {
       const data = await getObligationAccount();
       setState({
         obligationAccountStorages: data,
-      })
+      });
     } finally {
       setState((prevState) => ({
         ...prevState,
         isLoading: false,
-      }))
+      }));
     }
-  }
+  };
 
   return {
     obligationAccountStorages,

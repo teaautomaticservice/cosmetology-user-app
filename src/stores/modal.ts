@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
 import { ModalsMap } from '@constants/modals';
 import { MODALS_TYPE } from '@typings/modals';
-import { storeFactory } from "@utils/storeFactory";
+import { storeFactory } from '@utils/storeFactory';
 
 type GetComponentsMapProp<T extends MODALS_TYPE> = ComponentProps<(typeof ModalsMap)[T]>;
 
@@ -29,7 +29,7 @@ export const useModalStore = () => {
     setState({
       type: type,
       props,
-    })
+    });
   };
 
   const isOpen = state.type === null ? false : true;

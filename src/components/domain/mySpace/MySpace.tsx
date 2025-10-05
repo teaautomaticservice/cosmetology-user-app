@@ -32,5 +32,5 @@ export const MySpace: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

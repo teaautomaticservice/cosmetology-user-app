@@ -1,9 +1,9 @@
-import { paths } from "@router/paths"
-import { routerConfig } from "@router/routerConfig";
-import { RouterRoleEnum } from "@router/types";
-import { useAppConfigStore } from "@stores/appConfig";
-import { UserStatusEnum } from "@typings/api/users";
-import { generatePath, useLocation, useParams } from "react-router-dom";
+import { paths } from '@router/paths';
+import { routerConfig } from '@router/routerConfig';
+import { RouterRoleEnum } from '@router/types';
+import { useAppConfigStore } from '@stores/appConfig';
+import { UserStatusEnum } from '@typings/api/users';
+import { generatePath, useLocation, useParams } from 'react-router-dom';
 
 export const useRedirect = () => {
   const { pathname } = useLocation();
@@ -18,7 +18,7 @@ export const useRedirect = () => {
       } catch {
         return false;
       }
-    })
+    });
 
     if (
       !currentConfig?.roles ||
@@ -69,9 +69,9 @@ export const useRedirect = () => {
     }
 
     return null;
-  }
+  };
 
   return {
     getRedirectPath,
-  }
-}
+  };
+};

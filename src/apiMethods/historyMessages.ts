@@ -1,7 +1,7 @@
-import { getSearchParams } from "@shared/utils/getSearchParams";
-import { HistoryService } from "@typings/api/generated";
+import { getSearchParams } from '@shared/utils/getSearchParams';
+import { HistoryService } from '@typings/api/generated';
 
-import type { HistoriesList } from "../typings/api/historyMessage";
+import type { HistoriesList } from '../typings/api/historyMessage';
 
 export const getHistoriesMessageListApi = async (): Promise<HistoriesList> => {
   const { page, pageSize } = getSearchParams<{ page?: string; pageSize?: string; }>();
@@ -9,15 +9,15 @@ export const getHistoriesMessageListApi = async (): Promise<HistoriesList> => {
     ...(page && { page: Number(page) }),
     ...(pageSize && { pageSize: Number(pageSize) }),
   });
-}
+};
 
 export const createNewHistoryMessageApi = async (message: string): Promise<HistoriesList> => {
   const { pageSize } = getSearchParams<{ page?: string; pageSize?: string; }>();
   return HistoryService.historyControllerAddItem({
     requestBody: { message },
     ...(pageSize && { pageSize: Number(pageSize) }),
-  })
-}
+  });
+};
 
 export const deleteHistoryMessageByIdApi = async (id: string): Promise<HistoriesList> => {
   const { pageSize } = getSearchParams<{ page?: string; pageSize?: string; }>();
@@ -25,7 +25,7 @@ export const deleteHistoryMessageByIdApi = async (id: string): Promise<Histories
     id,
     ...(pageSize && { pageSize: Number(pageSize) }),
   });
-}
+};
 
 export const updateHistoryMessageByIdApi = async (id: string, message: string) => {
   const { page, pageSize } = getSearchParams<{ page?: string; pageSize?: string; }>();
@@ -35,4 +35,4 @@ export const updateHistoryMessageByIdApi = async (id: string, message: string) =
     ...(page && { page: Number(page) }),
     ...(pageSize && { pageSize: Number(pageSize) }),
   });
-}
+};

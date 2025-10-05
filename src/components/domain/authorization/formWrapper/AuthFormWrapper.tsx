@@ -9,5 +9,5 @@ type Props = React.PropsWithChildren<{
 export const AuthFormWrapper: React.FC<Props> = ({ children, className }) => {
   return (
     <div className={cn(s.root, className)}>{children}</div>
-  )
-}
+  );
+};

@@ -1,5 +1,5 @@
 import { AuthorizationService, LoginFormDto, SetupNewPasswordDto } from '@typings/api/generated';
-import { type CurrentUser } from '@typings/api/users'
+import { type CurrentUser } from '@typings/api/users';
 
 export const sendLogin = (loginForm: LoginFormDto): Promise<CurrentUser> =>
   AuthorizationService.authorizationControllerLogin({ requestBody: loginForm });

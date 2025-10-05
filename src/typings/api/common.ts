@@ -1,3 +1,3 @@
-import { PaginationMetaDto } from "./generated";
+import { PaginationMetaDto } from './generated';
 
 export type Pagination = PaginationMetaDto;

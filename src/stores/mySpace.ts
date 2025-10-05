@@ -1,6 +1,6 @@
-import { useCurrenciesStore } from "./cashier/currencies"
-import { useMoneyStoragesStore } from "./cashier/moneyStorages";
-import { useObligationAccountStore } from "./cashier/obligationAccount";
+import { useCurrenciesStore } from './cashier/currencies';
+import { useMoneyStoragesStore } from './cashier/moneyStorages';
+import { useObligationAccountStore } from './cashier/obligationAccount';
 
 export const useMySpaceStore = () => {
   const {
@@ -30,7 +30,7 @@ export const useMySpaceStore = () => {
       updateCurrenciesList(),
       updateMoneyStoragesList(),
       updateObligationAccountList(),
-    ])
+    ]);
   };
 
   return {
@@ -39,5 +39,5 @@ export const useMySpaceStore = () => {
     moneyStorages,
     obligationAccountStorages,
     updateData,
-  }
-}
+  };
+};

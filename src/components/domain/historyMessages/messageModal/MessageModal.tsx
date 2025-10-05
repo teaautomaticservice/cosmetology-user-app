@@ -1,12 +1,12 @@
-import React from "react";
-import { dateUtils } from "@shared/utils/dateUtils";
-import { useHistoryMessagesStore } from "@stores/historyMessages";
-import { useModalStore } from "@stores/modal";
-import { History } from "@typings/api/historyMessage";
-import { Input,Modal } from 'antd';
+import React from 'react';
+import { dateUtils } from '@shared/utils/dateUtils';
+import { useHistoryMessagesStore } from '@stores/historyMessages';
+import { useModalStore } from '@stores/modal';
+import { History } from '@typings/api/historyMessage';
+import { Input, Modal } from 'antd';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import { UpdateMessageForm } from "./types";
+import { UpdateMessageForm } from './types';
 
 type Props = {
   history: History;
@@ -17,7 +17,7 @@ export const MessageModal: React.FC<Props> = ({ history }) => {
   const { updateHistoryMessageById } = useHistoryMessagesStore();
   const { handleSubmit, control: formControl, reset, getValues } = useForm({
     defaultValues: {
-      message: "",
+      message: '',
     }
   });
 
@@ -57,4 +57,4 @@ export const MessageModal: React.FC<Props> = ({ history }) => {
       </form>
     </Modal>
   );
-} 
+}; 

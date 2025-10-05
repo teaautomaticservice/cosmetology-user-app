@@ -1,5 +1,5 @@
-import { CashierService } from "@typings/api/generated";
-import { Button } from "antd";
+import { CashierService } from '@typings/api/generated';
+import { Button } from 'antd';
 
 import s from './mainActions.module.css';
 
@@ -10,8 +10,8 @@ export const MainActions: React.FC = () => {
         name: 'Rubles',
         code: 'Rus',
       }
-    })
-  }
+    });
+  };
 
   return (
     <div className={s.root}>
@@ -19,5 +19,5 @@ export const MainActions: React.FC = () => {
       <Button type="primary">Expenditure</Button>
       <Button type="primary">Movement</Button>
     </div>
-  )
-}
+  );
+};

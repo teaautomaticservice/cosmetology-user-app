@@ -1,6 +1,6 @@
 import { getCurrenciesListApi } from '@apiMethods/cashier';
 import { CurrencyDto } from '@typings/api/generated';
-import { storeFactory } from "@utils/storeFactory";
+import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
   currencies: CurrencyDto[];
@@ -20,19 +20,19 @@ export const useCurrenciesStore = () => {
   const updateCurrenciesList = async () => {
     setState({
       isLoading: true,
-    })
+    });
     try {
       const { data } = await getCurrenciesListApi();
       setState({
         currencies: data,
-      })
+      });
     } finally {
       setState((prevState) => ({
         ...prevState,
         isLoading: false,
-      }))
+      }));
     }
-  }
+  };
 
   return {
     currencies,

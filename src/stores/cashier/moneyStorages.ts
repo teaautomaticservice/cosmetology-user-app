@@ -1,6 +1,6 @@
 import { getMoneyStoragesApi } from '@apiMethods/cashier';
 import { MoneyStorageDto } from '@typings/api/generated';
-import { storeFactory } from "@utils/storeFactory";
+import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
   moneyStorages: MoneyStorageDto[];
@@ -20,19 +20,19 @@ export const useMoneyStoragesStore = () => {
   const updateMoneyStoragesList = async () => {
     setState({
       isLoading: true,
-    })
+    });
     try {
       const { data } = await getMoneyStoragesApi();
       setState({
         moneyStorages: data,
-      })
+      });
     } finally {
       setState((prevState) => ({
         ...prevState,
         isLoading: false,
-      }))
+      }));
     }
-  }
+  };
 
   return {
     moneyStorages,
