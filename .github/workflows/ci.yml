@@ -26,6 +26,8 @@ jobs:
         uses: ./.github/template/build
       - name: Lint
         run: npm run lint
+      - name: Lint CSS
+        run: npm run lintcss
 
   build:
     needs: lint
