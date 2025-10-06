@@ -9,5 +9,7 @@ export const paths = {
   main: '/',
 
   // history
-  history: '/history'
+  history: '/history',
+
+  test: (userId: string = ':id', val: string = ':number') => `/users/${userId}/new-test/${val}`,
 };
