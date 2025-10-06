@@ -1,13 +1,12 @@
-import React from "react";
-import { usePagination } from "@shared/hooks/usePagination";
-import { dateUtils } from "@shared/utils/dateUtils";
-import { useHistoryMessagesStore } from "@stores/historyMessages";
-import { useModalStore } from "@stores/modal";
-import { History } from "@typings/api/historyMessage";
-import { MODALS_TYPE } from "@typings/modals";
+import React from 'react';
+import { usePagination } from '@shared/hooks/usePagination';
+import { dateUtils } from '@shared/utils/dateUtils';
+import { useHistoryMessagesStore } from '@stores/historyMessages';
+import { useModalStore } from '@stores/modal';
+import { History } from '@typings/api/historyMessage';
+import { MODALS_TYPE } from '@typings/modals';
 import { Button, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-
 
 export const TableMessages: React.FC = () => {
   const {
@@ -23,12 +22,12 @@ export const TableMessages: React.FC = () => {
   });
 
   const deleteMessage = async (id: number) => {
-    deleteHistoryMessage(id.toString())
-  }
+    deleteHistoryMessage(id.toString());
+  };
 
   const editMessage = (history: History) => {
     open(MODALS_TYPE.HISTORY, { history });
-  }
+  };
 
   const columns: ColumnsType<History> = [
     {
@@ -81,7 +80,7 @@ export const TableMessages: React.FC = () => {
     <Table
       columns={columns}
       dataSource={historyMessages}
-      rowKey={"id"}
+      rowKey={'id'}
       loading={isHistoryLoading}
       pagination={{
         total: historyPagination.count,

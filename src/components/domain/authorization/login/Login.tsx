@@ -27,7 +27,7 @@ export const Login: React.FC = () => {
           formInstance.setFields([{
             name: 'email',
             errors: [message],
-          }])
+          }]);
         }
       } else {
       // eslint-disable-next-line no-console
@@ -84,5 +84,5 @@ export const Login: React.FC = () => {
         </Form.Item>
       </Form>
     </AuthFormWrapper>
-  )
-}
+  );
+};

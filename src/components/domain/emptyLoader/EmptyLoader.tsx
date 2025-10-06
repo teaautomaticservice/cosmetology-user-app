@@ -1,4 +1,3 @@
-
 import { GenericLayout } from '@components/layouts/genericLayout/GenericLayout';
 import { Typography } from 'antd';
 
@@ -16,5 +15,5 @@ export const EmptyLoader: React.FC = () => {
         </div>
       </div>
     </GenericLayout>
-  )
-}
+  );
+};

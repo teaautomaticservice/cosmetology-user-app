@@ -1,4 +1,4 @@
-import { colors as antColors } from "@ant/colors";
+import { colors as antColors } from '@ant/colors';
 import { blue, gold, green, grey, red  } from '@ant-design/colors';
 
 export const colors = {

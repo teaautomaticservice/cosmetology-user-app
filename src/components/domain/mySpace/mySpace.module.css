@@ -1,9 +1,17 @@
 .root {
   width: 100%;
+  padding: 20px;
 
-  .icon svg {
-    width: 100px;
-    height: 100px;
-    fill: red;
+  .contentContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .sectionContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

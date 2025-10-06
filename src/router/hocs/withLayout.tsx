@@ -7,5 +7,5 @@ export const withLayout = (Component: React.FC, Layout?: React.FC<React.PropsWit
     <Layout>
       <Component />
     </Layout>
-  )
-}
+  );
+};

@@ -20,5 +20,5 @@ export const AuthLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

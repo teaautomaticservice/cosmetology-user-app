@@ -1,7 +1,7 @@
-import { useHistoryMessagesStore } from "@stores/historyMessages";
-import { UserDataApiError } from "@typings/errors";
-import { Button, Form, Input } from "antd"
-import cn from "classnames";
+import { useHistoryMessagesStore } from '@stores/historyMessages';
+import { UserDataApiError } from '@typings/errors';
+import { Button, Form, Input } from 'antd';
+import cn from 'classnames';
 
 import s from './headerHistory.module.css';
 
@@ -33,7 +33,7 @@ export const HeaderHistory: React.FC<Props> = ({ className }) => {
           formInstance.setFields([{
             name: 'message',
             errors: [message],
-          }])
+          }]);
         }
       } else {
         // eslint-disable-next-line no-console
@@ -75,5 +75,5 @@ export const HeaderHistory: React.FC<Props> = ({ className }) => {
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};

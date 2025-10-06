@@ -33,6 +33,8 @@
     "build": "react-app-rewired build",
     "lint": "eslint \"src/**/*.{ts,tsx}\" && npx tsc --noEmit",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix && npx tsc --noEmit",
+    "lintcss": "stylelint \"./src/**/*.{css,scss}\"",
+    "lintcss:fix": "stylelint \"./src/**/*.{css,scss}\" --fix",
     "eject": "react-scripts eject",
     "openapi": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 openapi -i https://localhost:3000/swagger/json -o src/typings/api/generated --request ./openapi/request.ts --useOptions"
   },
@@ -62,11 +64,15 @@
     "eslint-config-react-app": "^7.0.1",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-import-newlines": "^1.4.0",
+    "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "openapi-typescript": "^7.9.1",
     "openapi-typescript-codegen": "^0.29.0",
     "react-app-rewired": "^2.2.1",
-    "react-inject-env": "^2.1.0"
+    "react-inject-env": "^2.1.0",
+    "stylelint": "^16.25.0",
+    "stylelint-config-standard": "^39.0.0",
+    "stylelint-prettier": "^5.0.3"
   },
   "overrides": {
     "typescript": "5.1.6"

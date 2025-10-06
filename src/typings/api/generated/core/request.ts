@@ -6,7 +6,7 @@ import { CancelablePromise } from './CancelablePromise';
 import type { OpenAPIConfig } from './OpenAPI';
 
 export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): CancelablePromise<T> => {
-  return new CancelablePromise((resolve, reject, onCancel) => {
+  return new CancelablePromise((resolve, reject) => {
     let params: URLSearchParams | undefined;
     let interpolatedUrl = options.url;
 
@@ -18,7 +18,7 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
       params = params || new URLSearchParams();
       Object.entries(options.query).forEach(([key, val]) => {
         if (val !== undefined) {
-          (params as URLSearchParams).set(key, val)
+          (params as URLSearchParams).set(key, val);
         }
       });
     }
@@ -31,5 +31,5 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
     })
       .then(({ data }) => resolve(data))
       .catch((error) => reject(error));
-  })
-}
+  });
+};

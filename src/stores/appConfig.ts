@@ -43,7 +43,7 @@ export const useAppConfigStore = () => {
     setIsAuthLoading(true);
     try {
       const currentUser = await sendLogin(loginForm);
-      updateAppConfig({ currentUser })
+      updateAppConfig({ currentUser });
     } finally {
       setIsAuthLoading(false);
     }
@@ -60,11 +60,11 @@ export const useAppConfigStore = () => {
       }
     } catch(error) {
       // eslint-disable-next-line no-console
-      console.error(error)
+      console.error(error);
     } finally {
       setIsAuthLoading(false);
     }
-  }
+  };
 
   const { currentUser } = appConfigStore;
 
@@ -76,5 +76,5 @@ export const useAppConfigStore = () => {
     login,
     getAppConfigFromApi,
     loginByUserToken,
-  }
-}
+  };
+};
