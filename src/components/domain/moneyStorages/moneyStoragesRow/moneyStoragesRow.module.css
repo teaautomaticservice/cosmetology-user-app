@@ -12,10 +12,6 @@
     width: 350px;
   }
 
-  .listWrapper {
-    width: 100%;
-  }
-
   .listLabel {
     color: var(--text-secondary);
   }
