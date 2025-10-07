@@ -5,6 +5,7 @@ import { CompleteRegistrationPage } from '@components/pages/completeRegistration
 import { HistoryPage } from '@components/pages/history/HistoryPage';
 import { LoginPage } from '@components/pages/login/LoginPage';
 import { MainPage } from '@components/pages/main/MainPage';
+import { MoneyStoragePage } from '@components/pages/moneyStorage/MoneyStoragePage';
 
 import { paths } from './paths';
 import { RouterPage, RouterRoleEnum } from './types';
@@ -27,11 +28,17 @@ const service: RouterPage[] = [
   },
 ];
 
-const mySpace: RouterPage[] = [
+const dashboards: RouterPage[] = [
   {
     path: paths.main,
     Layout: DashboardLayout,
     Component: MainPage,
+    roles: [RouterRoleEnum.OPERATOR],
+  },
+  {
+    path: paths.moneyStorages,
+    Layout: DashboardLayout,
+    Component: MoneyStoragePage,
     roles: [RouterRoleEnum.OPERATOR],
   },
 ];
@@ -48,6 +55,6 @@ const history: RouterPage[] = [
 export const routerConfig: RouterPage[] = [
   ...unauthorized,
   ...service,
-  ...mySpace,
+  ...dashboards,
   ...history,
 ];

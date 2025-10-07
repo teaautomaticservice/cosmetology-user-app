@@ -13,8 +13,12 @@ const dashboardsMenu: MenuItemGroupType<MenuItemType> = {
     {
       label: 'My space',
       key: paths.main,
-    }
-  ]
+    },
+    {
+      label: 'Money storages',
+      key: paths.moneyStorages,
+    },
+  ],
 };
 
 const menuItems: (MenuItemType | MenuItemGroupType<MenuItemType>)[] = [

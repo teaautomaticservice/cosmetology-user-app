@@ -1,0 +1,18 @@
+.root {
+  width: 100%;
+  overflow-x: auto;
+
+  .itemsContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card {
+    width: 350px;
+  }
+
+  .listLabel {
+    color: var(--text-secondary);
+  }
+}

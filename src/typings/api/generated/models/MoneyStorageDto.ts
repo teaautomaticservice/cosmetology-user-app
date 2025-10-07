@@ -7,12 +7,14 @@ export type MoneyStorageDto = {
     name: string;
     status: MoneyStorageDto.status;
     code: string;
-    description?: string | null;
+    description: string | null;
 };
 export namespace MoneyStorageDto {
     export enum status {
+        CREATED = 'created',
         ACTIVE = 'active',
-        DISABLED = 'disabled',
+        FREEZED = 'freezed',
+        DEACTIVATED = 'deactivated',
     }
 }
 

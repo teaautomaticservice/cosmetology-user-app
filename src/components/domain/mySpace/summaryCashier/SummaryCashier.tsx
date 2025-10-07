@@ -1,11 +1,11 @@
-import { useMySpaceStore } from '@stores/mySpace';
+import { useMySpacePageStore } from '@stores/pages/mySpacePage';
 import { Skeleton, Typography } from 'antd';
 import Title from 'antd/es/typography/Title';
 
 import s from './summaryCashier.module.css';
 
 export const SummaryCashier: React.FC = () => {
-  const { isLoading, moneyStorages } = useMySpaceStore();
+  const { isLoading, moneyStorages } = useMySpacePageStore();
 
   const hasMoneyStorages = Boolean(moneyStorages.length);
 

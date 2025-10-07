@@ -1,0 +1,7 @@
+.root {
+  width: 100%;
+
+  .contentContainer {
+    width: 100%;
+  }
+}

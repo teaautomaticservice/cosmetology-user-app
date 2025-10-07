@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { MySpace } from '@components/domain/mySpace/MySpace';
-import { useMySpaceStore } from '@stores/mySpace';
+import { useMySpacePageStore } from '@stores/pages/mySpacePage';
 
 export const MainPage: React.FC = () => {
-  const { updateData } = useMySpaceStore();
+  const { updateData } = useMySpacePageStore();
 
   useEffect(() => {
     updateData();
