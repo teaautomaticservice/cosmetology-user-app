@@ -1,4 +1,4 @@
-import { useMySpaceStore } from '@stores/mySpace';
+import { useMySpacePageStore } from '@stores/pages/mySpacePage';
 import { Skeleton } from 'antd';
 import Title from 'antd/es/typography/Title';
 
@@ -7,7 +7,7 @@ import s from './currentMonthState.module.css';
 export const CurrentMonthState: React.FC = () => {
   const {
     isLoading,
-  } = useMySpaceStore();
+  } = useMySpacePageStore();
 
   return (
     <div className={s.root}>

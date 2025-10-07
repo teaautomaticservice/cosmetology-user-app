@@ -1,14 +1,7 @@
-import { useCurrenciesStore } from './cashier/currencies';
-import { useMoneyStoragesStore } from './cashier/moneyStorages';
-import { useObligationAccountStore } from './cashier/obligationAccount';
+import { useMoneyStoragesStore } from '../cashier/moneyStorages';
+import { useObligationAccountStore } from '../cashier/obligationAccount';
 
-export const useMySpaceStore = () => {
-  const {
-    currencies,
-    isCurrenciesLoading,
-    updateCurrenciesList
-  } = useCurrenciesStore();
-
+export const useMoneyStoragesPageStore = () => {
   const {
     moneyStorages,
     isMoneyStoragesLoading,
@@ -21,13 +14,11 @@ export const useMySpaceStore = () => {
     updateObligationAccountList,
   } = useObligationAccountStore();
 
-  const isLoading = isCurrenciesLoading ||
-    isMoneyStoragesLoading ||
+  const isLoading = isMoneyStoragesLoading ||
     isObligationAccountLoading;
 
   const updateData = async () => {
     await Promise.all([
-      updateCurrenciesList(),
       updateMoneyStoragesList(),
       updateObligationAccountList(),
     ]);
@@ -35,7 +26,6 @@ export const useMySpaceStore = () => {
 
   return {
     isLoading,
-    currencies,
     moneyStorages,
     obligationAccountStorages,
     updateData,

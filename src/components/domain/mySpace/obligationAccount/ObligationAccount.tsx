@@ -1,4 +1,4 @@
-import { useMySpaceStore } from '@stores/mySpace';
+import { useMySpacePageStore } from '@stores/pages/mySpacePage';
 import { MoneyStorageStatusEnum } from '@typings/api/moneyStorage';
 import { Table, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
@@ -25,7 +25,7 @@ const columns: ColumnsType<History> = [
 ];
 
 export const ObligationAccount: React.FC = () => {
-  const { isLoading, obligationAccountStorages } = useMySpaceStore();
+  const { isLoading, obligationAccountStorages } = useMySpacePageStore();
 
   const isStorageNotActive = obligationAccountStorages?.status !== MoneyStorageStatusEnum.ACTIVE;
 

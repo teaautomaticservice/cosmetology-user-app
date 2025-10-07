@@ -5,8 +5,9 @@ export const paths = {
   // service
   completeRegistration: '/complete-registration',
 
-  // mySpace
+  // dashboards
   main: '/',
+  moneyStorages: '/money-storages',
 
   // history
   history: '/history',
