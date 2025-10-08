@@ -4,7 +4,7 @@ import { storeFactory } from '@utils/storeFactory';
 
 type ModalsType = keyof typeof ModalsMap;
 
-type GetComponentsMapProp = ComponentProps<(typeof ModalsMap)[ModalsType]>;
+type GetComponentsMapProp<T extends ModalsType = ModalsType> = ComponentProps<(typeof ModalsMap[T])>;
 
 interface ModalStore<
   T extends ModalsType | null = ModalsType | null,
@@ -26,7 +26,7 @@ export const useModalStore = () => {
     props: null,
   });
 
-  const open = (type: ModalsType, props?: GetComponentsMapProp) => {
+  const open = <T extends ModalsType>(type: T, props?: GetComponentsMapProp<T>) => {
     setState({
       type: type,
       props,
