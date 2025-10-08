@@ -109,7 +109,6 @@ export const ActionsMoneyStorageModal: React.FC<Props> = ({
               {row({ label: 'Name:', value: moneyStorage.name })}
               {row({ label: 'Code:', value: moneyStorage.code })}
               {row({ label: 'Description:', value: moneyStorage.description ?? 'N/A' })}
-
             </form>
           </div>
 
