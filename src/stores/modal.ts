@@ -1,13 +1,14 @@
 import { ComponentProps } from 'react';
 import { ModalsMap } from '@constants/modals';
-import { MODALS_TYPE } from '@typings/modals';
 import { storeFactory } from '@utils/storeFactory';
 
-type GetComponentsMapProp<T extends MODALS_TYPE> = ComponentProps<(typeof ModalsMap)[T]>;
+type ModalsType = keyof typeof ModalsMap;
+
+type GetComponentsMapProp<T extends ModalsType = ModalsType> = ComponentProps<(typeof ModalsMap[T])>;
 
 interface ModalStore<
-  T extends MODALS_TYPE | null = MODALS_TYPE | null,
-  O = T extends MODALS_TYPE ? GetComponentsMapProp<T> : null,
+  T extends ModalsType | null = ModalsType | null,
+  O = T extends ModalsType ? GetComponentsMapProp : null,
 > {
   type: T;
   props?: O;
@@ -25,7 +26,7 @@ export const useModalStore = () => {
     props: null,
   });
 
-  const open = <T extends MODALS_TYPE>(type: T, props?: GetComponentsMapProp<T>) => {
+  const open = <T extends ModalsType>(type: T, props?: GetComponentsMapProp<T>) => {
     setState({
       type: type,
       props,

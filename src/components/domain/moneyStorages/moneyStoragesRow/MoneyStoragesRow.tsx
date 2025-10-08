@@ -1,6 +1,9 @@
-import { MoneyStorage, MoneyStorageStatus, MoneyStorageStatusEnum } from '@typings/api/moneyStorage';
-import { Badge, BadgeProps, Button, Card, List } from 'antd';
+import { useModalStore } from '@stores/modal';
+import { MoneyStorage } from '@typings/api/moneyStorage';
+import { Button, Card, List } from 'antd';
 import cn from 'classnames';
+
+import { MoneyStorageBadge } from '../moneyStorageBadge/MoneyStorageBadge';
 
 import s from './moneyStoragesRow.module.css';
 
@@ -10,18 +13,12 @@ type Props = {
   className?: string;
 };
 
-const statusColorsMap: Record<MoneyStorageStatus, BadgeProps['color']> = {
-  [MoneyStorageStatusEnum.CREATED]: 'yellow',
-  [MoneyStorageStatusEnum.ACTIVE]: 'green',
-  [MoneyStorageStatusEnum.DEACTIVATED]: 'red',
-  [MoneyStorageStatusEnum.FREEZED]: 'blue',
-};
-
 export const MoneyStoragesRow: React.FC<Props> = ({
   items,
   isLoading,
   className,
 }) => {
+  const { open } = useModalStore();
 
   const adapterDataToList = ({
     id,
@@ -34,6 +31,10 @@ export const MoneyStoragesRow: React.FC<Props> = ({
     { label: 'Status:', value: status },
     { label: 'Code:', value: code },
   ]);
+
+  const openModal = (moneyStorage: MoneyStorage) => {
+    open('actionsMoneyStorage', { moneyStorage });
+  };
 
   return (
     <div className={cn(s.root, className)}>
@@ -51,7 +52,7 @@ export const MoneyStoragesRow: React.FC<Props> = ({
               key={storageData.id}
               className={s.card}
               title={`${storageData.name}, ${storageData.code}`}
-              extra={<Badge color={statusColorsMap[storageData.status]} text={storageData.status} />}
+              extra={<MoneyStorageBadge moneyStorageStatus={storageData.status} />}
             >
               <List
                 dataSource={adapterDataToList(storageData)}
@@ -64,7 +65,7 @@ export const MoneyStoragesRow: React.FC<Props> = ({
               {Boolean(storageData.description) && (
                 <p>{storageData.description}</p>
               )}
-              <Button>Actions</Button>
+              <Button onClick={() => openModal(storageData)}>Actions</Button>
             </Card>
           ))}
         </div>

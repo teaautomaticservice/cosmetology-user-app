@@ -13,7 +13,7 @@ type Props = {
 }
 
 export const MessageModal: React.FC<Props> = ({ history }) => {
-  const { isOpen, close } = useModalStore();
+  const { modalType, close } = useModalStore();
   const { updateHistoryMessageById } = useHistoryMessagesStore();
   const { handleSubmit, control: formControl, reset, getValues } = useForm({
     defaultValues: {
@@ -44,7 +44,7 @@ export const MessageModal: React.FC<Props> = ({ history }) => {
   return (
     <Modal
       title={title}
-      open={isOpen}
+      open={modalType === 'history'}
       onOk={okClick}
       // confirmLoading={confirmLoading}
       onCancel={close}
