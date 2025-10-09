@@ -66,4 +66,8 @@
     justify-content: flex-end;
     gap: 8px;
   }
+
+  .commonError {
+    white-space: pre-line;
+  }
 }

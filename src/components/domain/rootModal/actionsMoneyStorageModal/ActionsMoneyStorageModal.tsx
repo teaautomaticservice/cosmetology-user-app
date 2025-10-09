@@ -1,13 +1,18 @@
 import { useState } from 'react';
+import { DownOutlined } from '@ant-design/icons';
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
+import { INTERNAL_ERROR } from '@constants/errors';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useModalStore } from '@stores/modal';
 import { useUpdateMoneyStorageStore } from '@stores/updateMoneyStorage';
+import { MoneyStorageStatus, MoneyStorageStatusEnum } from '@typings/api/moneyStorage';
 import { UserDataApiError } from '@typings/errors';
 import {
   Button,
+  Dropdown,
   Form,
   Input,
+  MenuProps,
   Modal,
   Skeleton,
   Typography
@@ -26,6 +31,7 @@ type FormData = {
 export const ActionsMoneyStorageModal: React.FC = () => {
   const { modalType, close } = useModalStore();
   const { updateAllMoneyStorages } = useMoneyStoragesStore();
+
   const {
     isLoading,
     currentMoneyStorage,
@@ -33,33 +39,40 @@ export const ActionsMoneyStorageModal: React.FC = () => {
   } = useUpdateMoneyStorageStore();
   const [formInstance] = Form.useForm<FormData>();
 
-  // const { handleSubmit, control: formControl, getValues } = useForm<FormData>();
-  const [editRow, setEditRow] = useState<string | null>(null);
+  const [editRow, setEditRow] = useState<keyof FormData | null>(null);
+  const [commonApiError, setCommonApiError] = useState<string | null>(null);
 
   const title = currentMoneyStorage ?
     `${currentMoneyStorage?.name}, ${currentMoneyStorage?.code}` :
     'Money storage detail';
 
+  const handleError = (e: UserDataApiError<FormData>) => {
+    const { statusCode, cause } = e as UserDataApiError<FormData>;
+
+    if (statusCode === 400 && cause) {
+      Object.entries(cause).forEach(([name, errors]) => {
+        if (name !== editRow) {
+          setCommonApiError(errors.join('\n'));
+        }
+        formInstance.setFields([{
+          name: name as keyof FormData,
+          errors,
+        }]);
+      });
+    } else {
+      setCommonApiError((e as UserDataApiError)?.message ?? INTERNAL_ERROR);
+    }
+  };
+
   const updateMessage = async (value: FormData) => {
+    setCommonApiError(null);
     if (currentMoneyStorage) {
       try {
         await updateMoneyStorageData(value);
         updateAllMoneyStorages();
         setEditRow(null);
       } catch (e) {
-        const { statusCode, cause } = e as UserDataApiError<FormData>;
-
-        if (statusCode === 400 && cause) {
-          Object.entries(cause).forEach(([name, errors]) => {
-            formInstance.setFields([{
-              name: name as keyof FormData,
-              errors,
-            }]);
-          });
-        } else {
-          // eslint-disable-next-line no-console
-          console.error(e);
-        }
+        handleError(e as UserDataApiError<FormData>);
       }
     }
   };
@@ -68,6 +81,44 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     setEditRow(null);
     formInstance.resetFields();
   };
+
+  const changeStatus = async (newStatus: MoneyStorageStatus) => {
+    setCommonApiError(null);
+    try {
+      await updateMoneyStorageData({
+        status: newStatus,
+      });
+      updateAllMoneyStorages();
+    } catch (e) {
+      handleError(e as UserDataApiError<FormData>);
+    }
+  };
+
+  const items: MenuProps['items'] = [
+    {
+      key: 1,
+      label: 'Activate',
+      onClick: () => changeStatus(MoneyStorageStatusEnum.ACTIVE),
+    },
+    {
+      key: 2,
+      label: 'Freeze',
+      onClick: () => changeStatus(MoneyStorageStatusEnum.FREEZED),
+    },
+    {
+      key: 3,
+      label: 'Deactivate',
+      onClick: () => changeStatus(MoneyStorageStatusEnum.DEACTIVATED),
+    },
+    {
+      type: 'divider',
+    },
+    {
+      key: 4,
+      label: 'Delete',
+      danger: true,
+    },
+  ];
 
   const row = ({
     label,
@@ -89,14 +140,14 @@ export const ActionsMoneyStorageModal: React.FC = () => {
           </Text> <Button
             type='text'
             className={s.editBtn}
-            onClick={() => setEditRow(label)}
+            onClick={() => setEditRow(name)}
           >
             Edit
           </Button>
         </div>
       )}
 
-      {editRow === label && (
+      {editRow === name && (
         <div className={s.rowEdit}>
           <Form.Item name={name} label={label} className={s.formItem}>
             <Input />
@@ -123,7 +174,12 @@ export const ActionsMoneyStorageModal: React.FC = () => {
 
   const footer = (
     <div className={s.footer}>
-      {/* <Button type='primary' onClick={submitForm}>Update</Button> */}
+      <Dropdown menu={{ items }} trigger={['click']}>
+        <Button type='primary' ghost loading={isLoading}>
+          Change status <DownOutlined />
+        </Button>
+      </Dropdown>
+
       <Button onClick={close}>Cancel</Button>
     </div>
   );
@@ -170,6 +226,9 @@ export const ActionsMoneyStorageModal: React.FC = () => {
                   value: currentMoneyStorage.description ?? 'N/A',
                 })}
               </Form>
+              {Boolean(commonApiError) && (
+                <Text type='danger' className={s.commonError}>{commonApiError}</Text>
+              )}
             </div>
 
           </div>
