@@ -79,6 +79,7 @@ export const ActionsMoneyStorageModal: React.FC = () => {
 
   const cancelEdit = () => {
     setEditRow(null);
+    setCommonApiError(null);
     formInstance.resetFields();
   };
 
@@ -88,17 +89,17 @@ export const ActionsMoneyStorageModal: React.FC = () => {
 
   const items: MenuProps['items'] = [
     {
-      key: 1,
+      key: MoneyStorageStatusEnum.ACTIVE,
       label: 'Activate',
       onClick: () => changeStatus(MoneyStorageStatusEnum.ACTIVE),
     },
     {
-      key: 2,
+      key: MoneyStorageStatusEnum.FREEZED,
       label: 'Freeze',
       onClick: () => changeStatus(MoneyStorageStatusEnum.FREEZED),
     },
     {
-      key: 3,
+      key: MoneyStorageStatusEnum.DEACTIVATED,
       label: 'Deactivate',
       onClick: () => changeStatus(MoneyStorageStatusEnum.DEACTIVATED),
     },
@@ -106,11 +107,15 @@ export const ActionsMoneyStorageModal: React.FC = () => {
       type: 'divider',
     },
     {
-      key: 4,
+      key: 'delete',
       label: 'Delete',
       danger: true,
     },
   ];
+
+  const filteredItems = items?.filter((val) => (
+    !val?.key || (val?.key && val?.key !== currentMoneyStorage?.status)
+  ));
 
   const row = ({
     label,
@@ -166,7 +171,7 @@ export const ActionsMoneyStorageModal: React.FC = () => {
 
   const footer = (
     <div className={s.footer}>
-      <Dropdown menu={{ items }} trigger={['click']}>
+      <Dropdown menu={{ items: filteredItems }} trigger={['click']}>
         <Button type='primary' ghost loading={isLoading}>
           Change status <DownOutlined />
         </Button>
