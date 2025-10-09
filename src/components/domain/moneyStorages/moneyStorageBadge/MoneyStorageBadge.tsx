@@ -2,7 +2,7 @@ import { MoneyStorageStatus, MoneyStorageStatusEnum } from '@typings/api/moneySt
 import { Badge, BadgeProps } from 'antd';
 
 type Props = {
-  moneyStorageStatus: MoneyStorageStatus;
+  moneyStorageStatus?: MoneyStorageStatus;
   className?: string;
 };
 
@@ -17,6 +17,10 @@ export const MoneyStorageBadge: React.FC<Props> = ({
   moneyStorageStatus,
   className,
 }) => {
+  if (!moneyStorageStatus) {
+    return null;
+  }
+  
   return (
     <Badge
       className={className}

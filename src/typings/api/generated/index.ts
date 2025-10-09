@@ -24,6 +24,7 @@ export type { MoneyStoragePaginatedDto } from './models/MoneyStoragePaginatedDto
 export type { PaginationMetaDto } from './models/PaginationMetaDto';
 export type { SetupNewPasswordDto } from './models/SetupNewPasswordDto';
 export type { UpdateHistoryDto } from './models/UpdateHistoryDto';
+export { UpdateMoneyStorageDto } from './models/UpdateMoneyStorageDto';
 export { UsersDto } from './models/UsersDto';
 export type { UsersPaginatedDto } from './models/UsersPaginatedDto';
 

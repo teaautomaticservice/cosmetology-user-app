@@ -1,9 +1,9 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-export interface UserDataApiError {
+export interface UserDataApiError<Cause = undefined> {
   statusCode: number;
   message?: string;
-  cause?: undefined;
+  cause?: Record<keyof Cause, string[]>;
 }
 
 interface ErrorResponse extends AxiosResponse<unknown, any> {

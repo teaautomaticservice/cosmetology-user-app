@@ -6,6 +6,7 @@ import type { CreateCurrencyDto } from '../models/CreateCurrencyDto';
 import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
+import type { UpdateMoneyStorageDto } from '../models/UpdateMoneyStorageDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -82,6 +83,30 @@ export class CashierService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/cashier/money-storages/obligation-account',
+        });
+    }
+    /**
+     * @returns MoneyStorageDto Money storage successful updated
+     * @throws ApiError
+     */
+    public static moneyStoragesControllerUpdateItem({
+        id,
+        requestBody,
+    }: {
+        id: string,
+        /**
+         * Update money storage body
+         */
+        requestBody: UpdateMoneyStorageDto,
+    }): CancelablePromise<MoneyStorageDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/cashier/money-storages/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }
