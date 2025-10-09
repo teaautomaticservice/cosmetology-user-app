@@ -2,6 +2,8 @@ import { getMoneyStoragesApi } from '@apiMethods/cashier';
 import { MoneyStorage } from '@typings/api/moneyStorage';
 import { storeFactory } from '@utils/storeFactory';
 
+import { useObligationAccountStore } from './obligationAccount';
+
 type Store = {
   moneyStorages: MoneyStorage[];
   isLoading: boolean;
@@ -14,6 +16,7 @@ const { useStore } = storeFactory<Store>({
 
 export const useMoneyStoragesStore = () => {
   const [state, setState] = useStore();
+  const { updateObligationAccountList } = useObligationAccountStore();
 
   const { moneyStorages, isLoading: isMoneyStoragesLoading } = state;
 
@@ -34,9 +37,15 @@ export const useMoneyStoragesStore = () => {
     }
   };
 
+  const updateAllMoneyStorages = () => {
+    updateMoneyStoragesList();
+    updateObligationAccountList();
+  };
+
   return {
     moneyStorages,
     isMoneyStoragesLoading,
     updateMoneyStoragesList,
+    updateAllMoneyStorages,
   };
 };

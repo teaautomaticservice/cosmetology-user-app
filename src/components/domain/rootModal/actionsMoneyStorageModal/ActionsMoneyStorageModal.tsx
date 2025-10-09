@@ -1,44 +1,81 @@
 import { useState } from 'react';
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
+import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useModalStore } from '@stores/modal';
-import { MoneyStorage } from '@typings/api/moneyStorage';
-import { Button, Input, Modal, Typography } from 'antd';
-import { Controller, useForm } from 'react-hook-form';
+import { useUpdateMoneyStorageStore } from '@stores/updateMoneyStorage';
+import { UserDataApiError } from '@typings/errors';
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  Skeleton,
+  Typography
+} from 'antd';
 
 import s from './actionsMoneyStorageModal.module.css';
 
 const { Text } = Typography;
 
-type Props = {
-  moneyStorage?: MoneyStorage;
+type FormData = {
+  name?: string;
+  code?: string;
+  description?: string;
 }
 
-export const ActionsMoneyStorageModal: React.FC<Props> = ({
-  moneyStorage,
-}) => {
+export const ActionsMoneyStorageModal: React.FC = () => {
   const { modalType, close } = useModalStore();
-  const { handleSubmit, control: formControl, getValues } = useForm({
-    defaultValues: {
-      message: '',
-    }
-  });
+  const { updateAllMoneyStorages } = useMoneyStoragesStore();
+  const {
+    isLoading,
+    currentMoneyStorage,
+    updateMoneyStorageData,
+  } = useUpdateMoneyStorageStore();
+  const [formInstance] = Form.useForm<FormData>();
+
+  // const { handleSubmit, control: formControl, getValues } = useForm<FormData>();
   const [editRow, setEditRow] = useState<string | null>(null);
 
-  const title = moneyStorage ?
-    `${moneyStorage?.name}, ${moneyStorage?.code}` :
+  const title = currentMoneyStorage ?
+    `${currentMoneyStorage?.name}, ${currentMoneyStorage?.code}` :
     'Money storage detail';
 
-  const updateMessage = () => {
-    getValues();
+  const updateMessage = async (value: FormData) => {
+    if (currentMoneyStorage) {
+      try {
+        await updateMoneyStorageData(value);
+        updateAllMoneyStorages();
+        setEditRow(null);
+      } catch (e) {
+        const { statusCode, cause } = e as UserDataApiError<FormData>;
+
+        if (statusCode === 400 && cause) {
+          Object.entries(cause).forEach(([name, errors]) => {
+            formInstance.setFields([{
+              name: name as keyof FormData,
+              errors,
+            }]);
+          });
+        } else {
+          // eslint-disable-next-line no-console
+          console.error(e);
+        }
+      }
+    }
   };
 
-  const submitForm = handleSubmit(updateMessage);
+  const cancelEdit = () => {
+    setEditRow(null);
+    formInstance.resetFields();
+  };
 
   const row = ({
     label,
+    name,
     value,
   }: {
     label: string;
+    name: keyof FormData;
     value: string;
   }) => (
 
@@ -61,17 +98,24 @@ export const ActionsMoneyStorageModal: React.FC<Props> = ({
 
       {editRow === label && (
         <div className={s.rowEdit}>
-          <Controller name="message" control={formControl} render={({ field }) => <Input
-            {...field}
-            placeholder={value}
-          />} />
-          <Button
-            type='text'
-            className={s.editBtn}
-            onClick={() => setEditRow(null)}
-          >
-            Cancel
-          </Button>
+          <Form.Item name={name} label={label} className={s.formItem}>
+            <Input />
+          </Form.Item>
+          <div className={s.rowEditActions}>
+            <Button
+              type='primary'
+              htmlType='submit'
+            >
+              Submit
+            </Button>
+            <Button
+              type='text'
+              onClick={cancelEdit}
+            >
+              Cancel
+            </Button>
+          </div>
+
         </div>
       )}
     </div>
@@ -79,7 +123,7 @@ export const ActionsMoneyStorageModal: React.FC<Props> = ({
 
   const footer = (
     <div className={s.footer}>
-      <Button type='primary' onClick={submitForm}>Update</Button>
+      {/* <Button type='primary' onClick={submitForm}>Update</Button> */}
       <Button onClick={close}>Cancel</Button>
     </div>
   );
@@ -88,32 +132,49 @@ export const ActionsMoneyStorageModal: React.FC<Props> = ({
     <Modal
       title={title}
       open={modalType === 'actionsMoneyStorage'}
-      // confirmLoading={confirmLoading}
+      confirmLoading={isLoading}
       footer={footer}
       onCancel={close}
       getContainer={false}
       className={s.root}
     >
-      {moneyStorage && (
-        <div className={s.mainContainer}>
-          <div className={s.title}>
-            <strong>ID: {moneyStorage.id}</strong>
-            <MoneyStorageBadge
-              className={s.badge}
-              moneyStorageStatus={moneyStorage.status}
-            />
-          </div>
+      <Skeleton loading={isLoading || !currentMoneyStorage}>
+        {currentMoneyStorage && (
+          <div className={s.mainContainer}>
+            <div className={s.title}>
+              <strong>ID: {currentMoneyStorage.id}</strong>
+              <MoneyStorageBadge
+                className={s.badge}
+                moneyStorageStatus={currentMoneyStorage.status}
+              />
+            </div>
 
-          <div className={s.contentContainer}>
-            <form action="/" onSubmit={submitForm} className={s.form}>
-              {row({ label: 'Name:', value: moneyStorage.name })}
-              {row({ label: 'Code:', value: moneyStorage.code })}
-              {row({ label: 'Description:', value: moneyStorage.description ?? 'N/A' })}
-            </form>
-          </div>
+            <div className={s.contentContainer}>
+              <Form
+                form={formInstance}
+                layout="vertical"
+                initialValues={{
+                  name: currentMoneyStorage?.name,
+                  code: currentMoneyStorage?.code,
+                  description: currentMoneyStorage?.description ?? undefined,
+                }}
+                onFinish={(updateMessage)}
+                className={s.form}
+                disabled={isLoading}
+              >
+                {row({ label: 'Name:', name: 'name', value: currentMoneyStorage.name })}
+                {row({ label: 'Code:', name: 'code', value: currentMoneyStorage.code })}
+                {row({
+                  label: 'Description:',
+                  name: 'description',
+                  value: currentMoneyStorage.description ?? 'N/A',
+                })}
+              </Form>
+            </div>
 
-        </div>
-      )}
+          </div>
+        )}
+      </Skeleton>
     </Modal>
   );
 };

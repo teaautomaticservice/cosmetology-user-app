@@ -11,7 +11,7 @@ import s from './completeRegistration.module.css';
 import banner from '@assets/png/tea-on-sunrise.png';
 
 export const CompleteRegistration: React.FC = () => {
-  const { currentUser, logOut, getAppConfigFromApi } = useAppConfigStore();
+  const { currentUser, logOut } = useAppConfigStore();
   const [formInstance] = Form.useForm<CompleteRegistrationForm>();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,7 +29,7 @@ export const CompleteRegistration: React.FC = () => {
 
     try {
       await setupNewPassword(form);
-      await getAppConfigFromApi();
+      window.location.reload();
     } finally {
       setIsLoading(false);
     }

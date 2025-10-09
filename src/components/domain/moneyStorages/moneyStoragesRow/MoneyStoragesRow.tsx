@@ -1,4 +1,4 @@
-import { useModalStore } from '@stores/modal';
+import { useMoneyStoragesPageStore } from '@stores/pages/moneyStoragesPage';
 import { MoneyStorage } from '@typings/api/moneyStorage';
 import { Button, Card, List } from 'antd';
 import cn from 'classnames';
@@ -18,7 +18,7 @@ export const MoneyStoragesRow: React.FC<Props> = ({
   isLoading,
   className,
 }) => {
-  const { open } = useModalStore();
+  const { openUpdateModal } = useMoneyStoragesPageStore();
 
   const adapterDataToList = ({
     id,
@@ -33,7 +33,7 @@ export const MoneyStoragesRow: React.FC<Props> = ({
   ]);
 
   const openModal = (moneyStorage: MoneyStorage) => {
-    open('actionsMoneyStorage', { moneyStorage });
+    openUpdateModal(moneyStorage);
   };
 
   return (

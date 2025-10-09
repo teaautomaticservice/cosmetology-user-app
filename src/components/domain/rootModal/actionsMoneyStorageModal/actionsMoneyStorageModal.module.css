@@ -43,7 +43,21 @@
 
   .rowEdit {
     display: flex;
+    flex-direction: column;
     width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .formItem {
+    margin: 0;
+    min-width: 1px;
+    flex: 1 1 100%;
+    margin-bottom: 8px;
+  }
+
+  .rowEditActions {
+    display: flex;
+    gap: 8px;
   }
 
   .footer {
