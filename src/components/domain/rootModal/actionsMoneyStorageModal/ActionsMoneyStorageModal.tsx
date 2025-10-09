@@ -64,7 +64,7 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     }
   };
 
-  const updateMessage = async (value: FormData) => {
+  const update = async (value: FormData & { status?: MoneyStorageStatus }) => {
     setCommonApiError(null);
     if (currentMoneyStorage) {
       try {
@@ -82,17 +82,9 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     formInstance.resetFields();
   };
 
-  const changeStatus = async (newStatus: MoneyStorageStatus) => {
-    setCommonApiError(null);
-    try {
-      await updateMoneyStorageData({
-        status: newStatus,
-      });
-      updateAllMoneyStorages();
-    } catch (e) {
-      handleError(e as UserDataApiError<FormData>);
-    }
-  };
+  const changeStatus = (newStatus: MoneyStorageStatus) => update({
+    status: newStatus,
+  });
 
   const items: MenuProps['items'] = [
     {
@@ -214,7 +206,7 @@ export const ActionsMoneyStorageModal: React.FC = () => {
                   code: currentMoneyStorage?.code,
                   description: currentMoneyStorage?.description ?? undefined,
                 }}
-                onFinish={(updateMessage)}
+                onFinish={(update)}
                 className={s.form}
                 disabled={isLoading}
               >
