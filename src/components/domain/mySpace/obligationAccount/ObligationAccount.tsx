@@ -1,3 +1,4 @@
+import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
 import { useMySpacePageStore } from '@stores/pages/mySpacePage';
 import { MoneyStorageStatusEnum } from '@typings/api/moneyStorage';
 import { Table, Typography } from 'antd';
@@ -34,7 +35,12 @@ export const ObligationAccount: React.FC = () => {
       {isStorageNotActive && (
         <div>
           <Title level={3}>Money storage is not active</Title>
-          <Typography>Activate this storage for using history obligation</Typography>
+          <div className={s.statusRow}>
+            <MoneyStorageBadge moneyStorageStatus={obligationAccountStorages?.status} />
+            <Typography>
+              Activate this storage for using history obligation
+            </Typography>
+          </div>
         </div>
       )}
       <Table
