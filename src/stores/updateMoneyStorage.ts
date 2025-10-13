@@ -1,4 +1,4 @@
-import { updateMoneyStorage } from '@apiMethods/cashier';
+import { updateMoneyStorageApi } from '@apiMethods/cashier';
 import { UpdateMoneyStorageDto } from '@typings/api/generated';
 import { MoneyStorage } from '@typings/api/moneyStorage';
 import { storeFactory } from '@utils/storeFactory';
@@ -24,7 +24,7 @@ export const useUpdateMoneyStorageStore = () => {
         isLoading: true,
       });
       try {
-        const updatedEntity = await updateMoneyStorage({
+        const updatedEntity = await updateMoneyStorageApi({
           currentId: currentMoneyStorage.id,
           newData,
         });

@@ -1,4 +1,4 @@
-import { getMoneyStoragesApi } from '@apiMethods/cashier';
+import { createMoneyStorageApi, getMoneyStoragesApi } from '@apiMethods/cashier';
 import { MoneyStorage } from '@typings/api/moneyStorage';
 import { storeFactory } from '@utils/storeFactory';
 
@@ -37,6 +37,13 @@ export const useMoneyStoragesStore = () => {
     }
   };
 
+  const createMoneyStorage = () => {
+    createMoneyStorageApi({
+      name: 'Test',
+      code: 'TST',
+    });
+  };
+
   const updateAllMoneyStorages = () => {
     updateMoneyStoragesList();
     updateObligationAccountList();
@@ -47,5 +54,6 @@ export const useMoneyStoragesStore = () => {
     isMoneyStoragesLoading,
     updateMoneyStoragesList,
     updateAllMoneyStorages,
+    createMoneyStorage,
   };
 };

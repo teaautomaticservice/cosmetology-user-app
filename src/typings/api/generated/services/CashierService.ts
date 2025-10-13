@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CreateCurrencyDto } from '../models/CreateCurrencyDto';
+import type { CreateMoneyStorageDto } from '../models/CreateMoneyStorageDto';
 import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
@@ -105,6 +106,25 @@ export class CashierService {
             path: {
                 'id': id,
             },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns MoneyStorageDto Money storage successful created
+     * @throws ApiError
+     */
+    public static moneyStoragesControllerCreateItem({
+        requestBody,
+    }: {
+        /**
+         * Create money storage body
+         */
+        requestBody: CreateMoneyStorageDto,
+    }): CancelablePromise<MoneyStorageDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/money-storages',
             body: requestBody,
             mediaType: 'application/json',
         });

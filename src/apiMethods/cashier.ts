@@ -1,4 +1,4 @@
-import { UpdateMoneyStorageData } from '@typings/api/cashier';
+import { CreateMoneyStorageData, UpdateMoneyStorageData } from '@typings/api/cashier';
 import { CashierService } from '@typings/api/generated';
 import { ID } from '@typings/common';
 
@@ -14,7 +14,7 @@ export const getObligationAccount = () => {
   return CashierService.moneyStoragesControllerGetObligationAccount();
 };
 
-export const updateMoneyStorage =({
+export const updateMoneyStorageApi = ({
   currentId,
   newData,
 }: {
@@ -25,4 +25,8 @@ export const updateMoneyStorage =({
     id: currentId.toString(),
     requestBody: newData,
   });
+};
+
+export const createMoneyStorageApi = (newData: CreateMoneyStorageData) => {
+  return CashierService.moneyStoragesControllerCreateItem({ requestBody: newData });
 };

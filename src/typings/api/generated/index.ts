@@ -9,6 +9,7 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { AppConfigDto } from './models/AppConfigDto';
 export type { CreateCurrencyDto } from './models/CreateCurrencyDto';
+export type { CreateMoneyStorageDto } from './models/CreateMoneyStorageDto';
 export { CreateUserDto } from './models/CreateUserDto';
 export { CurrencyDto } from './models/CurrencyDto';
 export type { CurrencyPaginatedDto } from './models/CurrencyPaginatedDto';
