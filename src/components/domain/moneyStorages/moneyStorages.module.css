@@ -4,4 +4,8 @@
   .contentContainer {
     width: 100%;
   }
+
+  .actionsRow {
+    margin-bottom: 16px;
+  }
 }
