@@ -65,7 +65,12 @@ export const MoneyStoragesRow: React.FC<Props> = ({
               {Boolean(storageData.description) && (
                 <p>{storageData.description}</p>
               )}
-              <Button onClick={() => openModal(storageData)}>Actions</Button>
+              <Button
+                className={s.actionBtn}
+                onClick={() => openModal(storageData)}
+              >
+                Actions
+              </Button>
             </Card>
           ))}
         </div>
