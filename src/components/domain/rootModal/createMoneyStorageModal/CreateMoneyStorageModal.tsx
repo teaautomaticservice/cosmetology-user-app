@@ -64,13 +64,11 @@ export const CreateMoneyStorageModal: React.FC = () => {
       onOk={okClick}
       onCancel={close}
       getContainer={false}
-    // className={s.root}
     >
       <Form
         form={formInstance}
         layout="vertical"
         onFinish={onSubmit}
-        // className={s.form}
         disabled={isCreateItemLoading}
       >
         <Form.Item<FormData>
