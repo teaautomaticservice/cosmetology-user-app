@@ -1,6 +1,6 @@
 import { useModalStore } from '@stores/modal';
 import { useUpdateMoneyStorageStore } from '@stores/updateMoneyStorage';
-import { MoneyStorage } from '@typings/api/moneyStorage';
+import { MoneyStorage } from '@typings/api/cashier';
 
 import { useMoneyStoragesStore } from '../cashier/moneyStorages';
 import { useObligationAccountStore } from '../cashier/obligationAccount';

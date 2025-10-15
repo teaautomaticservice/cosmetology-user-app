@@ -1,6 +1,6 @@
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
 import { useMySpacePageStore } from '@stores/pages/mySpacePage';
-import { MoneyStorageStatusEnum } from '@typings/api/moneyStorage';
+import { MoneyStorageStatusEnum } from '@typings/api/cashier';
 import { Table, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import Title from 'antd/es/typography/Title';

@@ -18,7 +18,7 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
       params = params || new URLSearchParams();
       Object.entries(options.query).forEach(([key, val]) => {
         if (val !== undefined) {
-          (params as URLSearchParams).set(key, val)
+          (params as URLSearchParams).set(key, val);
         }
       });
     }
@@ -31,5 +31,5 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
     })
       .then(({ data }) => resolve(data))
       .catch((error) => reject(error.response?.data ?? error));
-  })
-}
+  });
+};

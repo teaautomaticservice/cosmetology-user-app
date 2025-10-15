@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react';
-import { ModalsMap } from '@constants/modals';
+import { ModalsMap } from '@components/domain/rootModal/constants';
 import { storeFactory } from '@utils/storeFactory';
 
 type ModalsType = keyof typeof ModalsMap;

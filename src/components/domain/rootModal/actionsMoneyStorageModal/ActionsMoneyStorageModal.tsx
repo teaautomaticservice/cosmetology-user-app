@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
+import { OBLIGATION_ACCOUNT_CODE } from '@constants/domain';
 import { INTERNAL_ERROR } from '@constants/errors';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useModalStore } from '@stores/modal';
 import { useUpdateMoneyStorageStore } from '@stores/updateMoneyStorage';
-import { MoneyStorageStatus, MoneyStorageStatusEnum } from '@typings/api/moneyStorage';
+import { MoneyStorageStatus, MoneyStorageStatusEnum } from '@typings/api/cashier';
 import { UserDataApiError } from '@typings/errors';
 import {
   Button,
@@ -36,6 +37,7 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     isLoading,
     currentMoneyStorage,
     updateMoneyStorageData,
+    deleteMoneyStorage
   } = useUpdateMoneyStorageStore();
   const [formInstance] = Form.useForm<FormData>();
 
@@ -87,6 +89,16 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     status: newStatus,
   });
 
+  const deleteStorage = async () => {
+    try {
+      await deleteMoneyStorage();
+      updateAllMoneyStorages();
+      close();
+    } catch (e) {
+      handleError(e as UserDataApiError<FormData>);
+    }
+  };
+
   const items: MenuProps['items'] = [
     {
       key: MoneyStorageStatusEnum.ACTIVE,
@@ -103,19 +115,21 @@ export const ActionsMoneyStorageModal: React.FC = () => {
       label: 'Deactivate',
       onClick: () => changeStatus(MoneyStorageStatusEnum.DEACTIVATED),
     },
-    {
-      type: 'divider',
-    },
-    {
-      key: 'delete',
-      label: 'Delete',
-      danger: true,
-    },
+    ...(currentMoneyStorage?.code === OBLIGATION_ACCOUNT_CODE ? [] : [
+      {
+        type: 'divider',
+      } as const,
+      {
+        key: 'delete',
+        label: 'Delete',
+        danger: true,
+        onClick: deleteStorage,
+      },
+    ]),
   ];
 
-  const filteredItems = items?.filter((val) => (
-    !val?.key || (val?.key && val?.key !== currentMoneyStorage?.status)
-  ));
+  const filteredItems = items?.filter((val) =>
+    (!val?.key || (val?.key && val?.key !== currentMoneyStorage?.status)));
 
   const row = ({
     label,
@@ -171,13 +185,13 @@ export const ActionsMoneyStorageModal: React.FC = () => {
 
   const footer = (
     <div className={s.footer}>
+      <Button onClick={close}>Cancel</Button>
+
       <Dropdown menu={{ items: filteredItems }} trigger={['click']}>
         <Button type='primary' ghost loading={isLoading}>
           Change status <DownOutlined />
         </Button>
       </Dropdown>
-
-      <Button onClick={close}>Cancel</Button>
     </div>
   );
 

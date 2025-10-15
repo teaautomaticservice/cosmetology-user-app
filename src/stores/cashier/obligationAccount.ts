@@ -1,5 +1,5 @@
 import { getObligationAccount } from '@apiMethods/cashier';
-import { MoneyStorage } from '@typings/api/moneyStorage';
+import { MoneyStorage } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {

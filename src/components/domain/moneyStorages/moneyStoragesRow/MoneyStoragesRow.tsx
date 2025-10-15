@@ -1,5 +1,5 @@
 import { useMoneyStoragesPageStore } from '@stores/pages/moneyStoragesPage';
-import { MoneyStorage } from '@typings/api/moneyStorage';
+import { MoneyStorage } from '@typings/api/cashier';
 import { Button, Card, List } from 'antd';
 import cn from 'classnames';
 
@@ -65,7 +65,12 @@ export const MoneyStoragesRow: React.FC<Props> = ({
               {Boolean(storageData.description) && (
                 <p>{storageData.description}</p>
               )}
-              <Button onClick={() => openModal(storageData)}>Actions</Button>
+              <Button
+                className={s.actionBtn}
+                onClick={() => openModal(storageData)}
+              >
+                Actions
+              </Button>
             </Card>
           ))}
         </div>

@@ -1,5 +1,5 @@
+import { ModalsMap } from '@components/domain/rootModal/constants';
 import { useModalStore } from '@stores/modal';
-import { ModalsMap } from 'src/constants/modals';
 
 export const RootModal: React.FC = () => {
   const { modalType, modalProps } = useModalStore();
