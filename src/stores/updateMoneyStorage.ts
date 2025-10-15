@@ -1,4 +1,4 @@
-import { updateMoneyStorageApi } from '@apiMethods/cashier';
+import { deleteMoneyStorageApi, updateMoneyStorageApi } from '@apiMethods/cashier';
 import { MoneyStorage, UpdateMoneyStorageData } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
@@ -39,6 +39,25 @@ export const useUpdateMoneyStorageStore = () => {
     }
   };
 
+  const deleteMoneyStorage = async () => {
+    if (currentMoneyStorage) {
+      setState({
+        isLoading: true,
+      });
+      try {
+        await deleteMoneyStorageApi(currentMoneyStorage.id);
+        setState({
+          currentMoneyStorage: null,
+        });
+      } finally {
+        setState((prevState) => ({
+          ...prevState,
+          isLoading: false,
+        }));
+      }
+    }
+  };
+
   const setCurrentMoneyStorage = (newData: MoneyStorage | null) => {
     setState({
       currentMoneyStorage: newData,
@@ -50,5 +69,6 @@ export const useUpdateMoneyStorageStore = () => {
     isLoading,
     updateMoneyStorageData,
     setCurrentMoneyStorage,
+    deleteMoneyStorage,
   };
 };

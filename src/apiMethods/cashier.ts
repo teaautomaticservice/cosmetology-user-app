@@ -30,3 +30,7 @@ export const updateMoneyStorageApi = ({
 export const createMoneyStorageApi = (newData: CreateMoneyStorageData) => {
   return CashierService.moneyStoragesControllerCreateItem({ requestBody: newData });
 };
+
+export const deleteMoneyStorageApi = (currentId: ID) => {
+  return CashierService.moneyStoragesControllerRemoveItem({ id: currentId.toString() });
+};

@@ -37,6 +37,7 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     isLoading,
     currentMoneyStorage,
     updateMoneyStorageData,
+    deleteMoneyStorage
   } = useUpdateMoneyStorageStore();
   const [formInstance] = Form.useForm<FormData>();
 
@@ -88,6 +89,16 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     status: newStatus,
   });
 
+  const deleteStorage = async () => {
+    try {
+      await deleteMoneyStorage();
+      updateAllMoneyStorages();
+      close();
+    } catch (e) {
+      handleError(e as UserDataApiError<FormData>);
+    }
+  };
+
   const items: MenuProps['items'] = [
     {
       key: MoneyStorageStatusEnum.ACTIVE,
@@ -112,6 +123,7 @@ export const ActionsMoneyStorageModal: React.FC = () => {
         key: 'delete',
         label: 'Delete',
         danger: true,
+        onClick: deleteStorage,
       },
     ]),
   ];

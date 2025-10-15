@@ -111,6 +111,23 @@ export class CashierService {
         });
     }
     /**
+     * @returns any Money storage successful deleted
+     * @throws ApiError
+     */
+    public static moneyStoragesControllerRemoveItem({
+        id,
+    }: {
+        id: string,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/cashier/money-storages/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+    /**
      * @returns MoneyStorageDto Money storage successful created
      * @throws ApiError
      */
