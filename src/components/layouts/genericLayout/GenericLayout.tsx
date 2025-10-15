@@ -1,6 +1,7 @@
 import '@assets/css/index.css';
 
 import { RootModal } from '@components/domain/rootModal/RootModal';
+import { Toasts } from '@components/ui/toasts/Toasts';
 import { colors } from '@constants/colors';
 import { cssVars } from '@constants/theme';
 import { ConfigProvider, ThemeConfig } from 'antd';
@@ -37,6 +38,7 @@ export const GenericLayout: React.FC<Props> = ({
         </div>
 
         <RootModal />
+        <Toasts />
       </div>
     </ConfigProvider>
   );

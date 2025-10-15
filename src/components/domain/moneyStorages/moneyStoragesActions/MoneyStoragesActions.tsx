@@ -1,4 +1,4 @@
-import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
+import { useModalStore } from '@stores/modal';
 import { Button } from 'antd';
 import cn from 'classnames';
 
@@ -11,16 +11,15 @@ type Props = {
 export const MoneyStoragesActions: React.FC<Props> = ({
   classNames,
 }) => {
-  const { createMoneyStorage, updateAllMoneyStorages } = useMoneyStoragesStore();
+  const { open } = useModalStore();
 
-  const onCreateClick = async () => {
-    await createMoneyStorage();
-    updateAllMoneyStorages();
+  const openCreateMoneyStorageModal = () => {
+    open('createMoneyStorageModal');
   };
 
   return (
     <div className={cn(s.root, classNames)}>
-      <Button onClick={onCreateClick}>Create new Storage</Button>
+      <Button onClick={openCreateMoneyStorageModal}>Create new Storage</Button>
     </div>
   );
 };

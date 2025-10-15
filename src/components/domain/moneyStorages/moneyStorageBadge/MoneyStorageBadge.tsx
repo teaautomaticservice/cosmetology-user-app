@@ -1,4 +1,4 @@
-import { MoneyStorageStatus, MoneyStorageStatusEnum } from '@typings/api/moneyStorage';
+import { MoneyStorageStatus, MoneyStorageStatusEnum } from '@typings/api/cashier';
 import { Badge, BadgeProps } from 'antd';
 
 type Props = {

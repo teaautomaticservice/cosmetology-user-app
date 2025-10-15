@@ -1,5 +1,5 @@
 import { createMoneyStorageApi, getMoneyStoragesApi } from '@apiMethods/cashier';
-import { MoneyStorage } from '@typings/api/moneyStorage';
+import { CreateMoneyStorageData, MoneyStorage } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
 import { useObligationAccountStore } from './obligationAccount';
@@ -14,9 +14,12 @@ const { useStore } = storeFactory<Store>({
   isLoading: true,
 });
 
+const { useStore: useLoadingCreateItemStore } = storeFactory<boolean>(false);
+
 export const useMoneyStoragesStore = () => {
   const [state, setState] = useStore();
   const { updateObligationAccountList } = useObligationAccountStore();
+  const [isCreateItemLoading, setIsCreateItemLoading] = useLoadingCreateItemStore();
 
   const { moneyStorages, isLoading: isMoneyStoragesLoading } = state;
 
@@ -37,11 +40,14 @@ export const useMoneyStoragesStore = () => {
     }
   };
 
-  const createMoneyStorage = () => {
-    createMoneyStorageApi({
-      name: 'Test',
-      code: 'TST',
-    });
+  const createMoneyStorage = async (newData: CreateMoneyStorageData) => {
+    try {
+      setIsCreateItemLoading(true);
+      await createMoneyStorageApi(newData);
+      updateMoneyStoragesList();
+    } finally {
+      setIsCreateItemLoading(false);
+    }
   };
 
   const updateAllMoneyStorages = () => {
@@ -52,6 +58,7 @@ export const useMoneyStoragesStore = () => {
   return {
     moneyStorages,
     isMoneyStoragesLoading,
+    isCreateItemLoading,
     updateMoneyStoragesList,
     updateAllMoneyStorages,
     createMoneyStorage,
