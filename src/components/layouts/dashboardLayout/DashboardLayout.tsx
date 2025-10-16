@@ -9,7 +9,7 @@ export type Props = React.PropsWithChildren<{}>;
 export const DashboardLayout: React.FC<Props> = ({ children }) => {
   return (
     <AuthorizedLayout className={s.root}>
-      <Navbar />
+      <Navbar className={s.navBar} />
       <div className={s.content}>{children}</div>
     </AuthorizedLayout>
   );
