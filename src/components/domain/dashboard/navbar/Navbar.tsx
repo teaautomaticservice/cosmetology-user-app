@@ -19,6 +19,10 @@ const dashboardsMenu: MenuItemGroupType<MenuItemType> = {
       label: 'Money storages',
       key: paths.moneyStorages,
     },
+    {
+      label: 'Accounts',
+      key: paths.accounts,
+    }
   ],
 };
 
