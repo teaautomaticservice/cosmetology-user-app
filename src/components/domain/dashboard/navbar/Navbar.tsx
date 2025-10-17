@@ -16,13 +16,13 @@ const dashboardsMenu: MenuItemGroupType<MenuItemType> = {
       key: paths.main,
     },
     {
+      label: 'Accounts',
+      key: paths.accounts,
+    },
+    {
       label: 'Money storages',
       key: paths.moneyStorages,
     },
-    {
-      label: 'Accounts',
-      key: paths.accounts,
-    }
   ],
 };
 
