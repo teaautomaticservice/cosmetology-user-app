@@ -7,6 +7,7 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { AccountsByStorePaginated } from './models/AccountsByStorePaginated';
 export type { AppConfigDto } from './models/AppConfigDto';
 export type { CreateCurrencyDto } from './models/CreateCurrencyDto';
 export type { CreateMoneyStorageDto } from './models/CreateMoneyStorageDto';
@@ -14,6 +15,7 @@ export { CreateUserDto } from './models/CreateUserDto';
 export { CurrencyDto } from './models/CurrencyDto';
 export type { CurrencyPaginatedDto } from './models/CurrencyPaginatedDto';
 export { CurrentUserDto } from './models/CurrentUserDto';
+export { GetAccountsByStoreDto } from './models/GetAccountsByStoreDto';
 export type { HistoryDto } from './models/HistoryDto';
 export type { HistoryPaginatedDto } from './models/HistoryPaginatedDto';
 export type { InitiateHardResetPasswordDto } from './models/InitiateHardResetPasswordDto';
