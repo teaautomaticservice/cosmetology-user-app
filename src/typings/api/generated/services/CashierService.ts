@@ -64,13 +64,13 @@ export class CashierService {
     public static moneyStoragesControllerGetList({
         page,
         pageSize,
-        sort,
         order,
+        sort,
     }: {
         page?: number,
         pageSize?: number,
-        sort?: string,
         order?: 'ASC' | 'DESC',
+        sort?: 'name' | 'code',
     }): CancelablePromise<MoneyStoragePaginatedDto> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -78,8 +78,8 @@ export class CashierService {
             query: {
                 'page': page,
                 'pageSize': pageSize,
-                'sort': sort,
                 'order': order,
+                'sort': sort,
             },
         });
     }
@@ -170,7 +170,7 @@ export class CashierService {
     }): CancelablePromise<AccountsByStorePaginated> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/cashier/accounts/list',
+            url: '/cashier/accounts/accounts-by-money-storages-list',
             query: {
                 'page': page,
                 'pageSize': pageSize,

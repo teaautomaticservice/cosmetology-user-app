@@ -1,9 +1,9 @@
 import {
   CreateMoneyStorageData,
   GetAccountsByMoneyStoragesListParams,
+  GetMoneyStorageListSort,
   UpdateMoneyStorageData
 } from '@typings/api/cashier';
-import { UseSort } from '@typings/api/common';
 import { CashierService } from '@typings/api/generated';
 import { ID } from '@typings/common';
 
@@ -14,7 +14,7 @@ export const getCurrenciesListApi = () => {
 export const getMoneyStoragesApi = ({
   order,
   sort,
-}: UseSort) => {
+}: GetMoneyStorageListSort) => {
   return CashierService.moneyStoragesControllerGetList({
     order,
     sort,

@@ -1,9 +1,14 @@
+import { UseSort } from './common';
 import { 
   AccountDto,
   CashierService,
   GetAccountsByStoreDto,
   MoneyStorageDto,
 } from './generated';
+
+export type GetMoneyStorageListParams =
+  Parameters<typeof CashierService.moneyStoragesControllerGetList>[0];
+export type GetMoneyStorageListSort = UseSort<GetMoneyStorageListParams['sort']>;
 
 export type UpdateMoneyStorageData =
   Parameters<typeof CashierService.moneyStoragesControllerUpdateItem>[0]['requestBody'];
