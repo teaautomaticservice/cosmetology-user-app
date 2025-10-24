@@ -2,16 +2,17 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AccountDto } from './AccountDto';
-export type GetAccountsByStoreDto = {
+export type AccountDto = {
     id: number;
     name: string;
-    status: GetAccountsByStoreDto.status;
-    code: string;
+    moneyStorageId: number;
+    status: AccountDto.status;
+    currencyId: number;
+    balance: number;
+    available: number;
     description: string | null;
-    accounts: Array<AccountDto>;
 };
-export namespace GetAccountsByStoreDto {
+export namespace AccountDto {
     export enum status {
         CREATED = 'created',
         ACTIVE = 'active',

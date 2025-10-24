@@ -7,6 +7,7 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export { AccountDto } from './models/AccountDto';
 export type { AccountsByStorePaginated } from './models/AccountsByStorePaginated';
 export type { AppConfigDto } from './models/AppConfigDto';
 export type { CreateCurrencyDto } from './models/CreateCurrencyDto';

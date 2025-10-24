@@ -1,0 +1,11 @@
+.root {
+  width: 100%;
+  overflow-x: auto;
+
+  .contentContainer {
+    display: flex;
+    width: auto;
+    flex: 0 0;
+    gap: 16px;
+  }
+}

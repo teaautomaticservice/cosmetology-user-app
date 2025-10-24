@@ -1,4 +1,5 @@
 import { 
+  AccountDto,
   CashierService,
   GetAccountsByStoreDto,
   MoneyStorageDto,
@@ -16,5 +17,6 @@ export type GetAccountsByMoneyStoragesListParams =
 export type MoneyStorage = MoneyStorageDto;
 export type MoneyStorageStatus = MoneyStorageDto['status'];
 export const MoneyStorageStatusEnum = MoneyStorageDto['status'];
-export type AccountsByStore = GetAccountsByStoreDto
+export type AccountsByStore = GetAccountsByStoreDto;
+export type Account = AccountDto;
 

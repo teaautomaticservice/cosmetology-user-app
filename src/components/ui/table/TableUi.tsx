@@ -4,6 +4,8 @@ import cn from 'classnames';
 
 import s from './tableUi.module.css';
 
+export type { ColumnsType };
+
 type Props<T extends Object> = {
   columns: ColumnsType<T>;
   dataSource: T[];
@@ -22,8 +24,10 @@ export const TableUi = <T extends Object, >({
       className={cn(s.root, className)}
       columns={columns}
       dataSource={dataSource}
-      rowKey={'id'}
+      rowKey="id"
       loading={loading}
+      size="small"
+      bordered
     />
   );
 };

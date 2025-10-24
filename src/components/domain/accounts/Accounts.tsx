@@ -1,15 +1,14 @@
-import { useAccountsStore } from '@stores/cashier/accounts';
 import Title from 'antd/es/typography/Title';
 
-export const Accounts: React.FC = () => {
-  const { accountsByStores } = useAccountsStore();
+import { AccountsByStorageRow } from './accountsByStorageRow/AccountsByStorageRow';
 
+import s from './accounts.module.css';
+
+export const Accounts: React.FC = () => {
   return (
-    <div>
+    <div className={s.root}>
       <Title>Accounts</Title>
-      {accountsByStores?.map((data) => (
-        <div>{JSON.stringify(data)}</div>
-      ))}
+      <AccountsByStorageRow />
     </div>
   );
 };
