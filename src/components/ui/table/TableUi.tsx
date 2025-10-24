@@ -2,8 +2,6 @@ import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import cn from 'classnames';
 
-import s from './tableUi.module.css';
-
 export type { ColumnsType };
 
 type Props<T extends Object> = {
@@ -21,7 +19,7 @@ export const TableUi = <T extends Object, >({
 }: Props<T>) => {
   return (
     <Table
-      className={cn(s.root, className)}
+      className={cn(className)}
       columns={columns}
       dataSource={dataSource}
       rowKey="id"
