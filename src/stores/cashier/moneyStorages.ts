@@ -1,5 +1,5 @@
 import { createMoneyStorageApi, getMoneyStoragesApi } from '@apiMethods/cashier';
-import { CreateMoneyStorageData, MoneyStorage } from '@typings/api/cashier';
+import { CreateMoneyStorageData, GetMoneyStorageListSort, MoneyStorage } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
 import { useObligationAccountStore } from './obligationAccount';
@@ -23,12 +23,18 @@ export const useMoneyStoragesStore = () => {
 
   const { moneyStorages, isLoading: isMoneyStoragesLoading } = state;
 
-  const updateMoneyStoragesList = async () => {
+  const updateMoneyStoragesList = async ({
+    order,
+    sort,
+  }: GetMoneyStorageListSort = {}) => {
     setState({
       isLoading: true,
     });
     try {
-      const { data } = await getMoneyStoragesApi();
+      const { data } = await getMoneyStoragesApi({
+        order,
+        sort,
+      });
       setState({
         moneyStorages: data,
       });

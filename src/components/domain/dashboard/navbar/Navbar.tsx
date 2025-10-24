@@ -1,6 +1,7 @@
 import { paths } from '@router/paths';
 import { Menu } from 'antd';
 import { MenuItemGroupType, MenuItemType } from 'antd/es/menu/interface';
+import cn from 'classnames';
 import { MenuClickEventHandler } from 'rc-menu/lib/interface';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -15,6 +16,10 @@ const dashboardsMenu: MenuItemGroupType<MenuItemType> = {
       key: paths.main,
     },
     {
+      label: 'Accounts',
+      key: paths.accounts,
+    },
+    {
       label: 'Money storages',
       key: paths.moneyStorages,
     },
@@ -25,7 +30,13 @@ const menuItems: (MenuItemType | MenuItemGroupType<MenuItemType>)[] = [
   dashboardsMenu,
 ];
 
-export const Navbar: React.FC = () => {
+type Props = {
+  className?: string;
+}
+
+export const Navbar: React.FC<Props> = ({
+  className,
+}) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -38,7 +49,7 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <div className={s.root}>
+    <div className={cn(s.root, className)}>
       <Menu
         className={s.menu}
         mode="inline"

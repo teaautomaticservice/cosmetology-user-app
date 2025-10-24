@@ -1,4 +1,9 @@
-import { CreateMoneyStorageData, UpdateMoneyStorageData } from '@typings/api/cashier';
+import {
+  CreateMoneyStorageData,
+  GetAccountsByMoneyStoragesListParams,
+  GetMoneyStorageListSort,
+  UpdateMoneyStorageData
+} from '@typings/api/cashier';
 import { CashierService } from '@typings/api/generated';
 import { ID } from '@typings/common';
 
@@ -6,8 +11,14 @@ export const getCurrenciesListApi = () => {
   return CashierService.currenciesControllerGetList({});
 };
 
-export const getMoneyStoragesApi = () => {
-  return CashierService.moneyStoragesControllerGetList({});
+export const getMoneyStoragesApi = ({
+  order,
+  sort,
+}: GetMoneyStorageListSort) => {
+  return CashierService.moneyStoragesControllerGetList({
+    order,
+    sort,
+  });
 };
 
 export const getObligationAccount = () => {
@@ -33,4 +44,12 @@ export const createMoneyStorageApi = (newData: CreateMoneyStorageData) => {
 
 export const deleteMoneyStorageApi = (currentId: ID) => {
   return CashierService.moneyStoragesControllerRemoveItem({ id: currentId.toString() });
+};
+
+export const getAccountsByMoneyStoragesApi = ({
+  sort,
+}: Pick<GetAccountsByMoneyStoragesListParams, 'sort'> = {}) => {
+  return CashierService.accountsControllerGetAccountsByMoneyStoragesList({
+    sort,
+  });
 };

@@ -8,6 +8,7 @@ export const paths = {
   // dashboards
   main: '/',
   moneyStorages: '/money-storages',
+  accounts: '/accounts',
 
   // history
   history: '/history',

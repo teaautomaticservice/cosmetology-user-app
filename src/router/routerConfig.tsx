@@ -1,6 +1,7 @@
 import { AuthorizedLayout } from '@components/layouts/authorizedLayout/AuthorizedLayout';
 import { DashboardLayout } from '@components/layouts/dashboardLayout/DashboardLayout';
 import { GenericLayout } from '@components/layouts/genericLayout/GenericLayout';
+import { AccountsPage } from '@components/pages/accounts/AccountsPage';
 import { CompleteRegistrationPage } from '@components/pages/completeRegistration/CompleteRegistrationPage';
 import { HistoryPage } from '@components/pages/history/HistoryPage';
 import { LoginPage } from '@components/pages/login/LoginPage';
@@ -39,6 +40,12 @@ const dashboards: RouterPage[] = [
     path: paths.moneyStorages,
     Layout: DashboardLayout,
     Component: MoneyStoragePage,
+    roles: [RouterRoleEnum.OPERATOR],
+  },
+  {
+    path: paths.accounts,
+    Layout: DashboardLayout,
+    Component: AccountsPage,
     roles: [RouterRoleEnum.OPERATOR],
   },
 ];

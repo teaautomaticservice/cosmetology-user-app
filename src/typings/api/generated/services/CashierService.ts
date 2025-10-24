@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AccountsByStorePaginated } from '../models/AccountsByStorePaginated';
 import type { CreateCurrencyDto } from '../models/CreateCurrencyDto';
 import type { CreateMoneyStorageDto } from '../models/CreateMoneyStorageDto';
 import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
@@ -63,9 +64,13 @@ export class CashierService {
     public static moneyStoragesControllerGetList({
         page,
         pageSize,
+        order,
+        sort,
     }: {
         page?: number,
         pageSize?: number,
+        order?: 'ASC' | 'DESC',
+        sort?: 'name' | 'code',
     }): CancelablePromise<MoneyStoragePaginatedDto> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -73,6 +78,8 @@ export class CashierService {
             query: {
                 'page': page,
                 'pageSize': pageSize,
+                'order': order,
+                'sort': sort,
             },
         });
     }
@@ -144,6 +151,32 @@ export class CashierService {
             url: '/cashier/money-storages',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns AccountsByStorePaginated List of accounts by money storages successful has been got
+     * @throws ApiError
+     */
+    public static accountsControllerGetAccountsByMoneyStoragesList({
+        page,
+        pageSize,
+        sort,
+        order,
+    }: {
+        page?: number,
+        pageSize?: number,
+        sort?: 'status',
+        order?: 'ASC' | 'DESC',
+    }): CancelablePromise<AccountsByStorePaginated> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/cashier/accounts/accounts-by-money-storages-list',
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+                'sort': sort,
+                'order': order,
+            },
         });
     }
 }

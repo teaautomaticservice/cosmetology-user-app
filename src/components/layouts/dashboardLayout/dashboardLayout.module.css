@@ -4,8 +4,13 @@
   min-height: 1px;
   flex-grow: 1;
 
+  .navBar {
+    flex: 0 0 220px;
+  }
+
   .content {
     width: 100%;
     padding: 20px;
+    min-width: 1px;
   }
 }

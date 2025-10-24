@@ -1,13 +1,14 @@
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
+import { TableUi } from '@components/ui/table/TableUi';
 import { useMySpacePageStore } from '@stores/pages/mySpacePage';
-import { MoneyStorageStatusEnum } from '@typings/api/cashier';
-import { Table, Typography } from 'antd';
+import { MoneyStorage, MoneyStorageStatusEnum } from '@typings/api/cashier';
+import { Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import Title from 'antd/es/typography/Title';
 
 import s from './obligationAccount.module.css';
 
-const columns: ColumnsType<History> = [
+const columns: ColumnsType<MoneyStorage> = [
   {
     title: 'Transaction',
     dataIndex: 'transaction',
@@ -43,11 +44,10 @@ export const ObligationAccount: React.FC = () => {
           </div>
         </div>
       )}
-      <Table
+      <TableUi
         className={s.table}
         columns={columns}
         dataSource={[]}
-        rowKey={'id'}
         loading={isLoading}
       />
     </div>
