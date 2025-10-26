@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { Accounts } from '@components/domain/accounts/Accounts';
-import { useAccountsStore } from '@stores/cashier/accounts';
+import { useAccountsPageStore } from '@stores/pages/accountsPage';
 
 export const AccountsPage: React.FC = () => {
-  const { updateAccountsList } = useAccountsStore();
+  const { updateAccountsList } = useAccountsPageStore();
   
   useEffect(() => {
     updateAccountsList();
