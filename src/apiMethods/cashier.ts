@@ -1,6 +1,7 @@
 import {
   CreateMoneyStorageData,
   GetAccountsByMoneyStoragesListParams,
+  GetAccountsWithMoneyStoragesListParams,
   GetMoneyStorageListSort,
   UpdateMoneyStorageData
 } from '@typings/api/cashier';
@@ -50,6 +51,20 @@ export const getAccountsByMoneyStoragesApi = ({
   sort,
 }: Pick<GetAccountsByMoneyStoragesListParams, 'sort'> = {}) => {
   return CashierService.accountsControllerGetAccountsByMoneyStoragesList({
+    sort,
+  });
+};
+
+export const getAccountsWithMoneyStoragesApi = ({
+  page,
+  pageSize,
+  order,
+  sort,
+}: GetAccountsWithMoneyStoragesListParams = {}) => {
+  return CashierService.accountsControllerGetList({
+    page,
+    pageSize,
+    order,
     sort,
   });
 };

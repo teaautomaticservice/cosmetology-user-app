@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AccountsByStorePaginated } from '../models/AccountsByStorePaginated';
+import type { AccountsWithStoragePaginatedDto } from '../models/AccountsWithStoragePaginatedDto';
 import type { CreateCurrencyDto } from '../models/CreateCurrencyDto';
 import type { CreateMoneyStorageDto } from '../models/CreateMoneyStorageDto';
 import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
@@ -154,7 +155,7 @@ export class CashierService {
         });
     }
     /**
-     * @returns AccountsByStorePaginated List of accounts by money storages successful has been got
+     * @returns AccountsByStorePaginated List of accounts by money storages successful
      * @throws ApiError
      */
     public static accountsControllerGetAccountsByMoneyStoragesList({
@@ -171,6 +172,32 @@ export class CashierService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/cashier/accounts/accounts-by-money-storages-list',
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+                'sort': sort,
+                'order': order,
+            },
+        });
+    }
+    /**
+     * @returns AccountsWithStoragePaginatedDto List of accounts with money storages
+     * @throws ApiError
+     */
+    public static accountsControllerGetList({
+        page,
+        pageSize,
+        sort,
+        order,
+    }: {
+        page?: number,
+        pageSize?: number,
+        sort?: 'status' | 'available' | 'balance' | 'name' | 'createdAt' | 'updatedAt',
+        order?: 'ASC' | 'DESC',
+    }): CancelablePromise<AccountsWithStoragePaginatedDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/cashier/accounts/list',
             query: {
                 'page': page,
                 'pageSize': pageSize,

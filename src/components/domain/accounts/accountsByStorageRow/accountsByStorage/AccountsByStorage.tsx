@@ -37,7 +37,7 @@ export const AccountsByStorage: React.FC<Props> = ({
           title: 'Available',
           dataIndex: 'available',
         },
-      ]
+      ],
     },
   ];
 

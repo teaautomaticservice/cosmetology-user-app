@@ -1,4 +1,5 @@
-import { useAccountsStore } from '@stores/cashier/accounts';
+import { useAccountsPageStore } from '@stores/pages/accountsPage';
+import { Skeleton } from 'antd';
 import cn from 'classnames';
 
 import { AccountsByStorage } from './accountsByStorage/AccountsByStorage';
@@ -12,15 +13,17 @@ type Props = {
 export const AccountsByStorageRow: React.FC<Props> = ({
   className,
 }) => {
-  const { accountsByStores } = useAccountsStore();
+  const { accountsByStores, isAccountsLoading } = useAccountsPageStore();
 
   return (
     <div className={cn(s.root, className)}>
-      <div className={s.contentContainer}>
-        {accountsByStores?.map((data) => (
-          <AccountsByStorage data={data} />
-        ))}
-      </div>
+      <Skeleton loading={isAccountsLoading}>
+        <div className={s.contentContainer}>
+          {accountsByStores?.map((data) => (
+            <AccountsByStorage data={data} />
+          ))}
+        </div>
+      </Skeleton>
     </div>
   );
 };
