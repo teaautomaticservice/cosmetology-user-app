@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Table, TableProps } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import cn from 'classnames';
 
@@ -9,6 +9,7 @@ type Props<T extends Object> = {
   dataSource: T[];
   className?: string;
   loading?: boolean;
+  footer?: TableProps['footer'];
 }
 
 export const TableUi = <T extends Object, >({
@@ -16,6 +17,7 @@ export const TableUi = <T extends Object, >({
   dataSource,
   className,
   loading,
+  footer,
 }: Props<T>) => {
   return (
     <Table
@@ -24,6 +26,7 @@ export const TableUi = <T extends Object, >({
       dataSource={dataSource}
       rowKey="id"
       loading={loading}
+      footer={footer}
       size="small"
       bordered
     />

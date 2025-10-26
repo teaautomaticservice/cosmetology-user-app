@@ -13,7 +13,12 @@ const {
 
 export const useAccountsPageStore = () => {
   const [state, updateState] = useStore();
-  const { updateAccountsList } = useAccountsStore();
+  const {
+    accountsByStores,
+    accountsWithStores,
+    isAccountsLoading,
+    updateAccountsList,
+  } = useAccountsStore();
 
   const { isEditMode } = state;
 
@@ -23,6 +28,9 @@ export const useAccountsPageStore = () => {
 
   return {
     isEditMode,
+    accountsByStores,
+    accountsWithStores,
+    isAccountsLoading,
     updateAccountsList,
     toggleEditMode,
   };

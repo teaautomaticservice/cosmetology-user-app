@@ -1,8 +1,9 @@
 import { UseSort } from './common';
-import { 
-  AccountDto,
+import {
   CashierService,
+  GetAccountDto,
   GetAccountsByStoreDto,
+  GetAccountWithStorageDto,
   MoneyStorageDto,
 } from './generated';
 
@@ -19,9 +20,15 @@ export type CreateMoneyStorageData =
 export type GetAccountsByMoneyStoragesListParams =
   Parameters<typeof CashierService.accountsControllerGetAccountsByMoneyStoragesList>[0];
 
+export type GetAccountsWithMoneyStoragesListParams =
+  Parameters<typeof CashierService.accountsControllerGetList>[0];
+
 export type MoneyStorage = MoneyStorageDto;
 export type MoneyStorageStatus = MoneyStorageDto['status'];
 export const MoneyStorageStatusEnum = MoneyStorageDto['status'];
+
 export type AccountsByStore = GetAccountsByStoreDto;
-export type Account = AccountDto;
+export type Account = GetAccountDto;
+
+export type AccountsWithStore = GetAccountWithStorageDto;
 
