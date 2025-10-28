@@ -1,5 +1,6 @@
-import { getCurrenciesListApi } from '@apiMethods/cashier';
+import { deleteCurrencyApi, getCurrenciesListApi } from '@apiMethods/cashier';
 import { CurrencyDto } from '@typings/api/generated';
+import { ID } from '@typings/common';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
@@ -34,9 +35,28 @@ export const useCurrenciesStore = () => {
     }
   };
 
+  const deleteCurrency = async (currentId: ID) => {
+    setState({
+      isLoading: true,
+    });
+    try {
+      await deleteCurrencyApi(currentId);
+      const { data } = await getCurrenciesListApi();
+      setState({
+        currencies: data,
+      });
+    } finally {
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
+    }
+  };
+
   return {
     currencies,
     isCurrenciesLoading,
     updateCurrenciesList,
+    deleteCurrency,
   };
 };

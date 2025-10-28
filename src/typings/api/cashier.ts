@@ -1,6 +1,7 @@
 import { UseSort } from './common';
 import {
   CashierService,
+  CurrencyDto,
   GetAccountDto,
   GetAccountsByStoreDto,
   GetAccountWithStorageDto,
@@ -32,3 +33,4 @@ export type Account = GetAccountDto;
 
 export type AccountsWithStore = GetAccountWithStorageDto;
 
+export type Currency = CurrencyDto;

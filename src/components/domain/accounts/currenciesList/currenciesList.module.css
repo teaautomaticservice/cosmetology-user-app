@@ -1,0 +1,13 @@
+.root {
+  width: 100%;
+
+  .actionsCol {
+    width: 200px;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}

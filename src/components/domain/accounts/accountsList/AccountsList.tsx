@@ -30,14 +30,14 @@ type Props = {
 export const AccountsList: React.FC<Props> = ({
   className,
 }) => {
-  const { accountsWithStores, isAccountsLoading } = useAccountsPageStore();
+  const { accountsWithStores, isAccountsPageLoading } = useAccountsPageStore();
 
   return (
     <div className={cn(className)}>
       <TableUi
         columns={columns}
         dataSource={accountsWithStores}
-        loading={isAccountsLoading}
+        loading={isAccountsPageLoading}
       />
     </div>
   );

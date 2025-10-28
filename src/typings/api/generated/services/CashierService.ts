@@ -15,7 +15,7 @@ import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class CashierService {
     /**
-     * @returns CurrencyPaginatedDto List of currencies successful has been got
+     * @returns CurrencyPaginatedDto List of currencies
      * @throws ApiError
      */
     public static currenciesControllerGetList({
@@ -43,7 +43,7 @@ export class CashierService {
         pageSize,
     }: {
         /**
-         * Create currency body
+         * Create currency
          */
         requestBody: CreateCurrencyDto,
         pageSize?: number,
@@ -56,6 +56,23 @@ export class CashierService {
             },
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any Currency deleted
+     * @throws ApiError
+     */
+    public static currenciesControllerRemoveItem({
+        id,
+    }: {
+        id: string,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/cashier/currencies/{id}',
+            path: {
+                'id': id,
+            },
         });
     }
     /**

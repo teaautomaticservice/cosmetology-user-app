@@ -68,3 +68,7 @@ export const getAccountsWithMoneyStoragesApi = ({
     sort,
   });
 };
+
+export const deleteCurrencyApi = (currentId: ID) => {
+  return CashierService.currenciesControllerRemoveItem({ id: currentId.toString() });
+};
