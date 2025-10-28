@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
-import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
-import { OBLIGATION_ACCOUNT_CODE } from '@constants/domain';
 import { INTERNAL_ERROR } from '@constants/errors';
-import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useModalStore } from '@stores/modal';
-import { useUpdateMoneyStorageStore } from '@stores/updateMoneyStorage';
-import { MoneyStorageStatus, MoneyStorageStatusEnum } from '@typings/api/cashier';
 import { UserDataApiError } from '@typings/errors';
 import {
   Button,
@@ -18,35 +13,57 @@ import {
   Skeleton,
   Typography
 } from 'antd';
+import { NamePath } from 'antd/es/form/interface';
+import cn from 'classnames';
 
-import s from './actionsMoneyStorageModal.module.css';
+import s from './editModal.module.css';
 
 const { Text } = Typography;
 
-type FormData = {
-  name?: string;
-  code?: string;
-  description?: string;
+export type EditModalRow<T extends object> = {
+  label: string;
+  name: NamePath<T>;
+  value: string;
 }
 
-export const ActionsMoneyStorageModal: React.FC = () => {
-  const { close } = useModalStore();
-  const { updateAllMoneyStorages } = useMoneyStoragesStore();
+export type DropdownItem<Entity extends object, Key extends keyof Entity = keyof Entity> = {
+  label: string;
+  key: Entity[Key];
+}
 
-  const {
-    isLoading,
-    currentMoneyStorage,
-    updateMoneyStorageData,
-    deleteMoneyStorage
-  } = useUpdateMoneyStorageStore();
+type Props<Entity extends object, T extends Record<keyof Entity, unknown>> = {
+  title: string;
+  rows: EditModalRow<T>[];
+  onUpdate: (formData: T) => Promise<void>;
+  SubtitleComponent?: React.FC;
+  className?: string;
+  initialValues?: T;
+  isLoading?: boolean;
+  entity?: Entity | null;
+  dropdownProp?: keyof Entity;
+  dropdownItems?: DropdownItem<Entity>[];
+  onDeleted?: () => Promise<void>;
+}
+
+export const EditModal = <Entity extends object, FormData extends Partial<Entity>>({
+  title,
+  rows,
+  onUpdate,
+  SubtitleComponent,
+  className,
+  initialValues,
+  isLoading = false,
+  entity,
+  dropdownProp,
+  dropdownItems = [],
+  onDeleted,
+}: Props<Entity, FormData>) => {
+  const { close } = useModalStore();
+
   const [formInstance] = Form.useForm<FormData>();
 
-  const [editRow, setEditRow] = useState<keyof FormData | null>(null);
+  const [editRow, setEditRow] = useState<NamePath<FormData> | null>(null);
   const [commonApiError, setCommonApiError] = useState<string | null>(null);
-
-  const title = currentMoneyStorage ?
-    `${currentMoneyStorage?.name}, ${currentMoneyStorage?.code}` :
-    'Money storage detail';
 
   const handleError = (e: UserDataApiError<FormData>) => {
     const { statusCode, cause } = e as UserDataApiError<FormData>;
@@ -54,11 +71,11 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     if (statusCode === 400 && cause) {
       Object.entries(cause).forEach(([name, errors]) => {
         if (name !== editRow) {
-          setCommonApiError(errors.join('\n'));
+          setCommonApiError((errors as string[]).join('\n'));
         }
         formInstance.setFields([{
-          name: name as keyof FormData,
-          errors,
+          name: name as NamePath<FormData>,
+          errors: errors as string[],
         }]);
       });
     } else {
@@ -66,12 +83,11 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     }
   };
 
-  const update = async (value: FormData & { status?: MoneyStorageStatus }) => {
+  const update = async (value: FormData) => {
     setCommonApiError(null);
-    if (currentMoneyStorage) {
+    if (entity) {
       try {
-        await updateMoneyStorageData(value);
-        updateAllMoneyStorages();
+        await onUpdate(value);
         setEditRow(null);
       } catch (e) {
         handleError(e as UserDataApiError<FormData>);
@@ -85,62 +101,61 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     formInstance.resetFields();
   };
 
-  const changeStatus = (newStatus: MoneyStorageStatus) => update({
-    status: newStatus,
-  });
-
-  const deleteStorage = async () => {
-    try {
-      await deleteMoneyStorage();
-      updateAllMoneyStorages();
-      close();
-    } catch (e) {
-      handleError(e as UserDataApiError<FormData>);
+  const changeDropdown = (newKey: DropdownItem<Entity>['key']) => {
+    if (dropdownProp) {
+      update({
+        [dropdownProp]: newKey,
+      } as FormData);
     }
   };
 
+  const deleteStorage = async () => {
+    if (onDeleted) {
+      try {
+        await onDeleted();
+        close();
+      } catch (e) {
+        handleError(e as UserDataApiError<FormData>);
+      }
+    }
+  };
+
+  const rawDropdownItems: MenuProps['items'] = dropdownItems.map(({
+    key,
+    label,
+  }) => ({
+    key: key as string,
+    label,
+    type: 'item',
+    onClick: () => changeDropdown(key),
+  }));
+
   const items: MenuProps['items'] = [
-    {
-      key: MoneyStorageStatusEnum.ACTIVE,
-      label: 'Activate',
-      onClick: () => changeStatus(MoneyStorageStatusEnum.ACTIVE),
-    },
-    {
-      key: MoneyStorageStatusEnum.FREEZED,
-      label: 'Freeze',
-      onClick: () => changeStatus(MoneyStorageStatusEnum.FREEZED),
-    },
-    {
-      key: MoneyStorageStatusEnum.DEACTIVATED,
-      label: 'Deactivate',
-      onClick: () => changeStatus(MoneyStorageStatusEnum.DEACTIVATED),
-    },
-    ...(currentMoneyStorage?.code === OBLIGATION_ACCOUNT_CODE ? [] : [
-      {
-        type: 'divider',
-      } as const,
-      {
-        key: 'delete',
-        label: 'Delete',
-        danger: true,
-        onClick: deleteStorage,
-      },
-    ]),
+    ...rawDropdownItems,
+    ...(onDeleted ?
+      [
+        {
+          type: 'divider',
+        } as const,
+        {
+          key: 'delete',
+          label: 'Delete',
+          danger: true,
+          onClick: deleteStorage,
+        },
+      ] :
+      []
+    ),
   ];
 
   const filteredItems = items?.filter((val) =>
-    (!val?.key || (val?.key && val?.key !== currentMoneyStorage?.status)));
+    (!val?.key || (entity && dropdownProp && val?.key && val?.key !== entity[dropdownProp])));
 
   const row = ({
     label,
     name,
     value,
-  }: {
-    label: string;
-    name: keyof FormData;
-    value: string;
-  }) => (
-
+  }: EditModalRow<FormData>) => (
     <div className={s.row}>
       {editRow !== label && (
         <div className={s.rowInfo}>
@@ -203,39 +218,31 @@ export const ActionsMoneyStorageModal: React.FC = () => {
       footer={footer}
       onCancel={close}
       getContainer={false}
-      className={s.root}
+      className={cn(s.root, className)}
     >
-      <Skeleton loading={isLoading || !currentMoneyStorage}>
-        {currentMoneyStorage && (
+      <Skeleton loading={isLoading || !entity}>
+        {entity && (
           <div className={s.mainContainer}>
-            <div className={s.title}>
-              <strong>ID: {currentMoneyStorage.id}</strong>
-              <MoneyStorageBadge
-                className={s.badge}
-                moneyStorageStatus={currentMoneyStorage.status}
-              />
-            </div>
+            {SubtitleComponent && (
+              <div className={s.title}>
+                <SubtitleComponent />
+              </div>
+            )}
 
             <div className={s.contentContainer}>
               <Form
                 form={formInstance}
                 layout="vertical"
-                initialValues={{
-                  name: currentMoneyStorage?.name,
-                  code: currentMoneyStorage?.code,
-                  description: currentMoneyStorage?.description ?? undefined,
-                }}
+                initialValues={initialValues}
                 onFinish={(update)}
                 className={s.form}
                 disabled={isLoading}
               >
-                {row({ label: 'Name:', name: 'name', value: currentMoneyStorage.name })}
-                {row({ label: 'Code:', name: 'code', value: currentMoneyStorage.code })}
-                {row({
-                  label: 'Description:',
-                  name: 'description',
-                  value: currentMoneyStorage.description ?? 'N/A',
-                })}
+                {rows.map(({
+                  label,
+                  name,
+                  value,
+                }) => row({ label, name, value }))}
               </Form>
               {Boolean(commonApiError) && (
                 <Text type='danger' className={s.commonError}>{commonApiError}</Text>
