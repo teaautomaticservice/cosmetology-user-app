@@ -112,7 +112,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
     }
   };
 
-  const deleteStorage = async () => {
+  const deleteEntity = async () => {
     if (editDropdown?.onDelete) {
       try {
         await editDropdown.onDelete();
@@ -144,7 +144,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
           key: 'delete',
           label: 'Delete',
           danger: true,
-          onClick: deleteStorage,
+          onClick: deleteEntity,
         },
       ] :
       []
