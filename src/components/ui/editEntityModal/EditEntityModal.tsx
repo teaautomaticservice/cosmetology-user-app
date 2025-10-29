@@ -16,7 +16,7 @@ import {
 import { NamePath } from 'antd/es/form/interface';
 import cn from 'classnames';
 
-import s from './editModal.module.css';
+import s from './editEntityModal.module.css';
 
 const { Text } = Typography;
 
@@ -31,6 +31,13 @@ export type DropdownItem<Entity extends object, Key extends keyof Entity = keyof
   key: Entity[Key];
 }
 
+export type EditDropdown<Entity extends object> = {
+  title: string;
+  dropdownItems: DropdownItem<Entity>[];
+  dropdownProp: keyof Entity;
+  onDelete?: () => Promise<void>;
+}
+
 type Props<Entity extends object, T extends Record<keyof Entity, unknown>> = {
   title: string;
   rows: EditModalRow<T>[];
@@ -40,12 +47,10 @@ type Props<Entity extends object, T extends Record<keyof Entity, unknown>> = {
   initialValues?: T;
   isLoading?: boolean;
   entity?: Entity | null;
-  dropdownProp?: keyof Entity;
-  dropdownItems?: DropdownItem<Entity>[];
-  onDeleted?: () => Promise<void>;
+  editDropdown?: EditDropdown<Entity>;
 }
 
-export const EditModal = <Entity extends object, FormData extends Partial<Entity>>({
+export const EditEntityModal = <Entity extends object, FormData extends Partial<Entity>>({
   title,
   rows,
   onUpdate,
@@ -54,9 +59,7 @@ export const EditModal = <Entity extends object, FormData extends Partial<Entity
   initialValues,
   isLoading = false,
   entity,
-  dropdownProp,
-  dropdownItems = [],
-  onDeleted,
+  editDropdown,
 }: Props<Entity, FormData>) => {
   const { close } = useModalStore();
 
@@ -102,17 +105,17 @@ export const EditModal = <Entity extends object, FormData extends Partial<Entity
   };
 
   const changeDropdown = (newKey: DropdownItem<Entity>['key']) => {
-    if (dropdownProp) {
+    if (editDropdown?.dropdownProp) {
       update({
-        [dropdownProp]: newKey,
+        [editDropdown.dropdownProp]: newKey,
       } as FormData);
     }
   };
 
   const deleteStorage = async () => {
-    if (onDeleted) {
+    if (editDropdown?.onDelete) {
       try {
-        await onDeleted();
+        await editDropdown.onDelete();
         close();
       } catch (e) {
         handleError(e as UserDataApiError<FormData>);
@@ -120,7 +123,7 @@ export const EditModal = <Entity extends object, FormData extends Partial<Entity
     }
   };
 
-  const rawDropdownItems: MenuProps['items'] = dropdownItems.map(({
+  const rawDropdownItems: MenuProps['items'] = editDropdown?.dropdownItems.map(({
     key,
     label,
   }) => ({
@@ -128,11 +131,11 @@ export const EditModal = <Entity extends object, FormData extends Partial<Entity
     label,
     type: 'item',
     onClick: () => changeDropdown(key),
-  }));
+  })) ?? [];
 
   const items: MenuProps['items'] = [
     ...rawDropdownItems,
-    ...(onDeleted ?
+    ...(editDropdown?.onDelete ?
       [
         {
           type: 'divider',
@@ -149,14 +152,16 @@ export const EditModal = <Entity extends object, FormData extends Partial<Entity
   ];
 
   const filteredItems = items?.filter((val) =>
-    (!val?.key || (entity && dropdownProp && val?.key && val?.key !== entity[dropdownProp])));
+    (!val?.key ||
+      (entity && editDropdown?.dropdownProp && val?.key && val?.key !== entity[editDropdown.dropdownProp]))
+  );
 
   const row = ({
     label,
     name,
     value,
   }: EditModalRow<FormData>) => (
-    <div className={s.row}>
+    <div key={name as string} className={s.row}>
       {editRow !== label && (
         <div className={s.rowInfo}>
           <strong className={s.listLabel}>
@@ -202,11 +207,13 @@ export const EditModal = <Entity extends object, FormData extends Partial<Entity
     <div className={s.footer}>
       <Button onClick={close}>Cancel</Button>
 
-      <Dropdown menu={{ items: filteredItems }} trigger={['click']}>
-        <Button type='primary' ghost loading={isLoading}>
-          Change status <DownOutlined />
-        </Button>
-      </Dropdown>
+      {editDropdown && (
+        <Dropdown menu={{ items: filteredItems }} trigger={['click']}>
+          <Button type='primary' ghost loading={isLoading}>
+            {editDropdown.title} <DownOutlined />
+          </Button>
+        </Dropdown>
+      )}
     </div>
   );
 
