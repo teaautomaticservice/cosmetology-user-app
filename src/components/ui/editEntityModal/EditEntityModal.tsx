@@ -23,7 +23,6 @@ const { Text } = Typography;
 export type EditModalRow<T extends object> = {
   label: string;
   name: NamePath<T>;
-  value: string;
 }
 
 export type DropdownItem<Entity extends object, Key extends keyof Entity = keyof Entity> = {
@@ -153,55 +152,59 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
 
   const filteredItems = items?.filter((val) =>
     (!val?.key ||
-      (entity && editDropdown?.dropdownProp && val?.key && val?.key !== entity[editDropdown.dropdownProp]))
+    (entity && editDropdown?.dropdownProp && val?.key && val?.key !== entity[editDropdown.dropdownProp]))
   );
 
   const row = ({
     label,
     name,
-    value,
-  }: EditModalRow<FormData>) => (
-    <div key={name as string} className={s.row}>
-      {editRow !== label && (
-        <div className={s.rowInfo}>
-          <strong className={s.listLabel}>
-            {label}
-          </strong> <Text>
-            {value}
-          </Text> <Button
-            type='text'
-            className={s.editBtn}
-            onClick={() => setEditRow(name)}
-          >
-            Edit
-          </Button>
-        </div>
-      )}
-
-      {editRow === name && (
-        <div className={s.rowEdit}>
-          <Form.Item name={name} label={label} className={s.formItem}>
-            <Input />
-          </Form.Item>
-          <div className={s.rowEditActions}>
-            <Button
-              type='primary'
-              htmlType='submit'
-            >
-              Submit
-            </Button>
-            <Button
+  }: EditModalRow<FormData>) => {
+    const test = (entity && name as keyof Entity in entity) ?
+      entity[name as keyof Entity] :
+      'N/A';
+    return (
+      <div key={name as string} className={s.row}>
+        {editRow !== label && (
+          <div className={s.rowInfo}>
+            <strong className={s.listLabel}>
+              {label}
+            </strong> <Text>
+              {`${test}`}
+            </Text> <Button
               type='text'
-              onClick={cancelEdit}
+              className={s.editBtn}
+              onClick={() => setEditRow(name)}
             >
-              Cancel
+              Edit
             </Button>
           </div>
+        )}
 
-        </div>
-      )}
-    </div>
-  );
+        {editRow === name && (
+          <div className={s.rowEdit}>
+            <Form.Item name={name as any} label={label} className={s.formItem}>
+              <Input />
+            </Form.Item>
+            <div className={s.rowEditActions}>
+              <Button
+                type='primary'
+                htmlType='submit'
+              >
+                Submit
+              </Button>
+              <Button
+                type='text'
+                onClick={cancelEdit}
+              >
+                Cancel
+              </Button>
+            </div>
+
+          </div>
+        )}
+      </div>
+    );
+  };
 
   const footer = (
     <div className={s.footer}>
@@ -248,8 +251,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
                 {rows.map(({
                   label,
                   name,
-                  value,
-                }) => row({ label, name, value }))}
+                }) => row({ label, name }))}
               </Form>
               {Boolean(commonApiError) && (
                 <Text type='danger' className={s.commonError}>{commonApiError}</Text>

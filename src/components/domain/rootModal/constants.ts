@@ -4,8 +4,11 @@ import {
 import { CreateMoneyStorageModal } from '@components/domain/rootModal/createMoneyStorageModal/CreateMoneyStorageModal';
 import { MessageModal } from '@components/domain/rootModal/messageModal/MessageModal';
 
+import { EditCurrency } from './editCurrency/EditCurrency';
+
 export const ModalsMap = {
   'history': MessageModal,
   'actionsMoneyStorage': ActionsMoneyStorageModal,
   'createMoneyStorageModal': CreateMoneyStorageModal,
+  'editCurrency': EditCurrency,
 };

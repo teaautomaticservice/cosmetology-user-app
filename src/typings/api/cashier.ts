@@ -34,3 +34,5 @@ export type Account = GetAccountDto;
 export type AccountsWithStore = GetAccountWithStorageDto;
 
 export type Currency = CurrencyDto;
+export type CurrencyStatus = CurrencyDto['status'];
+export const CurrencyStatusEnum = CurrencyDto['status'];
