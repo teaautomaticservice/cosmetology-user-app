@@ -26,6 +26,7 @@ export const useAccountsPageStore = () => {
     isCurrenciesLoading,
     updateCurrenciesList,
     deleteCurrency,
+    setCurrentCurrency,
   } = useCurrenciesStore();
 
   const { isEditMode } = state;
@@ -58,5 +59,6 @@ export const useAccountsPageStore = () => {
     updateCurrenciesList,
     disableEditMode,
     deleteCurrencyWithUpdateAccounts,
+    setCurrentCurrency,
   };
 };

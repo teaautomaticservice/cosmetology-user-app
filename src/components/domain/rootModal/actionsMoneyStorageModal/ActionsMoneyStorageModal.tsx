@@ -51,12 +51,11 @@ export const ActionsMoneyStorageModal: React.FC = () => {
       className={s.root}
       title={title}
       rows={[
-        { label: 'Name:', name: 'name', value: currentMoneyStorage?.name ?? 'N/A' },
-        { label: 'Code:', name: 'code', value: currentMoneyStorage?.code ?? 'N/A' },
+        { label: 'Name:', name: 'name' },
+        { label: 'Code:', name: 'code' },
         {
           label: 'Description:',
           name: 'description',
-          value: currentMoneyStorage?.description ?? 'N/A',
         }
       ]}
       onUpdate={onUpdate}

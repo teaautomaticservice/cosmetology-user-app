@@ -6,9 +6,11 @@ import type { AccountsByStorePaginated } from '../models/AccountsByStorePaginate
 import type { AccountsWithStoragePaginatedDto } from '../models/AccountsWithStoragePaginatedDto';
 import type { CreateCurrencyDto } from '../models/CreateCurrencyDto';
 import type { CreateMoneyStorageDto } from '../models/CreateMoneyStorageDto';
+import type { CurrencyDto } from '../models/CurrencyDto';
 import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
+import type { UpdateCurrencyDto } from '../models/UpdateCurrencyDto';
 import type { UpdateMoneyStorageDto } from '../models/UpdateMoneyStorageDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -53,6 +55,30 @@ export class CashierService {
             url: '/cashier/currencies/create',
             query: {
                 'pageSize': pageSize,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns CurrencyDto Currency update
+     * @throws ApiError
+     */
+    public static currenciesControllerUpdateItem({
+        id,
+        requestBody,
+    }: {
+        id: string,
+        /**
+         * Currency body
+         */
+        requestBody: UpdateCurrencyDto,
+    }): CancelablePromise<CurrencyDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/cashier/currencies/{id}',
+            path: {
+                'id': id,
             },
             body: requestBody,
             mediaType: 'application/json',
