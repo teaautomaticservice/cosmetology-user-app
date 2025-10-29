@@ -4,6 +4,7 @@ import Title from 'antd/es/typography/Title';
 import { AccountsActions } from './accountsActions/AccountsActions';
 import { AccountsByStorageRow } from './accountsByStorageRow/AccountsByStorageRow';
 import { AccountsList } from './accountsList/AccountsList';
+import { CurrenciesList } from './currenciesList/CurrenciesList';
 
 import s from './accounts.module.css';
 
@@ -19,6 +20,8 @@ export const Accounts: React.FC = () => {
       ): (
         <AccountsByStorageRow />
       )}
+      <Title>Currencies</Title>
+      <CurrenciesList />
     </div>
   );
 };

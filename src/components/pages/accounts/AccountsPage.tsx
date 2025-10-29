@@ -3,10 +3,19 @@ import { Accounts } from '@components/domain/accounts/Accounts';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
 
 export const AccountsPage: React.FC = () => {
-  const { updateAccountsList } = useAccountsPageStore();
-  
+  const {
+    updateAccountsList,
+    updateCurrenciesList,
+    disableEditMode,
+  } = useAccountsPageStore();
+
   useEffect(() => {
     updateAccountsList();
+    updateCurrenciesList();
+
+    return () => {
+      disableEditMode();
+    };
   }, []);
 
   return (

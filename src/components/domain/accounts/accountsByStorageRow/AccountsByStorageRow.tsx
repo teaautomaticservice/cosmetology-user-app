@@ -13,14 +13,14 @@ type Props = {
 export const AccountsByStorageRow: React.FC<Props> = ({
   className,
 }) => {
-  const { accountsByStores, isAccountsLoading } = useAccountsPageStore();
+  const { accountsByStores, isAccountsPageLoading: isAccountsLoading } = useAccountsPageStore();
 
   return (
     <div className={cn(s.root, className)}>
       <Skeleton loading={isAccountsLoading}>
         <div className={s.contentContainer}>
           {accountsByStores?.map((data) => (
-            <AccountsByStorage data={data} />
+            <AccountsByStorage key={data.id} data={data} />
           ))}
         </div>
       </Skeleton>
