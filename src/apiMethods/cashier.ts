@@ -3,6 +3,7 @@ import {
   GetAccountsByMoneyStoragesListParams,
   GetAccountsWithMoneyStoragesListParams,
   GetMoneyStorageListSort,
+  UpdateCurrencyData,
   UpdateMoneyStorageData
 } from '@typings/api/cashier';
 import { CashierService } from '@typings/api/generated';
@@ -72,3 +73,14 @@ export const getAccountsWithMoneyStoragesApi = ({
 export const deleteCurrencyApi = (currentId: ID) => {
   return CashierService.currenciesControllerRemoveItem({ id: currentId.toString() });
 };
+
+export const updateCurrencyApi = (
+  currentId: ID,
+  newData: UpdateCurrencyData,
+) => {
+  return CashierService.currenciesControllerUpdateItem({
+    id: currentId.toString(),
+    requestBody: newData,
+  });
+};
+

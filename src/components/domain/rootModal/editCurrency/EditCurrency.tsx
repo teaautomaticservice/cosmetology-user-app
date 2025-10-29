@@ -15,16 +15,14 @@ type FormData = {
   code?: string;
 }
 
-type Props = {
-  currentCurrency?: Currency | null;
-}
-
-export const EditCurrency: React.FC<Props> = ({
-  currentCurrency,
-}) => {
+export const EditCurrency: React.FC = () => {
   const {
+    currentCurrency,
+    isCurrenciesLoading: isLoading,
     updateCurrenciesList,
     deleteCurrency,
+    updateCurrency,
+    setCurrentCurrency,
   } = useCurrenciesStore();
 
   const SubtitleComponent = () => {
@@ -44,14 +42,21 @@ export const EditCurrency: React.FC<Props> = ({
     );
   };
 
-  const onUpdate = async () => {
-    await updateCurrenciesList();
+  const onUpdate = async (newData: FormData) => {
+    if (currentCurrency) {
+      await updateCurrency(currentCurrency.id, newData);
+      updateCurrenciesList();
+    }
   };
 
   const onDelete = async () => {
     if (currentCurrency) {
       await deleteCurrency(currentCurrency.id);
     }
+  };
+
+  const onClose = () => {
+    setCurrentCurrency(null);
   };
 
   return (
@@ -69,7 +74,9 @@ export const EditCurrency: React.FC<Props> = ({
           name: 'code',
         },
       ]}
+      isLoading={isLoading}
       onUpdate={onUpdate}
+      onClose={onClose}
       entity={currentCurrency}
       editDropdown={{
         title: 'Status',

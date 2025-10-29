@@ -47,6 +47,7 @@ type Props<Entity extends object, T extends Record<keyof Entity, unknown>> = {
   isLoading?: boolean;
   entity?: Entity | null;
   editDropdown?: EditDropdown<Entity>;
+  onClose?: () => Promise<void> | void;
 }
 
 export const EditEntityModal = <Entity extends object, FormData extends Partial<Entity>>({
@@ -59,6 +60,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
   isLoading = false,
   entity,
   editDropdown,
+  onClose,
 }: Props<Entity, FormData>) => {
   const { close } = useModalStore();
 
@@ -66,6 +68,13 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
 
   const [editRow, setEditRow] = useState<NamePath<FormData> | null>(null);
   const [commonApiError, setCommonApiError] = useState<string | null>(null);
+
+  const closeModal = () => {
+    if (onClose) {
+      onClose();
+    }
+    close();
+  };
 
   const handleError = (e: UserDataApiError<FormData>) => {
     const { statusCode, cause } = e as UserDataApiError<FormData>;
@@ -115,7 +124,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
     if (editDropdown?.onDelete) {
       try {
         await editDropdown.onDelete();
-        close();
+        closeModal();
       } catch (e) {
         handleError(e as UserDataApiError<FormData>);
       }
@@ -169,7 +178,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
             <strong className={s.listLabel}>
               {label}
             </strong> <Text>
-              {`${test}`}
+              {`${test ?? 'N/A'}`}
             </Text> <Button
               type='text'
               className={s.editBtn}
@@ -208,7 +217,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
 
   const footer = (
     <div className={s.footer}>
-      <Button onClick={close}>Cancel</Button>
+      <Button onClick={closeModal}>Cancel</Button>
 
       {editDropdown && (
         <Dropdown menu={{ items: filteredItems }} trigger={['click']}>
@@ -226,7 +235,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
       open={true}
       confirmLoading={isLoading}
       footer={footer}
-      onCancel={close}
+      onCancel={closeModal}
       getContainer={false}
       className={cn(s.root, className)}
     >

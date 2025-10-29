@@ -36,3 +36,6 @@ export type AccountsWithStore = GetAccountWithStorageDto;
 export type Currency = CurrencyDto;
 export type CurrencyStatus = CurrencyDto['status'];
 export const CurrencyStatusEnum = CurrencyDto['status'];
+
+export type UpdateCurrencyData =
+  Parameters<typeof CashierService.currenciesControllerUpdateItem>[0]['requestBody'];

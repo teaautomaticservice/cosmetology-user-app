@@ -17,8 +17,14 @@ export const CurrenciesList: React.FC<Props> = ({
   const {
     isAccountsPageLoading,
     currencies,
+    setCurrentCurrency,
   } = useAccountsPageStore();
   const { open } = useModalStore();
+
+  const openEditCurrencyModal = (currentCurrency: Currency) => {
+    setCurrentCurrency(currentCurrency);
+    open('editCurrency');
+  };
 
   const finalColumns: ColumnsType<Currency> = [
     {
@@ -38,7 +44,7 @@ export const CurrenciesList: React.FC<Props> = ({
       className: s.actionsCol,
       render: (_, currentCurrency) => (
         <div className={s.actions}>
-          <Button onClick={() => open('editCurrency', { currentCurrency })}>
+          <Button onClick={() => openEditCurrencyModal(currentCurrency)}>
             Edit
           </Button>
         </div>
