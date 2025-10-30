@@ -1,4 +1,5 @@
 import {
+  CreateCurrencyData,
   CreateMoneyStorageData,
   GetAccountsByMoneyStoragesListParams,
   GetAccountsWithMoneyStoragesListParams,
@@ -84,3 +85,8 @@ export const updateCurrencyApi = (
   });
 };
 
+export const createCurrencyApi = (newData: CreateCurrencyData) => {
+  return CashierService.currenciesControllerCreateCurrency({
+    requestBody: newData,
+  });
+};
