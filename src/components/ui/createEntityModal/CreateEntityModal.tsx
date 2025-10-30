@@ -2,23 +2,23 @@ import { INTERNAL_ERROR } from '@constants/errors';
 import { useModalStore } from '@stores/modal';
 import { UserDataApiError } from '@typings/errors';
 import { addToast } from '@utils/domain/toastEventBus';
-import { Form, Input, Modal } from 'antd';
+import { Form, FormInstance, Input, Modal } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
 import TextArea from 'antd/es/input/TextArea';
 
 type FormInputType = 'input' | 'textarea';
 
-export type CreateModalRow<T extends object> = {
+export type CreateModalRow<T extends object, FormData> = {
   label: string;
   name: NamePath<T>;
   isRequired?: boolean;
 } & (
   {
     type?: 'input';
-    onChange?: React.ChangeEventHandler<HTMLInputElement>;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>, formInstance: FormInstance<FormData>) => void;
   } | {
     type: 'textarea';
-    onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
+    onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>, formInstance: FormInstance<FormData>) => void;
   }
 );
 
@@ -27,10 +27,10 @@ const formItemMap: Record<FormInputType, React.FC> = {
   'textarea': TextArea,
 };
 
-type Props<Entity extends object, T extends Record<keyof Entity, unknown>> = {
+type Props<Entity extends object, FormData extends Record<keyof Entity, unknown>> = {
   title: string;
-  rows: CreateModalRow<Entity>[];
-  onSubmit: (formData: T) => Promise<void>;
+  rows: CreateModalRow<Entity, FormData>[];
+  onSubmit: (formData: FormData) => Promise<void>;
   isLoading?: boolean;
 }
 
@@ -83,13 +83,19 @@ export const CreateEntityModal = <Entity extends object, FormData extends Partia
     type = 'input',
     isRequired,
     onChange,
-  }: CreateModalRow<Entity>) => {
-    const Component: React.FC<{ onChange?: Function}> = formItemMap[type];
+  }: CreateModalRow<Entity, FormData>) => {
+    const Component: React.FC<{ onChange?: React.ChangeEventHandler}> = formItemMap[type];
 
     const rules = [];
     if (isRequired) {
       rules.push({ required: true, message: `Please input ${name}` });
     }
+
+    const onCurrentChange: React.ChangeEventHandler = (e) => {
+      if (onChange) {
+        onChange(e as any, formInstance);
+      }
+    };
 
     return (
       <Form.Item<FormData>
@@ -98,7 +104,7 @@ export const CreateEntityModal = <Entity extends object, FormData extends Partia
         name={name as NamePath<FormData>}
         rules={rules}
       >
-        <Component onChange={onChange} />
+        <Component onChange={onCurrentChange} />
       </Form.Item>
     );
   };

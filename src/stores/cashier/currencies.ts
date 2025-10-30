@@ -1,5 +1,5 @@
-import { deleteCurrencyApi, getCurrenciesListApi, updateCurrencyApi } from '@apiMethods/cashier';
-import { Currency } from '@typings/api/cashier';
+import { createCurrencyApi, deleteCurrencyApi, getCurrenciesListApi, updateCurrencyApi } from '@apiMethods/cashier';
+import { CreateCurrencyData, Currency } from '@typings/api/cashier';
 import { ID } from '@typings/common';
 import { storeFactory } from '@utils/storeFactory';
 
@@ -80,6 +80,20 @@ export const useCurrenciesStore = () => {
     });
   };
 
+  const createCurrency = async (newData: CreateCurrencyData) => {
+    setState({
+      isLoading: true,
+    });
+    try {
+      await createCurrencyApi(newData);
+    } finally {
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
+    }
+  };
+
   return {
     currencies,
     isCurrenciesLoading,
@@ -88,5 +102,6 @@ export const useCurrenciesStore = () => {
     deleteCurrency,
     updateCurrency,
     setCurrentCurrency,
+    createCurrency,
   };
 };

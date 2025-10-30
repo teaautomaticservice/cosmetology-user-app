@@ -1,3 +1,4 @@
+import { useModalStore } from '@stores/modal';
 import { Button } from 'antd';
 import cn from 'classnames';
 
@@ -10,9 +11,13 @@ type Props = {
 export const CurrenciesActions: React.FC<Props> = ({
   className,
 }) => {
+  const { open } = useModalStore();
+
+  const openCreate = () => open('createCurrencyModal');
+
   return (
     <div className={cn(s.root, className)}>
-      <Button>Create currency</Button>
+      <Button onClick={openCreate}>Create currency</Button>
     </div>
   );
 };

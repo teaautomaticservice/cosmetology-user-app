@@ -1,7 +1,6 @@
 import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntityModal';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { MoneyStorage } from '@typings/api/cashier';
-import { Form } from 'antd';
 
 type FormData = {
   name: string;
@@ -15,8 +14,6 @@ export const CreateMoneyStorageModal: React.FC = () => {
     createMoneyStorage,
     updateAllMoneyStorages,
   } = useMoneyStoragesStore();
-  const [formInstance] = Form.useForm<FormData>();
-
   const onSubmit = async (values: FormData) => {
     await createMoneyStorage(values);
     updateAllMoneyStorages();
@@ -32,7 +29,7 @@ export const CreateMoneyStorageModal: React.FC = () => {
           label: 'Code',
           name: 'code',
           isRequired: true,
-          onChange: ({ target }) => {
+          onChange: ({ target }, formInstance) => {
             const formatted = target.value.toUpperCase().replace(/\s/g, '');
             formInstance.setFieldsValue({
               code: formatted,
