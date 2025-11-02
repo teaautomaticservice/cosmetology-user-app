@@ -2,11 +2,10 @@ import { INTERNAL_ERROR } from '@constants/errors';
 import { useModalStore } from '@stores/modal';
 import { UserDataApiError } from '@typings/errors';
 import { addToast } from '@utils/domain/toastEventBus';
-import { Form, FormInstance, Input, Modal } from 'antd';
+import { Form, FormInstance, Modal } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
-import TextArea from 'antd/es/input/TextArea';
 
-type FormInputType = 'input' | 'textarea';
+import { FormItemRow } from '../formItemRow/FormItemRow';
 
 export type CreateModalRow<T extends object, FormData> = {
   label: string;
@@ -21,11 +20,6 @@ export type CreateModalRow<T extends object, FormData> = {
     onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>, formInstance: FormInstance<FormData>) => void;
   }
 );
-
-const formItemMap: Record<FormInputType, React.FC> = {
-  'input': Input,
-  'textarea': TextArea,
-};
 
 type Props<Entity extends object, FormData extends Record<keyof Entity, unknown>> = {
   title: string;
@@ -77,38 +71,6 @@ export const CreateEntityModal = <Entity extends object, FormData extends Partia
     }
   };
 
-  const row = ({
-    label,
-    name,
-    type = 'input',
-    isRequired,
-    onChange,
-  }: CreateModalRow<Entity, FormData>) => {
-    const Component: React.FC<{ onChange?: React.ChangeEventHandler}> = formItemMap[type];
-
-    const rules = [];
-    if (isRequired) {
-      rules.push({ required: true, message: `Please input ${name}` });
-    }
-
-    const onCurrentChange: React.ChangeEventHandler = (e) => {
-      if (onChange) {
-        onChange(e as any, formInstance);
-      }
-    };
-
-    return (
-      <Form.Item<FormData>
-        key={name as string}
-        label={label}
-        name={name as NamePath<FormData>}
-        rules={rules}
-      >
-        <Component onChange={onCurrentChange} />
-      </Form.Item>
-    );
-  };
-
   return (
     <Modal
       title={title}
@@ -124,7 +86,12 @@ export const CreateEntityModal = <Entity extends object, FormData extends Partia
         onFinish={onSubmitForm}
         disabled={isLoading}
       >
-        {rows.map((data) => row(data))}
+        {rows.map((data) => (
+          <FormItemRow
+            {...data}
+            formInstance={formInstance}
+          />
+        ))}
       </Form>
     </Modal>
   );
