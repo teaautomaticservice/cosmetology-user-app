@@ -1,6 +1,7 @@
 import { UseSort } from './common';
 import {
   CashierService,
+  CreateAccountDto,
   CurrencyDto,
   GetAccountDto,
   GetAccountsByStoreDto,
@@ -31,7 +32,9 @@ export const MoneyStorageStatusEnum = MoneyStorageDto['status'];
 export type AccountsByStore = GetAccountsByStoreDto;
 export type Account = GetAccountDto;
 
-export type AccountsWithStore = GetAccountWithStorageDto;
+export type AccountWithStore = GetAccountWithStorageDto;
+
+export type CreateAccount = CreateAccountDto;
 
 export type Currency = CurrencyDto;
 export type CurrencyStatus = CurrencyDto['status'];

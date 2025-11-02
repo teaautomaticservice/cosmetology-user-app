@@ -1,10 +1,10 @@
-import { getAccountsByMoneyStoragesApi, getAccountsWithMoneyStoragesApi } from '@apiMethods/cashier';
-import { AccountsByStore, AccountsWithStore } from '@typings/api/cashier';
+import { createAccountApi, getAccountsByMoneyStoragesApi, getAccountsWithMoneyStoragesApi } from '@apiMethods/cashier';
+import { AccountsByStore, AccountWithStore, CreateAccount } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
   accountsByStores: AccountsByStore[];
-  accountsWithStores: AccountsWithStore[];
+  accountsWithStores: AccountWithStore[];
   isLoading: boolean;
 }
 
@@ -49,10 +49,25 @@ export const useAccountsStore = () => {
     }
   };
 
+  const createAccount = async (newData: CreateAccount) => {
+    setState({
+      isLoading: true,
+    });
+    try {
+      await createAccountApi(newData);
+    } finally {
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
+    }
+  };
+
   return {
     accountsByStores,
     accountsWithStores,
     isAccountsLoading,
     updateAccountsList,
+    createAccount,
   };
 };

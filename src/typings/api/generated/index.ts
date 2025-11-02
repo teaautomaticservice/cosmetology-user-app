@@ -10,6 +10,7 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 export type { AccountsByStorePaginated } from './models/AccountsByStorePaginated';
 export type { AccountsWithStoragePaginatedDto } from './models/AccountsWithStoragePaginatedDto';
 export type { AppConfigDto } from './models/AppConfigDto';
+export type { CreateAccountDto } from './models/CreateAccountDto';
 export type { CreateCurrencyDto } from './models/CreateCurrencyDto';
 export type { CreateMoneyStorageDto } from './models/CreateMoneyStorageDto';
 export { CreateUserDto } from './models/CreateUserDto';

@@ -1,10 +1,10 @@
 import { TableUi } from '@components/ui/table/TableUi';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
-import { AccountsWithStore } from '@typings/api/cashier';
+import { AccountWithStore } from '@typings/api/cashier';
 import { ColumnsType } from 'antd/es/table';
 import cn from 'classnames';
 
-const columns: ColumnsType<AccountsWithStore> = [
+const columns: ColumnsType<AccountWithStore> = [
   {
     title: 'Name',
     dataIndex: 'name',

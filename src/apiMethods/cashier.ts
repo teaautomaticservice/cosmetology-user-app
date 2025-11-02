@@ -1,4 +1,5 @@
 import {
+  CreateAccount,
   CreateCurrencyData,
   CreateMoneyStorageData,
   GetAccountsByMoneyStoragesListParams,
@@ -68,6 +69,12 @@ export const getAccountsWithMoneyStoragesApi = ({
     pageSize,
     order,
     sort,
+  });
+};
+
+export const createAccountApi = (newData: CreateAccount) => {
+  return CashierService.accountsControllerCreateAccount({
+    requestBody: newData,
   });
 };
 

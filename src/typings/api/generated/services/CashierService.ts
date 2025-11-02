@@ -4,10 +4,12 @@
 /* eslint-disable */
 import type { AccountsByStorePaginated } from '../models/AccountsByStorePaginated';
 import type { AccountsWithStoragePaginatedDto } from '../models/AccountsWithStoragePaginatedDto';
+import type { CreateAccountDto } from '../models/CreateAccountDto';
 import type { CreateCurrencyDto } from '../models/CreateCurrencyDto';
 import type { CreateMoneyStorageDto } from '../models/CreateMoneyStorageDto';
 import type { CurrencyDto } from '../models/CurrencyDto';
 import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
+import type { GetAccountWithStorageDto } from '../models/GetAccountWithStorageDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
 import type { UpdateCurrencyDto } from '../models/UpdateCurrencyDto';
@@ -247,6 +249,30 @@ export class CashierService {
                 'sort': sort,
                 'order': order,
             },
+        });
+    }
+    /**
+     * @returns GetAccountWithStorageDto New currency successful created
+     * @throws ApiError
+     */
+    public static accountsControllerCreateAccount({
+        requestBody,
+        pageSize,
+    }: {
+        /**
+         * Create account
+         */
+        requestBody: CreateAccountDto,
+        pageSize?: any,
+    }): CancelablePromise<GetAccountWithStorageDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/accounts/create',
+            query: {
+                'pageSize': pageSize,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }
