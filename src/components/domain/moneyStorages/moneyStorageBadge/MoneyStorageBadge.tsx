@@ -4,6 +4,7 @@ import { Badge, BadgeProps } from 'antd';
 type Props = {
   moneyStorageStatus?: MoneyStorageStatus;
   className?: string;
+  isSmall?: boolean;
 };
 
 const statusColorsMap: Record<MoneyStorageStatus, BadgeProps['color']> = {
@@ -16,6 +17,7 @@ const statusColorsMap: Record<MoneyStorageStatus, BadgeProps['color']> = {
 export const MoneyStorageBadge: React.FC<Props> = ({
   moneyStorageStatus,
   className,
+  isSmall,
 }) => {
   if (!moneyStorageStatus) {
     return null;
@@ -25,7 +27,7 @@ export const MoneyStorageBadge: React.FC<Props> = ({
     <Badge
       className={className}
       color={statusColorsMap[moneyStorageStatus]}
-      text={moneyStorageStatus}
+      text={isSmall ? '' : moneyStorageStatus}
     />
   );
 };

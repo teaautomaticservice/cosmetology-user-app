@@ -7,6 +7,7 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { AccountsAggregatedWithStoragePaginated } from './models/AccountsAggregatedWithStoragePaginated';
 export type { AccountsByStorePaginated } from './models/AccountsByStorePaginated';
 export type { AccountsWithStoragePaginatedDto } from './models/AccountsWithStoragePaginatedDto';
 export type { AppConfigDto } from './models/AppConfigDto';
@@ -17,6 +18,7 @@ export { CreateUserDto } from './models/CreateUserDto';
 export { CurrencyDto } from './models/CurrencyDto';
 export type { CurrencyPaginatedDto } from './models/CurrencyPaginatedDto';
 export { CurrentUserDto } from './models/CurrentUserDto';
+export { GetAccountAggregatedWithStorage } from './models/GetAccountAggregatedWithStorage';
 export { GetAccountDto } from './models/GetAccountDto';
 export { GetAccountsByStoreDto } from './models/GetAccountsByStoreDto';
 export { GetAccountWithStorageDto } from './models/GetAccountWithStorageDto';

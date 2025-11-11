@@ -6,6 +6,6 @@ export type CreateAccountDto = {
     name: string;
     description: string | null;
     moneyStorageIds: Array<string>;
-    currencyId: string;
+    currencyId: number;
 };
 

@@ -2,24 +2,10 @@ import { INTERNAL_ERROR } from '@constants/errors';
 import { useModalStore } from '@stores/modal';
 import { UserDataApiError } from '@typings/errors';
 import { addToast } from '@utils/domain/toastEventBus';
-import { Form, FormInstance, Modal } from 'antd';
+import { Form, Modal } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
 
-import { FormItemRow } from '../formItemRow/FormItemRow';
-
-export type CreateModalRow<T extends object, FormData> = {
-  label: string;
-  name: NamePath<T>;
-  isRequired?: boolean;
-} & (
-  {
-    type?: 'input';
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>, formInstance: FormInstance<FormData>) => void;
-  } | {
-    type: 'textarea';
-    onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>, formInstance: FormInstance<FormData>) => void;
-  }
-);
+import { FormItemRow, type Props as CreateModalRow } from '../formItemRow/FormItemRow';
 
 type Props<Entity extends object, FormData extends Record<keyof Entity, unknown>> = {
   title: string;
@@ -28,12 +14,15 @@ type Props<Entity extends object, FormData extends Record<keyof Entity, unknown>
   isLoading?: boolean;
 }
 
-export const CreateEntityModal = <Entity extends object, FormData extends Partial<Entity>>({
-  title,
-  rows,
-  onSubmit,
-  isLoading,
-}: Props<Entity, FormData>) => {
+export const CreateEntityModal = <
+  Entity extends object,
+  FormData extends Partial<Record<keyof Entity, unknown>>
+>({
+    title,
+    rows,
+    onSubmit,
+    isLoading,
+  }: Props<Entity, FormData>) => {
   const { close } = useModalStore();
   const [formInstance] = Form.useForm<FormData>();
 
@@ -88,6 +77,7 @@ export const CreateEntityModal = <Entity extends object, FormData extends Partia
       >
         {rows.map((data) => (
           <FormItemRow
+            key={data.name as string}
             {...data}
             formInstance={formInstance}
           />

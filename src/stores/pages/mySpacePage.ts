@@ -1,3 +1,5 @@
+import { useAccountsAggregatedWithStorageStore } from '@stores/cashier/accountsAggregatedWithStorage';
+
 import { useCurrenciesStore } from '../cashier/currencies';
 import { useMoneyStoragesStore } from '../cashier/moneyStorages';
 import { useObligationAccountStore } from '../cashier/obligationAccount';
@@ -21,15 +23,23 @@ export const useMySpacePageStore = () => {
     updateObligationAccountList,
   } = useObligationAccountStore();
 
+  const {
+    accountsAggregatedWithStorage,
+    isLoading: isAccountsAggregatedWithStorageLoading,
+    updateAccountsAggregatedWithStorage,
+  } = useAccountsAggregatedWithStorageStore();
+
   const isLoading = isCurrenciesLoading ||
     isMoneyStoragesLoading ||
-    isObligationAccountLoading;
+    isObligationAccountLoading ||
+    isAccountsAggregatedWithStorageLoading;
 
   const updateData = async () => {
     await Promise.all([
       updateCurrenciesList(),
       updateMoneyStoragesList(),
       updateObligationAccountList(),
+      updateAccountsAggregatedWithStorage(),
     ]);
   };
 
@@ -38,6 +48,7 @@ export const useMySpacePageStore = () => {
     currencies,
     moneyStorages,
     obligationAccountStorages,
+    accountsAggregatedWithStorage,
     updateData,
   };
 };

@@ -24,7 +24,7 @@ export const useMoneyStoragesPageStore = () => {
   const isLoading = isMoneyStoragesLoading ||
     isObligationAccountLoading;
 
-  const updateData = async () => {
+  const updateMoneyStorages = async () => {
     await Promise.all([
       updateMoneyStoragesList(),
       updateObligationAccountList(),
@@ -40,7 +40,7 @@ export const useMoneyStoragesPageStore = () => {
     isLoading,
     moneyStorages,
     obligationAccountStorages,
-    updateData,
+    updateMoneyStorages,
     openUpdateModal,
   };
 };

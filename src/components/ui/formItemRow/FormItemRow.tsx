@@ -1,39 +1,60 @@
-import { Form, FormInstance, Input } from 'antd';
+import { Form, FormInstance, Input, Select } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
 import TextArea from 'antd/es/input/TextArea';
+import { DefaultOptionType } from 'antd/es/select';
 
-type FormInputType = 'input' | 'textarea';
+export type FormInputType = 'input' | 'textarea' | 'select';
 
 const formItemMap: Record<FormInputType, React.FC> = {
   'input': Input,
   'textarea': TextArea,
+  'select': Select,
 };
 
-type Props<T extends object, FormData> = {
+type InputProps<FormData> = {
+  type?: 'input';
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>, formInstance: FormInstance<FormData>) => void;
+};
+
+type TextareaProps<FormData> = {
+  type: 'textarea';
+  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>, formInstance: FormInstance<FormData>) => void;
+};
+
+type MultiselectProps = {
+  type: 'select';
+  options: DefaultOptionType[];
+  isMultiply?: boolean;
+  onChange?: (value: any, option?: DefaultOptionType | DefaultOptionType[]) => void;
+};
+
+export type Props<T extends object, FormData> = {
   label: string;
   name: NamePath<T>;
-  formInstance: FormInstance<FormData>;
   isRequired?: boolean;
   className?: string;
 } & (
-    {
-      type?: 'input';
-      onChange?: (event: React.ChangeEvent<HTMLInputElement>, formInstance: FormInstance<FormData>) => void;
-    } | {
-      type: 'textarea';
-      onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>, formInstance: FormInstance<FormData>) => void;
-    }
+    InputProps<FormData> |
+    TextareaProps<FormData> |
+    MultiselectProps
   );
 
-export const FormItemRow = <Entity extends object, FormData extends Partial<Entity>>({
-  label,
-  name,
-  formInstance,
-  isRequired,
-  className,
-  type = 'input',
-  onChange,
-}: Props<Entity, FormData>) => {
+type FormItemRowProps<T extends object, FormData> = Props<T, FormData> & {
+  formInstance: FormInstance<FormData>;
+};
+
+export const FormItemRow = <Entity extends object, FormData extends Record<keyof Entity, unknown>>(
+  props: FormItemRowProps<Entity, FormData>
+) => {
+  const {
+    label,
+    name,
+    formInstance,
+    isRequired,
+    className,
+    type = 'input',
+    onChange,
+  } = props;
   const Component: React.FC<{ onChange?: React.ChangeEventHandler }> = formItemMap[type];
 
   const rules = [];
@@ -47,6 +68,19 @@ export const FormItemRow = <Entity extends object, FormData extends Partial<Enti
     }
   };
 
+  const componentProps = {
+    ...(
+      type === 'select' && (props as MultiselectProps).options ?
+        { options: (props as MultiselectProps).options } :
+        {}
+    ),
+    ...(
+      type === 'select' && (props as MultiselectProps).isMultiply ?
+        { mode: 'multiple' } :
+        {}
+    ),
+  };
+
   return (
     <Form.Item<FormData>
       key={name as string}
@@ -55,7 +89,7 @@ export const FormItemRow = <Entity extends object, FormData extends Partial<Enti
       rules={rules}
       className={className}
     >
-      <Component onChange={onCurrentChange} />
+      <Component {...componentProps} onChange={onCurrentChange} />
     </Form.Item>
   );
 };

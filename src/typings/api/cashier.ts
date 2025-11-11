@@ -3,6 +3,7 @@ import {
   CashierService,
   CreateAccountDto,
   CurrencyDto,
+  GetAccountAggregatedWithStorage,
   GetAccountDto,
   GetAccountsByStoreDto,
   GetAccountWithStorageDto,
@@ -22,8 +23,11 @@ export type CreateMoneyStorageData =
 export type GetAccountsByMoneyStoragesListParams =
   Parameters<typeof CashierService.accountsControllerGetAccountsByMoneyStoragesList>[0];
 
-export type GetAccountsWithMoneyStoragesListParams =
+export type GetAccountsControllerListParams =
   Parameters<typeof CashierService.accountsControllerGetList>[0];
+
+export type GetAccountsAggregatedWithMoneyStoragesListParams =
+  Parameters<typeof CashierService.accountsControllerGetAccountsAggregatedWithStorageList>[0];
 
 export type MoneyStorage = MoneyStorageDto;
 export type MoneyStorageStatus = MoneyStorageDto['status'];
@@ -33,6 +37,7 @@ export type AccountsByStore = GetAccountsByStoreDto;
 export type Account = GetAccountDto;
 
 export type AccountWithStore = GetAccountWithStorageDto;
+export type AccountAggregatedWithStorage = GetAccountAggregatedWithStorage;
 
 export type CreateAccount = CreateAccountDto;
 

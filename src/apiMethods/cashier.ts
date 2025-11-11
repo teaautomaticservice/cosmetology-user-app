@@ -2,8 +2,9 @@ import {
   CreateAccount,
   CreateCurrencyData,
   CreateMoneyStorageData,
+  GetAccountsAggregatedWithMoneyStoragesListParams,
   GetAccountsByMoneyStoragesListParams,
-  GetAccountsWithMoneyStoragesListParams,
+  GetAccountsControllerListParams,
   GetMoneyStorageListSort,
   UpdateCurrencyData,
   UpdateMoneyStorageData
@@ -63,8 +64,22 @@ export const getAccountsWithMoneyStoragesApi = ({
   pageSize,
   order,
   sort,
-}: GetAccountsWithMoneyStoragesListParams = {}) => {
+}: GetAccountsControllerListParams = {}) => {
   return CashierService.accountsControllerGetList({
+    page,
+    pageSize,
+    order,
+    sort,
+  });
+};
+
+export const getAccountsAggregatedWithMoneyStoragesApi = ({
+  page,
+  pageSize,
+  order,
+  sort,
+}: GetAccountsAggregatedWithMoneyStoragesListParams = {}) => {
+  return CashierService.accountsControllerGetAccountsAggregatedWithStorageList({
     page,
     pageSize,
     order,
