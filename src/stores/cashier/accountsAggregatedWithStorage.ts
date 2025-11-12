@@ -1,53 +1,43 @@
 import {
   createAccountApi,
-  getAccountsByMoneyStoragesApi,
-  getAccountsWithMoneyStoragesApi,
+  getAccountsAggregatedWithMoneyStoragesApi,
 } from '@apiMethods/cashier';
 import {
-  AccountsByStore,
-  AccountWithStore,
+  AccountAggregatedWithStorage,
   CreateAccount,
 } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
-  accountsByStores: AccountsByStore[];
-  accountsWithStores: AccountWithStore[];
+  accountsAggregatedWithStorage: AccountAggregatedWithStorage[];
   isLoading: boolean;
 }
 
 const { useStore } = storeFactory<Store>({
-  accountsByStores: [],
-  accountsWithStores: [],
+  accountsAggregatedWithStorage: [],
   isLoading: true,
 });
 
-export const useAccountsStore = () => {
+export const useAccountsAggregatedWithStorageStore = () => {
   const [state, setState] = useStore();
 
   const {
-    accountsByStores,
-    accountsWithStores,
-    isLoading: isAccountsLoading,
+    accountsAggregatedWithStorage,
+    isLoading,
   } = state;
 
-  const updateAccountsList = async () => {
+  const updateAccountsAggregatedWithStorage = async () => {
     setState({
       isLoading: true,
     });
     try {
-      const [
-        { data: accountsByStores },
-        { data: accountsWithStores },
-      ] = await Promise.all([
-        getAccountsByMoneyStoragesApi({
-          sort: 'status',
-        }),
-        getAccountsWithMoneyStoragesApi()
-      ]);
+      const {
+        data: accountsAggregatedWithStorage,
+      } = await getAccountsAggregatedWithMoneyStoragesApi({
+        sort: 'status',
+      });
       setState({
-        accountsByStores,
-        accountsWithStores,
+        accountsAggregatedWithStorage: accountsAggregatedWithStorage,
       });
     } finally {
       setState((prevState) => ({
@@ -72,10 +62,9 @@ export const useAccountsStore = () => {
   };
 
   return {
-    accountsByStores,
-    accountsWithStores,
-    isAccountsLoading,
-    updateAccountsList,
+    accountsAggregatedWithStorage,
+    isLoading,
+    updateAccountsAggregatedWithStorage,
     createAccount,
   };
 };

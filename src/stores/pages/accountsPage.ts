@@ -3,6 +3,8 @@ import { useCurrenciesStore } from '@stores/cashier/currencies';
 import { ID } from '@typings/common';
 import { storeFactory } from '@utils/storeFactory';
 
+import { useMoneyStoragesPageStore } from './moneyStoragesPage';
+
 type Store = {
   isEditMode: boolean;
 };
@@ -28,6 +30,9 @@ export const useAccountsPageStore = () => {
     deleteCurrency,
     setCurrentCurrency,
   } = useCurrenciesStore();
+  const {
+    updateMoneyStorages,
+  } = useMoneyStoragesPageStore();
 
   const { isEditMode } = state;
 
@@ -60,5 +65,6 @@ export const useAccountsPageStore = () => {
     disableEditMode,
     deleteCurrencyWithUpdateAccounts,
     setCurrentCurrency,
+    updateMoneyStorages,
   };
 };

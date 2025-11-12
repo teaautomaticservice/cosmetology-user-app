@@ -1,3 +1,6 @@
+import {
+  AccountsAggregatedWithStorageList
+} from '@components/domain/accounts/accountsAggregatedWithStorageList/AccountsAggregatedWithStorageList';
 import { useMySpacePageStore } from '@stores/pages/mySpacePage';
 import { Skeleton } from 'antd';
 import Title from 'antd/es/typography/Title';
@@ -13,7 +16,7 @@ export const CurrentMonthState: React.FC = () => {
     <div className={s.root}>
       <Title level={3} className={s.title}>Current month state</Title>
       <Skeleton loading={isLoading}>
-        <Title level={4}>No Data</Title>
+        <AccountsAggregatedWithStorageList />
       </Skeleton>
     </div>
   );

@@ -1,7 +1,9 @@
 import { UseSort } from './common';
 import {
   CashierService,
+  CreateAccountDto,
   CurrencyDto,
+  GetAccountAggregatedWithStorage,
   GetAccountDto,
   GetAccountsByStoreDto,
   GetAccountWithStorageDto,
@@ -21,8 +23,11 @@ export type CreateMoneyStorageData =
 export type GetAccountsByMoneyStoragesListParams =
   Parameters<typeof CashierService.accountsControllerGetAccountsByMoneyStoragesList>[0];
 
-export type GetAccountsWithMoneyStoragesListParams =
+export type GetAccountsControllerListParams =
   Parameters<typeof CashierService.accountsControllerGetList>[0];
+
+export type GetAccountsAggregatedWithMoneyStoragesListParams =
+  Parameters<typeof CashierService.accountsControllerGetAccountsAggregatedWithStorageList>[0];
 
 export type MoneyStorage = MoneyStorageDto;
 export type MoneyStorageStatus = MoneyStorageDto['status'];
@@ -31,7 +36,10 @@ export const MoneyStorageStatusEnum = MoneyStorageDto['status'];
 export type AccountsByStore = GetAccountsByStoreDto;
 export type Account = GetAccountDto;
 
-export type AccountsWithStore = GetAccountWithStorageDto;
+export type AccountWithStore = GetAccountWithStorageDto;
+export type AccountAggregatedWithStorage = GetAccountAggregatedWithStorage;
+
+export type CreateAccount = CreateAccountDto;
 
 export type Currency = CurrencyDto;
 export type CurrencyStatus = CurrencyDto['status'];

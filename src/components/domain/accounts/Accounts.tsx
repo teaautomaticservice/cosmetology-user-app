@@ -3,7 +3,7 @@ import Title from 'antd/es/typography/Title';
 
 import { AccountsActions } from './accountsActions/AccountsActions';
 import { AccountsByStorageRow } from './accountsByStorageRow/AccountsByStorageRow';
-import { AccountsList } from './accountsList/AccountsList';
+import { AccountsWithStorageList } from './accountsWithStorageList/AccountsWithStorageList';
 import { CurrenciesActions } from './currenciesActions/CurrenciesActions';
 import { CurrenciesList } from './currenciesList/CurrenciesList';
 
@@ -17,8 +17,8 @@ export const Accounts: React.FC = () => {
       <Title>Accounts</Title>
       <AccountsActions className={s.actions} />
       {isEditMode ? (
-        <AccountsList />
-      ): (
+        <AccountsWithStorageList />
+      ) : (
         <AccountsByStorageRow />
       )}
       <Title>Currencies</Title>

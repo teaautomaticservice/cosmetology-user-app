@@ -1,7 +1,7 @@
 import Title from 'antd/es/typography/Title';
 
 import { CurrentMonthState } from './currentMonthState/CurrentMonthState';
-import { MainActions } from './mainActions/MainActions';
+import { MainActions } from './mySpaceActions/MySpaceActions';
 import { ObligationAccount } from './obligationAccount/ObligationAccount';
 import { SummaryCashier } from './summaryCashier/SummaryCashier';
 

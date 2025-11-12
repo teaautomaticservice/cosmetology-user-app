@@ -1,7 +1,7 @@
 import { CashierService } from '@typings/api/generated';
 import { Button } from 'antd';
 
-import s from './mainActions.module.css';
+import s from './mySpaceActions.module.css';
 
 export const MainActions: React.FC = () => {
   const test = async () => {

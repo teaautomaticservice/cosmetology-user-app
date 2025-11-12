@@ -2,12 +2,15 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AccountsAggregatedWithStoragePaginated } from '../models/AccountsAggregatedWithStoragePaginated';
 import type { AccountsByStorePaginated } from '../models/AccountsByStorePaginated';
 import type { AccountsWithStoragePaginatedDto } from '../models/AccountsWithStoragePaginatedDto';
+import type { CreateAccountDto } from '../models/CreateAccountDto';
 import type { CreateCurrencyDto } from '../models/CreateCurrencyDto';
 import type { CreateMoneyStorageDto } from '../models/CreateMoneyStorageDto';
 import type { CurrencyDto } from '../models/CurrencyDto';
 import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
+import type { GetAccountWithStorageDto } from '../models/GetAccountWithStorageDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
 import type { UpdateCurrencyDto } from '../models/UpdateCurrencyDto';
@@ -224,6 +227,32 @@ export class CashierService {
         });
     }
     /**
+     * @returns AccountsAggregatedWithStoragePaginated List of accounts with money storages
+     * @throws ApiError
+     */
+    public static accountsControllerGetAccountsAggregatedWithStorageList({
+        page,
+        pageSize,
+        order,
+        sort,
+    }: {
+        page?: number,
+        pageSize?: number,
+        order?: 'ASC' | 'DESC',
+        sort?: 'status' | 'available' | 'balance' | 'name',
+    }): CancelablePromise<AccountsAggregatedWithStoragePaginated> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/cashier/accounts/accounts-aggregated-with-storage-list',
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+                'order': order,
+                'sort': sort,
+            },
+        });
+    }
+    /**
      * @returns AccountsWithStoragePaginatedDto List of accounts with money storages
      * @throws ApiError
      */
@@ -235,7 +264,7 @@ export class CashierService {
     }: {
         page?: number,
         pageSize?: number,
-        sort?: 'status' | 'available' | 'balance' | 'name' | 'createdAt' | 'updatedAt',
+        sort?: 'status' | 'name',
         order?: 'ASC' | 'DESC',
     }): CancelablePromise<AccountsWithStoragePaginatedDto> {
         return __request(OpenAPI, {
@@ -247,6 +276,25 @@ export class CashierService {
                 'sort': sort,
                 'order': order,
             },
+        });
+    }
+    /**
+     * @returns GetAccountWithStorageDto New currency successful created
+     * @throws ApiError
+     */
+    public static accountsControllerCreateAccount({
+        requestBody,
+    }: {
+        /**
+         * Create account
+         */
+        requestBody: CreateAccountDto,
+    }): CancelablePromise<GetAccountWithStorageDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/accounts/create',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

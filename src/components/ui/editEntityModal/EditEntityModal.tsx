@@ -7,7 +7,6 @@ import {
   Button,
   Dropdown,
   Form,
-  Input,
   MenuProps,
   Modal,
   Skeleton,
@@ -15,6 +14,8 @@ import {
 } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
 import cn from 'classnames';
+
+import { FormItemRow } from '../formItemRow/FormItemRow';
 
 import s from './editEntityModal.module.css';
 
@@ -191,9 +192,12 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
 
         {editRow === name && (
           <div className={s.rowEdit}>
-            <Form.Item name={name as any} label={label} className={s.formItem}>
-              <Input />
-            </Form.Item>
+            <FormItemRow
+              name={name}
+              label={label}
+              className={s.formItem}
+              formInstance={formInstance}
+            />
             <div className={s.rowEditActions}>
               <Button
                 type='primary'
