@@ -1,3 +1,4 @@
+import { getSearchParams } from '@shared/utils/getSearchParams';
 import {
   CreateAccount,
   CreateCurrencyData,
@@ -13,7 +14,14 @@ import { CashierService } from '@typings/api/generated';
 import { ID } from '@typings/common';
 
 export const getCurrenciesListApi = () => {
-  return CashierService.currenciesControllerGetList({});
+  const { currenciesPage, currenciesPageSize } = getSearchParams<{
+    currenciesPage?: string;
+    currenciesPageSize?: string;
+  }>();
+  return CashierService.currenciesControllerGetList({
+    ...(currenciesPage && { page: Number(currenciesPage) }),
+    ...(currenciesPageSize && { pageSize: Number(currenciesPageSize) }),
+  });
 };
 
 export const getMoneyStoragesApi = ({

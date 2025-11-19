@@ -26,6 +26,7 @@ export const useAccountsPageStore = () => {
   const {
     currencies,
     isCurrenciesLoading,
+    currenciesCount,
     updateCurrenciesList,
     deleteCurrency,
     setCurrentCurrency,
@@ -59,6 +60,7 @@ export const useAccountsPageStore = () => {
     accountsWithStores,
     isAccountsPageLoading,
     currencies,
+    currenciesCount,
     updateAccountsList,
     toggleEditMode,
     updateCurrenciesList,
