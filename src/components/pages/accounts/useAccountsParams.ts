@@ -13,10 +13,10 @@ const DEBOUNCE_MS = 100;
 
 export const useAccountsParams = ({
   currenciesUpdater,
-  // aggregatedAccountUpdater,
+  aggregatedAccountUpdater,
 }: {
   currenciesUpdater: (...args: any[]) => any;
-  // aggregatedAccountUpdater: (...args: any[]) => any;
+  aggregatedAccountUpdater: (...args: any[]) => any;
 }) => {
   const { params, setParams } = useAppParams<Props>({
     customDefaultKeys: {
@@ -28,7 +28,7 @@ export const useAccountsParams = ({
   });
 
   const debouncedCurrenciesUpdater = debounce(currenciesUpdater, DEBOUNCE_MS);
-  // const debouncedAggregatedAccountUpdater = debounce(currenciesUpdater, DEBOUNCE_MS);
+  const debouncedAggregatedAccountUpdater = debounce(aggregatedAccountUpdater, DEBOUNCE_MS);
 
   const updateCurrenciesPagination:
     PaginationProps['onChange'] |
@@ -41,9 +41,21 @@ export const useAccountsParams = ({
       debouncedCurrenciesUpdater();
     };
 
+  const updateAggregatedAccountsPagination:
+    PaginationProps['onChange'] |
+    PaginationProps['onShowSizeChange']
+    = (page, pageSize) => {
+      setParams({
+        aggregatedPage: page.toString(),
+        aggregatedPageSize: pageSize.toString(),
+      });
+      debouncedAggregatedAccountUpdater();
+    };
+
   return {
     params,
     setParams,
     updateCurrenciesPagination,
+    updateAggregatedAccountsPagination,
   };
 };

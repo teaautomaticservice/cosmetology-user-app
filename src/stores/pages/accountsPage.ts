@@ -1,4 +1,6 @@
+import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { useAccountsStore } from '@stores/cashier/accounts';
+import { useAccountsAggregatedWithStorageStore } from '@stores/cashier/accountsAggregatedWithStorage';
 import { useCurrenciesStore } from '@stores/cashier/currencies';
 import { ID } from '@typings/common';
 import { storeFactory } from '@utils/storeFactory';
@@ -21,6 +23,8 @@ export const useAccountsPageStore = () => {
     accountsByStores,
     accountsWithStores,
     isAccountsLoading,
+    accountsByStoresCount,
+    accountsWithStoresCount,
     updateAccountsList,
   } = useAccountsStore();
   const {
@@ -34,10 +38,18 @@ export const useAccountsPageStore = () => {
   const {
     updateMoneyStorages,
   } = useMoneyStoragesPageStore();
+  const {
+    accountsAggregatedWithStorage,
+    isLoading: isAccountsAggregatedLoading,
+    accountsAggregatedWithStorageCount,
+  } = useAccountsAggregatedWithStorageStore();
 
   const { isEditMode } = state;
 
-  const isAccountsPageLoading = isAccountsLoading || isCurrenciesLoading;
+  const isAccountsPageLoading =
+    isAccountsLoading ||
+    isCurrenciesLoading ||
+    isAccountsAggregatedLoading;
 
   const toggleEditMode = () => {
     updateState(({ isEditMode }) => ({ isEditMode: !isEditMode }));
@@ -54,6 +66,15 @@ export const useAccountsPageStore = () => {
     updateAccountsList();
   };
 
+  const {
+    params,
+    updateCurrenciesPagination,
+    updateAggregatedAccountsPagination,
+  } = useAccountsParams({
+    currenciesUpdater: updateCurrenciesList,
+    aggregatedAccountUpdater: updateAccountsList,
+  });
+
   return {
     isEditMode,
     accountsByStores,
@@ -61,6 +82,11 @@ export const useAccountsPageStore = () => {
     isAccountsPageLoading,
     currencies,
     currenciesCount,
+    accountsAggregatedWithStorage,
+    accountsAggregatedWithStorageCount,
+    accountsByStoresCount,
+    accountsWithStoresCount,
+    params,
     updateAccountsList,
     toggleEditMode,
     updateCurrenciesList,
@@ -68,5 +94,7 @@ export const useAccountsPageStore = () => {
     deleteCurrencyWithUpdateAccounts,
     setCurrentCurrency,
     updateMoneyStorages,
+    updateCurrenciesPagination,
+    updateAggregatedAccountsPagination,
   };
 };

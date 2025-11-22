@@ -3,6 +3,7 @@ import {
   getAccountsByMoneyStoragesApi,
   getAccountsWithMoneyStoragesApi,
 } from '@apiMethods/cashier';
+import { getSearchParams } from '@shared/utils/getSearchParams';
 import {
   AccountsByStore,
   AccountWithStore,
@@ -12,13 +13,17 @@ import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
   accountsByStores: AccountsByStore[];
+  accountsByStoresCount: number;
   accountsWithStores: AccountWithStore[];
+  accountsWithStoresCount: number;
   isLoading: boolean;
 }
 
 const { useStore } = storeFactory<Store>({
   accountsByStores: [],
+  accountsByStoresCount: 0,
   accountsWithStores: [],
+  accountsWithStoresCount: 0,
   isLoading: true,
 });
 
@@ -28,6 +33,8 @@ export const useAccountsStore = () => {
   const {
     accountsByStores,
     accountsWithStores,
+    accountsByStoresCount,
+    accountsWithStoresCount,
     isLoading: isAccountsLoading,
   } = state;
 
@@ -36,18 +43,28 @@ export const useAccountsStore = () => {
       isLoading: true,
     });
     try {
+      const { aggregatedPage, aggregatedPageSize } = getSearchParams<{
+        aggregatedPage?: string;
+        aggregatedPageSize?: string;
+      }>();
+
       const [
-        { data: accountsByStores },
-        { data: accountsWithStores },
+        accountsByStoresResp,
+        accountsWithStoresResp,
       ] = await Promise.all([
         getAccountsByMoneyStoragesApi({
           sort: 'status',
         }),
-        getAccountsWithMoneyStoragesApi()
+        getAccountsWithMoneyStoragesApi({
+          ...(aggregatedPage && { page: Number(aggregatedPage) }),
+          ...(aggregatedPageSize && { pageSize: Number(aggregatedPageSize) }),
+        })
       ]);
       setState({
-        accountsByStores,
-        accountsWithStores,
+        accountsByStores: accountsByStoresResp.data,
+        accountsByStoresCount: accountsByStoresResp.meta.count,
+        accountsWithStores: accountsWithStoresResp.data,
+        accountsWithStoresCount: accountsWithStoresResp.meta.count,
       });
     } finally {
       setState((prevState) => ({
@@ -75,6 +92,8 @@ export const useAccountsStore = () => {
     accountsByStores,
     accountsWithStores,
     isAccountsLoading,
+    accountsByStoresCount,
+    accountsWithStoresCount,
     updateAccountsList,
     createAccount,
   };

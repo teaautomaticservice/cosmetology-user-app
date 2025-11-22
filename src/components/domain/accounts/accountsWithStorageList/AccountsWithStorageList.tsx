@@ -1,6 +1,6 @@
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
 import { TableUi } from '@components/ui/table/TableUi';
-import { useAccountsStore } from '@stores/cashier/accounts';
+import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { AccountWithStore, MoneyStorage } from '@typings/api/cashier';
 import { ColumnsType } from 'antd/es/table';
 import cn from 'classnames';
@@ -14,7 +14,13 @@ type Props = {
 export const AccountsWithStorageList: React.FC<Props> = ({
   className,
 }) => {
-  const { accountsWithStores, isAccountsLoading } = useAccountsStore();
+  const {
+    accountsWithStores,
+    isAccountsPageLoading,
+    params,
+    accountsWithStoresCount,
+    updateAggregatedAccountsPagination,
+  } = useAccountsPageStore();
 
   const columns: ColumnsType<AccountWithStore> = [
     {
@@ -51,11 +57,19 @@ export const AccountsWithStorageList: React.FC<Props> = ({
 
   return (
     <div className={cn(className)}>
+      <span>TEST</span>
       <TableUi
         columns={columns}
         dataSource={accountsWithStores}
-        loading={isAccountsLoading}
+        loading={isAccountsPageLoading}
         className={s.root}
+        pagination={{
+          total: accountsWithStoresCount,
+          current: Number(params.aggregatedPage ?? 1),
+          pageSize: Number(params.aggregatedPageSize ?? 10),
+          onChange: updateAggregatedAccountsPagination,
+          onShowSizeChange: updateAggregatedAccountsPagination,
+        }}
       />
     </div>
   );
