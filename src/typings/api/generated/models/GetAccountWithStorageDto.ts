@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CurrencyDto } from './CurrencyDto';
 import type { MoneyStorageDto } from './MoneyStorageDto';
 export type GetAccountWithStorageDto = {
     id: number;
@@ -13,6 +14,7 @@ export type GetAccountWithStorageDto = {
     available: number;
     description: string | null;
     moneyStorage: MoneyStorageDto | null;
+    currency: CurrencyDto;
 };
 export namespace GetAccountWithStorageDto {
     export enum status {

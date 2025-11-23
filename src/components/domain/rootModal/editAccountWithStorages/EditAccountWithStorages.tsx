@@ -1,3 +1,4 @@
+import { deleteAccountApi, updateAccountApi } from '@apiMethods/cashier';
 import { EditEntityModal } from '@components/ui/editEntityModal/EditEntityModal';
 import { getColorStatus } from '@constants/colorStatusMap';
 import { useAccountsStore } from '@stores/cashier/accounts';
@@ -14,18 +15,23 @@ export const EditAccountWithStorages: React.FC = () => {
   const {
     currentAccountWithStore,
     isAccountsLoading,
+    updateAccountsList,
+    setCurrentAccountWithStore,
   } = useAccountsStore();
 
-  const onUpdate = async () => {
-    console.log('onUpdate');
-  };
-
-  const onClose = () => {
-    console.log('onUpdate');
+  const onUpdate = async (formData: FormData) => {
+    if (currentAccountWithStore) {
+      const resp = await updateAccountApi(currentAccountWithStore.id, formData);
+      setCurrentAccountWithStore(resp);
+      updateAccountsList();
+    }
   };
 
   const onDelete = async () => {
-    console.log('onUpdate');
+    if (currentAccountWithStore) {
+      await deleteAccountApi(currentAccountWithStore.id);
+      updateAccountsList();
+    }
   };
 
   const SubtitleComponent = () => {
@@ -64,9 +70,11 @@ export const EditAccountWithStorages: React.FC = () => {
           name: 'name',
         },
       ]}
+      initialValues={{
+        name: currentAccountWithStore?.name,
+      }}
       isLoading={isAccountsLoading}
       onUpdate={onUpdate}
-      onClose={onClose}
       entity={currentAccountWithStore}
       editDropdown={{
         title: 'Status',

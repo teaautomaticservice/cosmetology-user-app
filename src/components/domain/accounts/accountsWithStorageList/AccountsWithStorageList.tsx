@@ -2,7 +2,7 @@ import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorage
 import { TableUi } from '@components/ui/table/TableUi';
 import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
-import { AccountWithStore, MoneyStorage } from '@typings/api/cashier';
+import { AccountWithStore, Currency, MoneyStorage } from '@typings/api/cashier';
 import { Button } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import cn from 'classnames';
@@ -55,6 +55,13 @@ export const AccountsWithStorageList: React.FC<Props> = ({
       dataIndex: 'available',
     },
     {
+      title: 'Currency',
+      dataIndex: 'currency',
+      render: ({ code }: Currency) => (
+        <span>{code}</span>
+      )
+    },
+    {
       title: 'Money storage',
       dataIndex: 'moneyStorage',
       render: ({ name, code, status }: MoneyStorage) => (
@@ -79,7 +86,6 @@ export const AccountsWithStorageList: React.FC<Props> = ({
 
   return (
     <div className={cn(className)}>
-      <span>TEST</span>
       <TableUi
         columns={columns}
         dataSource={accountsWithStores}

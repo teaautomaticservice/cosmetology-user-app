@@ -70,6 +70,10 @@ export const EditCurrency: React.FC = () => {
           name: 'code',
         },
       ]}
+      initialValues={{
+        name: currentCurrency?.name,
+        code: currentCurrency?.code,
+      }}
       isLoading={isLoading}
       onUpdate={onUpdate}
       onClose={onClose}
