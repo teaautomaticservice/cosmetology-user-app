@@ -6,6 +6,7 @@ import { MessageModal } from '@components/domain/rootModal/messageModal/MessageM
 
 import { CreateAccountsModal } from './createAccountsModal/CreateAccountsModal';
 import { CreateCurrencyModal } from './createCurrencyModal/CreateCurrencyModal';
+import { EditAccountWithStorages } from './editAccountWithStorages/EditAccountWithStorages';
 import { EditCurrency } from './editCurrency/EditCurrency';
 
 export const ModalsMap = {
@@ -15,4 +16,5 @@ export const ModalsMap = {
   'editCurrency': EditCurrency,
   'createCurrencyModal': CreateCurrencyModal,
   'createAccountsModal': CreateAccountsModal,
+  'editAccountWithStorages': EditAccountWithStorages,
 };

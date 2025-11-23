@@ -15,6 +15,7 @@ type Store = {
   accountsByStores: AccountsByStore[];
   accountsByStoresCount: number;
   accountsWithStores: AccountWithStore[];
+  currentAccountWithStore: AccountWithStore | null;
   accountsWithStoresCount: number;
   isLoading: boolean;
 }
@@ -23,6 +24,7 @@ const { useStore } = storeFactory<Store>({
   accountsByStores: [],
   accountsByStoresCount: 0,
   accountsWithStores: [],
+  currentAccountWithStore: null,
   accountsWithStoresCount: 0,
   isLoading: true,
 });
@@ -35,6 +37,7 @@ export const useAccountsStore = () => {
     accountsWithStores,
     accountsByStoresCount,
     accountsWithStoresCount,
+    currentAccountWithStore,
     isLoading: isAccountsLoading,
   } = state;
 
@@ -88,13 +91,21 @@ export const useAccountsStore = () => {
     }
   };
 
+  const setCurrentAccountWithStore = (account: AccountWithStore | null) => {
+    setState({
+      currentAccountWithStore: account,
+    });
+  };
+
   return {
     accountsByStores,
     accountsWithStores,
     isAccountsLoading,
     accountsByStoresCount,
     accountsWithStoresCount,
+    currentAccountWithStore,
     updateAccountsList,
     createAccount,
+    setCurrentAccountWithStore,
   };
 };

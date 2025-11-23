@@ -26,6 +26,7 @@ export const useAccountsPageStore = () => {
     accountsByStoresCount,
     accountsWithStoresCount,
     updateAccountsList,
+    setCurrentAccountWithStore,
   } = useAccountsStore();
   const {
     currencies,
@@ -96,5 +97,6 @@ export const useAccountsPageStore = () => {
     updateMoneyStorages,
     updateCurrenciesPagination,
     updateAggregatedAccountsPagination,
+    setCurrentAccountWithStore,
   };
 };

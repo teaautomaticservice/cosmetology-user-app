@@ -1,14 +1,10 @@
 import { EditEntityModal } from '@components/ui/editEntityModal/EditEntityModal';
+import { getColorStatus } from '@constants/colorStatusMap';
 import { useCurrenciesStore } from '@stores/cashier/currencies';
-import { Currency, CurrencyStatus, CurrencyStatusEnum } from '@typings/api/cashier';
-import { Badge, BadgeProps } from 'antd';
+import { Currency, CurrencyStatusEnum } from '@typings/api/cashier';
+import { Badge } from 'antd';
 
 import s from './editCurrency.module.css';
-
-const statusColorsMap: Record<CurrencyStatus, BadgeProps['color']> = {
-  [CurrencyStatusEnum.ACTIVE]: 'green',
-  [CurrencyStatusEnum.DISABLED]: 'red',
-};
 
 type FormData = {
   name?: string;
@@ -35,7 +31,7 @@ export const EditCurrency: React.FC = () => {
         <strong>ID: {currentCurrency.id}</strong>
         <Badge
           className={s.badge}
-          color={statusColorsMap[currentCurrency.status]}
+          color={getColorStatus(currentCurrency.status)}
           text={currentCurrency.status}
         />
       </>

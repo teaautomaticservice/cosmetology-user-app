@@ -1,7 +1,9 @@
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
 import { TableUi } from '@components/ui/table/TableUi';
+import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { AccountWithStore, MoneyStorage } from '@typings/api/cashier';
+import { Button } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import cn from 'classnames';
 
@@ -20,7 +22,16 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     params,
     accountsWithStoresCount,
     updateAggregatedAccountsPagination,
+    setCurrentAccountWithStore,
   } = useAccountsPageStore();
+  const {
+    open,
+  } = useModalStore();
+
+  const openEditModal = (account: AccountWithStore) => {
+    setCurrentAccountWithStore(account);
+    open('editAccountWithStorages');
+  };
 
   const columns: ColumnsType<AccountWithStore> = [
     {
@@ -52,6 +63,17 @@ export const AccountsWithStorageList: React.FC<Props> = ({
           <MoneyStorageBadge moneyStorageStatus={status} />
         </span>
       ),
+    },
+    {
+      title: 'Actions',
+      className: s.actionsCol,
+      render: (_, account) => (
+        <div className={s.actions}>
+          <Button onClick={() => openEditModal(account)}>
+            Edit
+          </Button>
+        </div>
+      )
     }
   ];
 

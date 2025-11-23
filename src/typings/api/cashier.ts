@@ -39,6 +39,9 @@ export type Account = GetAccountDto;
 export type AccountWithStore = GetAccountWithStorageDto;
 export type AccountAggregatedWithStorage = GetAccountAggregatedWithStorage;
 
+export type AccountWithStorageStatus =  `${GetAccountWithStorageDto['status']}`;
+export const AccountWithStorageStatusEnum = GetAccountWithStorageDto['status'];
+
 export type CreateAccount = CreateAccountDto;
 
 export type Currency = CurrencyDto;

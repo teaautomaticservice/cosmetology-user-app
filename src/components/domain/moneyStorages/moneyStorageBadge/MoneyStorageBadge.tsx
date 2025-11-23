@@ -1,17 +1,11 @@
-import { MoneyStorageStatus, MoneyStorageStatusEnum } from '@typings/api/cashier';
-import { Badge, BadgeProps } from 'antd';
+import { getColorStatus } from '@constants/colorStatusMap';
+import { MoneyStorageStatus } from '@typings/api/cashier';
+import { Badge } from 'antd';
 
 type Props = {
   moneyStorageStatus?: MoneyStorageStatus;
   className?: string;
   isSmall?: boolean;
-};
-
-const statusColorsMap: Record<MoneyStorageStatus, BadgeProps['color']> = {
-  [MoneyStorageStatusEnum.CREATED]: 'yellow',
-  [MoneyStorageStatusEnum.ACTIVE]: 'green',
-  [MoneyStorageStatusEnum.DEACTIVATED]: 'red',
-  [MoneyStorageStatusEnum.FREEZED]: 'blue',
 };
 
 export const MoneyStorageBadge: React.FC<Props> = ({
@@ -26,7 +20,7 @@ export const MoneyStorageBadge: React.FC<Props> = ({
   return (
     <Badge
       className={className}
-      color={statusColorsMap[moneyStorageStatus]}
+      color={getColorStatus(moneyStorageStatus)}
       text={isSmall ? '' : moneyStorageStatus}
     />
   );
