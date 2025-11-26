@@ -2,13 +2,21 @@ import { deleteAccountApi, updateAccountApi } from '@apiMethods/cashier';
 import { EditEntityModal } from '@components/ui/editEntityModal/EditEntityModal';
 import { getColorStatus } from '@constants/colorStatusMap';
 import { useAccountsStore } from '@stores/cashier/accounts';
-import { AccountWithStorageStatusEnum, AccountWithStore } from '@typings/api/cashier';
+import { useCurrenciesStore } from '@stores/cashier/currencies';
+import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
+import {
+  AccountWithStorageStatusEnum,
+  AccountWithStore,
+  CurrencyStatusEnum,
+  MoneyStorageStatusEnum
+} from '@typings/api/cashier';
 import { Badge } from 'antd';
 
 import s from './editAccountWithStorages.module.css';
 
 type FormData = {
   name?: string;
+  currencyId?: number;
 }
 
 export const EditAccountWithStorages: React.FC = () => {
@@ -18,6 +26,28 @@ export const EditAccountWithStorages: React.FC = () => {
     updateAccountsList,
     setCurrentAccountWithStore,
   } = useAccountsStore();
+  const {
+    currencies,
+  } = useCurrenciesStore();
+  const {
+    moneyStorages,
+  } = useMoneyStoragesStore();
+
+  const currenciesOptions = currencies
+    .filter(({ status }) => status === CurrencyStatusEnum.ACTIVE)
+    .map(({ id, name }) => ({
+      value: id,
+      label: name,
+    }));
+
+  const moneyStoragesOptions = moneyStorages
+    .filter(({ status }) => status === MoneyStorageStatusEnum.ACTIVE)
+    .map(({
+      id, name,
+    }) => ({
+      value: id,
+      label: name,
+    }));
 
   const onUpdate = async (formData: FormData) => {
     if (currentAccountWithStore) {
@@ -69,9 +99,22 @@ export const EditAccountWithStorages: React.FC = () => {
           label: 'Name',
           name: 'name',
         },
+        {
+          label: 'Currency',
+          name: 'currencyId',
+          type: 'select',
+          options: currenciesOptions,
+        },
+        {
+          label: 'Money storage',
+          name: 'moneyStorageId',
+          type: 'select',
+          options: moneyStoragesOptions,
+        },
       ]}
       initialValues={{
         name: currentAccountWithStore?.name,
+        currencyId: currentAccountWithStore?.currencyId,
       }}
       isLoading={isAccountsLoading}
       onUpdate={onUpdate}

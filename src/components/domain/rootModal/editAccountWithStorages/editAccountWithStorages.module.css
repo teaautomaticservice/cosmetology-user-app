@@ -1,5 +1,5 @@
 .root {
-  display: flex;
+  width: 400px;
 
   .subTitle {
     display: flex;

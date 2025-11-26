@@ -13,7 +13,9 @@ export type GetAccountWithStorageDto = {
     balance: number;
     available: number;
     description: string | null;
+    moneyStorageId: number;
     moneyStorage: MoneyStorageDto | null;
+    currencyId: number;
     currency: CurrencyDto;
 };
 export namespace GetAccountWithStorageDto {

@@ -15,7 +15,7 @@ import {
 import { NamePath } from 'antd/es/form/interface';
 import cn from 'classnames';
 
-import { FormItemRow } from '../formItemRow/FormItemRow';
+import { FormInputType, FormItemRow, type Props as FormItemRowProps } from '../formItemRow/FormItemRow';
 
 import s from './editEntityModal.module.css';
 
@@ -24,6 +24,7 @@ const { Text } = Typography;
 export type EditModalRow<T extends object> = {
   label: string;
   name: NamePath<T>;
+  type?: FormInputType;
 }
 
 export type DropdownItem<Entity extends object, Key extends keyof Entity = keyof Entity> = {
@@ -40,9 +41,10 @@ export type EditDropdown<Entity extends object> = {
 
 type Props<Entity extends object, T extends Record<keyof Entity, unknown>> = {
   title: string;
-  rows: EditModalRow<T>[];
+  rows: FormItemRowProps<Entity, T>[];
   onUpdate: (formData: T) => Promise<void>;
   SubtitleComponent?: React.FC;
+  rootClassName?: string;
   className?: string;
   initialValues?: T;
   isLoading?: boolean;
@@ -56,6 +58,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
   rows,
   onUpdate,
   SubtitleComponent,
+  rootClassName,
   className,
   initialValues,
   isLoading = false,
@@ -165,13 +168,19 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
     (entity && editDropdown?.dropdownProp && val?.key && val?.key !== entity[editDropdown.dropdownProp]))
   );
 
-  const row = ({
-    label,
-    name,
-  }: EditModalRow<FormData>) => {
-    const test = (entity && name as keyof Entity in entity) ?
+  const row = (props: FormItemRowProps<Entity, FormData>) => {
+    const {
+      label,
+      name,
+    } = props;
+    const valueText = (entity && name as keyof Entity in entity) ?
       entity[name as keyof Entity] :
       'N/A';
+
+    const selectValue = (props.type === 'select' && props.options) ?
+      props.options.find(({ value }) => value?.toString() === valueText?.toString())?.label :
+      null;
+    
     return (
       <div key={name as string} className={s.row}>
         {editRow !== label && (
@@ -179,11 +188,11 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
             <strong className={s.listLabel}>
               {label}
             </strong> <Text>
-              {`${test ?? 'N/A'}`}
+              {`${selectValue ?? valueText ?? 'N/A'}`}
             </Text> <Button
               type='text'
               className={s.editBtn}
-              onClick={() => setEditRow(name)}
+              onClick={() => setEditRow(name as any)}
             >
               Edit
             </Button>
@@ -193,9 +202,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
         {editRow === name && (
           <div className={s.rowEdit}>
             <FormItemRow
-              name={name}
-              label={label}
-              className={s.formItem}
+              {...props}
               formInstance={formInstance}
             />
             <div className={s.rowEditActions}>
@@ -241,7 +248,11 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
       footer={footer}
       onCancel={closeModal}
       getContainer={false}
-      className={cn(s.root, className)}
+      className={cn(s.root, rootClassName)}
+      classNames={{
+        content: className,
+      }}
+      width={'fit-content'}
     >
       <Skeleton loading={isLoading || !entity}>
         {entity && (
@@ -261,10 +272,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
                 className={s.form}
                 disabled={isLoading}
               >
-                {rows.map(({
-                  label,
-                  name,
-                }) => row({ label, name }))}
+                {rows.map((rowData) => row(rowData))}
               </Form>
               {Boolean(commonApiError) && (
                 <Text type='danger' className={s.commonError}>{commonApiError}</Text>
