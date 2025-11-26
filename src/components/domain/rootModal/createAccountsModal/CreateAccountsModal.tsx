@@ -2,7 +2,8 @@ import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntity
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useCurrenciesStore } from '@stores/cashier/currencies';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
-import { CreateAccount, CurrencyStatusEnum, MoneyStorageStatusEnum } from '@typings/api/cashier';
+import { CreateAccount } from '@typings/api/cashier';
+import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
 type FormData = {
   name: string;
@@ -18,10 +19,10 @@ export const CreateAccountsModal: React.FC = () => {
     createAccount,
   } = useAccountsStore();
   const {
-    currencies,
+    activeCurrencies,
   } = useCurrenciesStore();
   const {
-    moneyStorages,
+    activeMoneyStorages,
   } = useMoneyStoragesStore();
 
   const onSubmit = async ({
@@ -39,21 +40,8 @@ export const CreateAccountsModal: React.FC = () => {
     await updateAccountsList();
   };
 
-  const currenciesOptions = currencies
-    .filter(({ status }) => status === CurrencyStatusEnum.ACTIVE)
-    .map(({ id, name }) => ({
-      value: id,
-      label: name,
-    }));
-
-  const moneyStoragesOptions = moneyStorages
-    .filter(({ status }) => status === MoneyStorageStatusEnum.ACTIVE)
-    .map(({
-      id, name,
-    }) => ({
-      value: id,
-      label: name,
-    }));
+  const currenciesOptions = fromEntityToOptionsList(activeCurrencies);
+  const moneyStoragesOptions = fromEntityToOptionsList(activeMoneyStorages);
 
   return (
     <CreateEntityModal<CreateAccount, FormData>

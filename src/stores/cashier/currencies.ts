@@ -1,5 +1,5 @@
 import { createCurrencyApi, deleteCurrencyApi, getCurrenciesListApi, updateCurrencyApi } from '@apiMethods/cashier';
-import { CreateCurrencyData, Currency } from '@typings/api/cashier';
+import { CreateCurrencyData, Currency, CurrencyStatusEnum } from '@typings/api/cashier';
 import { ID } from '@typings/common';
 import { storeFactory } from '@utils/storeFactory';
 
@@ -26,6 +26,9 @@ export const useCurrenciesStore = () => {
     currentCurrency,
     currenciesCount,
   } = state;
+
+  const activeCurrencies = currencies
+    .filter(({ status }) => status === CurrencyStatusEnum.ACTIVE);
 
   const updateCurrenciesList = async () => {
     setState({
@@ -107,6 +110,7 @@ export const useCurrenciesStore = () => {
     isCurrenciesLoading,
     currentCurrency,
     currenciesCount,
+    activeCurrencies,
     updateCurrenciesList,
     deleteCurrency,
     updateCurrency,

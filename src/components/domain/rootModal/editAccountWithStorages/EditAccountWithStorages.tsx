@@ -7,10 +7,9 @@ import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import {
   AccountWithStorageStatusEnum,
   AccountWithStore,
-  CurrencyStatusEnum,
-  MoneyStorageStatusEnum
 } from '@typings/api/cashier';
 import { Badge } from 'antd';
+import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
 import s from './editAccountWithStorages.module.css';
 
@@ -27,27 +26,14 @@ export const EditAccountWithStorages: React.FC = () => {
     setCurrentAccountWithStore,
   } = useAccountsStore();
   const {
-    currencies,
+    activeCurrencies,
   } = useCurrenciesStore();
   const {
-    moneyStorages,
+    activeMoneyStorages,
   } = useMoneyStoragesStore();
 
-  const currenciesOptions = currencies
-    .filter(({ status }) => status === CurrencyStatusEnum.ACTIVE)
-    .map(({ id, name }) => ({
-      value: id,
-      label: name,
-    }));
-
-  const moneyStoragesOptions = moneyStorages
-    .filter(({ status }) => status === MoneyStorageStatusEnum.ACTIVE)
-    .map(({
-      id, name,
-    }) => ({
-      value: id,
-      label: name,
-    }));
+  const currenciesOptions = fromEntityToOptionsList(activeCurrencies);
+  const moneyStoragesOptions = fromEntityToOptionsList(activeMoneyStorages);
 
   const onUpdate = async (formData: FormData) => {
     if (currentAccountWithStore) {
