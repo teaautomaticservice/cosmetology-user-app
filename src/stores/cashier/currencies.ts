@@ -1,16 +1,18 @@
 import { createCurrencyApi, deleteCurrencyApi, getCurrenciesListApi, updateCurrencyApi } from '@apiMethods/cashier';
-import { CreateCurrencyData, Currency } from '@typings/api/cashier';
+import { CreateCurrencyData, Currency, CurrencyStatusEnum } from '@typings/api/cashier';
 import { ID } from '@typings/common';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
   currencies: Currency[];
+  currenciesCount: number;
   currentCurrency: Currency | null;
   isLoading: boolean;
 }
 
 const { useStore } = storeFactory<Store>({
   currencies: [],
+  currenciesCount: 0,
   currentCurrency: null,
   isLoading: true,
 });
@@ -18,16 +20,25 @@ const { useStore } = storeFactory<Store>({
 export const useCurrenciesStore = () => {
   const [state, setState] = useStore();
 
-  const { currencies, isLoading: isCurrenciesLoading, currentCurrency } = state;
+  const {
+    currencies,
+    isLoading: isCurrenciesLoading,
+    currentCurrency,
+    currenciesCount,
+  } = state;
+
+  const activeCurrencies = currencies
+    .filter(({ status }) => status === CurrencyStatusEnum.ACTIVE);
 
   const updateCurrenciesList = async () => {
     setState({
       isLoading: true,
     });
     try {
-      const { data } = await getCurrenciesListApi();
+      const { data, meta } = await getCurrenciesListApi();
       setState({
         currencies: data,
+        currenciesCount: meta.count,
       });
     } finally {
       setState((prevState) => ({
@@ -98,6 +109,8 @@ export const useCurrenciesStore = () => {
     currencies,
     isCurrenciesLoading,
     currentCurrency,
+    currenciesCount,
+    activeCurrencies,
     updateCurrenciesList,
     deleteCurrency,
     updateCurrency,

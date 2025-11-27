@@ -3,4 +3,8 @@
     display: flex;
     gap: 4px;
   }
+
+  .actionsCol {
+    width: 100px;
+  }
 }

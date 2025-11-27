@@ -10,12 +10,14 @@ import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
   accountsAggregatedWithStorage: AccountAggregatedWithStorage[];
+  count: number;
   isLoading: boolean;
 }
 
 const { useStore } = storeFactory<Store>({
   accountsAggregatedWithStorage: [],
-  isLoading: true,
+  count: 0,
+  isLoading: false,
 });
 
 export const useAccountsAggregatedWithStorageStore = () => {
@@ -23,6 +25,7 @@ export const useAccountsAggregatedWithStorageStore = () => {
 
   const {
     accountsAggregatedWithStorage,
+    count,
     isLoading,
   } = state;
 
@@ -33,11 +36,13 @@ export const useAccountsAggregatedWithStorageStore = () => {
     try {
       const {
         data: accountsAggregatedWithStorage,
+        meta,
       } = await getAccountsAggregatedWithMoneyStoragesApi({
         sort: 'status',
       });
       setState({
         accountsAggregatedWithStorage: accountsAggregatedWithStorage,
+        count: meta.count,
       });
     } finally {
       setState((prevState) => ({
@@ -63,6 +68,7 @@ export const useAccountsAggregatedWithStorageStore = () => {
 
   return {
     accountsAggregatedWithStorage,
+    accountsAggregatedWithStorageCount: count,
     isLoading,
     updateAccountsAggregatedWithStorage,
     createAccount,

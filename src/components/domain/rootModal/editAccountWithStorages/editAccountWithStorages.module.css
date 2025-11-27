@@ -1,0 +1,12 @@
+.root {
+  width: 400px;
+
+  .subTitle {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .badge {
+    margin-left: 16px;
+  }
+}

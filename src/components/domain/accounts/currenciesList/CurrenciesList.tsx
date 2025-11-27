@@ -17,7 +17,10 @@ export const CurrenciesList: React.FC<Props> = ({
   const {
     isAccountsPageLoading,
     currencies,
+    currenciesCount,
+    params,
     setCurrentCurrency,
+    updateCurrenciesPagination,
   } = useAccountsPageStore();
   const { open } = useModalStore();
 
@@ -58,6 +61,13 @@ export const CurrenciesList: React.FC<Props> = ({
         columns={finalColumns}
         dataSource={currencies}
         loading={isAccountsPageLoading}
+        pagination={{
+          total: currenciesCount,
+          current: Number(params.currenciesPage ?? 1),
+          pageSize: Number(params.currenciesPageSize ?? 10),
+          onChange: updateCurrenciesPagination,
+          onShowSizeChange: updateCurrenciesPagination,
+        }}
       />
     </div>
   );

@@ -1,5 +1,10 @@
 import { createMoneyStorageApi, getMoneyStoragesApi } from '@apiMethods/cashier';
-import { CreateMoneyStorageData, GetMoneyStorageListSort, MoneyStorage } from '@typings/api/cashier';
+import {
+  CreateMoneyStorageData,
+  GetMoneyStorageListSort,
+  MoneyStorage,
+  MoneyStorageStatusEnum
+} from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
 import { useObligationAccountStore } from './obligationAccount';
@@ -22,6 +27,9 @@ export const useMoneyStoragesStore = () => {
   const [isCreateItemLoading, setIsCreateItemLoading] = useLoadingCreateItemStore();
 
   const { moneyStorages, isLoading: isMoneyStoragesLoading } = state;
+
+  const activeMoneyStorages = moneyStorages
+    .filter(({ status }) => status === MoneyStorageStatusEnum.ACTIVE);
 
   const updateMoneyStoragesList = async ({
     order,
@@ -65,6 +73,7 @@ export const useMoneyStoragesStore = () => {
     moneyStorages,
     isMoneyStoragesLoading,
     isCreateItemLoading,
+    activeMoneyStorages,
     updateMoneyStoragesList,
     updateAllMoneyStorages,
     createMoneyStorage,

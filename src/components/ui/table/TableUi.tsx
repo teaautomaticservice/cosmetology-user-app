@@ -1,6 +1,6 @@
 import { Table, TableProps } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { GetRowKey } from 'antd/es/table/interface';
+import { GetRowKey, TablePaginationConfig } from 'antd/es/table/interface';
 import cn from 'classnames';
 
 export type { ColumnsType };
@@ -11,6 +11,7 @@ type Props<T extends Object> = {
   rowKey?: string | keyof T | GetRowKey<T>;
   className?: string;
   loading?: boolean;
+  pagination?: TablePaginationConfig;
   footer?: TableProps['footer'];
 }
 
@@ -20,6 +21,7 @@ export const TableUi = <T extends Object>({
   rowKey = 'id',
   className,
   loading,
+  pagination,
   footer,
 }: Props<T>) => {
   return (
@@ -32,6 +34,7 @@ export const TableUi = <T extends Object>({
       footer={footer}
       size="small"
       bordered
+      pagination={pagination}
     />
   );
 };

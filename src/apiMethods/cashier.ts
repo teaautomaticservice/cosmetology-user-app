@@ -1,3 +1,4 @@
+import { getSearchParams } from '@shared/utils/getSearchParams';
 import {
   CreateAccount,
   CreateCurrencyData,
@@ -6,6 +7,7 @@ import {
   GetAccountsByMoneyStoragesListParams,
   GetAccountsControllerListParams,
   GetMoneyStorageListSort,
+  UpdateAccountData,
   UpdateCurrencyData,
   UpdateMoneyStorageData
 } from '@typings/api/cashier';
@@ -13,7 +15,14 @@ import { CashierService } from '@typings/api/generated';
 import { ID } from '@typings/common';
 
 export const getCurrenciesListApi = () => {
-  return CashierService.currenciesControllerGetList({});
+  const { currenciesPage, currenciesPageSize } = getSearchParams<{
+    currenciesPage?: string;
+    currenciesPageSize?: string;
+  }>();
+  return CashierService.currenciesControllerGetList({
+    ...(currenciesPage && { page: Number(currenciesPage) }),
+    ...(currenciesPageSize && { pageSize: Number(currenciesPageSize) }),
+  });
 };
 
 export const getMoneyStoragesApi = ({
@@ -89,6 +98,20 @@ export const getAccountsAggregatedWithMoneyStoragesApi = ({
 
 export const createAccountApi = (newData: CreateAccount) => {
   return CashierService.accountsControllerCreateAccount({
+    requestBody: newData,
+  });
+};
+
+export const deleteAccountApi = (currentId: ID) => {
+  return CashierService.accountsControllerRemoveItem({ id: currentId.toString() });
+};
+
+export const updateAccountApi = (
+  currentId: ID,
+  newData: UpdateAccountData,
+) => {
+  return CashierService.accountsControllerUpdateItem({
+    id: currentId.toString(),
     requestBody: newData,
   });
 };

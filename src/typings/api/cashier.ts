@@ -35,11 +35,13 @@ export const MoneyStorageStatusEnum = MoneyStorageDto['status'];
 
 export type AccountsByStore = GetAccountsByStoreDto;
 export type Account = GetAccountDto;
-
 export type AccountWithStore = GetAccountWithStorageDto;
 export type AccountAggregatedWithStorage = GetAccountAggregatedWithStorage;
-
+export type AccountWithStorageStatus =  `${GetAccountWithStorageDto['status']}`;
+export const AccountWithStorageStatusEnum = GetAccountWithStorageDto['status'];
 export type CreateAccount = CreateAccountDto;
+export type UpdateAccountData =
+  Parameters<typeof CashierService.accountsControllerUpdateItem>[0]['requestBody'];
 
 export type Currency = CurrencyDto;
 export type CurrencyStatus = CurrencyDto['status'];

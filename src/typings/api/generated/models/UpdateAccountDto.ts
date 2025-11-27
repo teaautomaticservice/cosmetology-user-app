@@ -2,17 +2,16 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UpdateCurrencyDto = {
+export type UpdateAccountDto = {
     name?: string;
-    status?: UpdateCurrencyDto.status;
-    code?: string;
-    currencyId?: number;
-    moneyStorageId?: number;
+    status?: UpdateAccountDto.status;
 };
-export namespace UpdateCurrencyDto {
+export namespace UpdateAccountDto {
     export enum status {
+        CREATED = 'created',
         ACTIVE = 'active',
-        DISABLED = 'disabled',
+        FREEZED = 'freezed',
+        DEACTIVATED = 'deactivated',
     }
 }
 

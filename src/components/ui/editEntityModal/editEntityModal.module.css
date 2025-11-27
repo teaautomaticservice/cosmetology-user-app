@@ -1,4 +1,7 @@
 .root {
+  min-width: 300px;
+  max-width: 500px;
+
   .mainContainer {
     width: 100%;
     padding-top: 16px;
@@ -60,6 +63,10 @@
 
   .rowInfo {
     width: 100%;
+  }
+
+  .listLabel {
+    line-height: 32px;
   }
 
   .editBtn {

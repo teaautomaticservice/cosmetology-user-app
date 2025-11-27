@@ -13,6 +13,7 @@ import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
 import type { GetAccountWithStorageDto } from '../models/GetAccountWithStorageDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
+import type { UpdateAccountDto } from '../models/UpdateAccountDto';
 import type { UpdateCurrencyDto } from '../models/UpdateCurrencyDto';
 import type { UpdateMoneyStorageDto } from '../models/UpdateMoneyStorageDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -295,6 +296,47 @@ export class CashierService {
             url: '/cashier/accounts/create',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns GetAccountWithStorageDto Currency update
+     * @throws ApiError
+     */
+    public static accountsControllerUpdateItem({
+        id,
+        requestBody,
+    }: {
+        id: string,
+        /**
+         * Currency body
+         */
+        requestBody: UpdateAccountDto,
+    }): CancelablePromise<GetAccountWithStorageDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/cashier/accounts/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any Account deleted
+     * @throws ApiError
+     */
+    public static accountsControllerRemoveItem({
+        id,
+    }: {
+        id: string,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/cashier/accounts/{id}',
+            path: {
+                'id': id,
+            },
         });
     }
 }
