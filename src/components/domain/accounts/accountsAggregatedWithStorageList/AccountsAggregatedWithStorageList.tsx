@@ -80,7 +80,6 @@ export const AccountsAggregatedWithStorageList: React.FC<Props> = ({
                 </span>
               ))}
             </div>
-
           ),
         },
         {
