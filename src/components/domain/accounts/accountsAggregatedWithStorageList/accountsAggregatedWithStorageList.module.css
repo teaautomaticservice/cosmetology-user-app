@@ -1,0 +1,30 @@
+.root {
+  .ids {
+    width: 100px;
+  }
+
+  .moneyStoragesCell {
+    width: 500px;
+  }
+
+  .moneyStorages {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .monyStoragesCard {
+    border-radius: 4px;
+    background-color: var(--background-light);
+    padding: 0 4px;
+  }
+
+  .moneyStoragesBadge {
+    margin-left: 4px;
+  }
+
+  .actionsCol {
+    width: 100px;
+  }
+}

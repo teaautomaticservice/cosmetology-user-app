@@ -1,6 +1,6 @@
 import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
-import { Button, Tooltip } from 'antd';
+import { Button, Checkbox, Tooltip } from 'antd';
 import cn from 'classnames';
 
 import s from './accountsActions.module.css';
@@ -15,7 +15,9 @@ export const AccountsActions: React.FC<Props> = ({
   const {
     isEditMode,
     currencies,
+    isAggregated,
     toggleEditMode,
+    toggleAggregateMode,
   } = useAccountsPageStore();
   const { open } = useModalStore();
 
@@ -27,7 +29,6 @@ export const AccountsActions: React.FC<Props> = ({
 
   return (
     <div className={cn(s.root, className)}>
-      <Button type={isEditMode ? 'primary' : 'default'} onClick={toggleEditMode}>Edit mode</Button>
       <Tooltip title='Create currency first' open={isDisableCreate ? undefined : false}>
         <Button
           disabled={isDisableCreate}
@@ -36,6 +37,10 @@ export const AccountsActions: React.FC<Props> = ({
           Create account
         </Button>
       </Tooltip>
+      <Button type={isEditMode ? 'primary' : 'default'} onClick={toggleEditMode}>Edit mode</Button>
+      {isEditMode && (
+        <Checkbox checked={isAggregated} onChange={toggleAggregateMode}>Aggregate</Checkbox>
+      )}
     </div>
   );
 };

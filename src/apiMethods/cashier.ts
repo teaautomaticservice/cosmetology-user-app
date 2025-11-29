@@ -8,6 +8,7 @@ import {
   GetAccountsControllerListParams,
   GetMoneyStorageListSort,
   UpdateAccountData,
+  UpdateAccountListData,
   UpdateCurrencyData,
   UpdateMoneyStorageData
 } from '@typings/api/cashier';
@@ -112,6 +113,14 @@ export const updateAccountApi = (
 ) => {
   return CashierService.accountsControllerUpdateItem({
     id: currentId.toString(),
+    requestBody: newData,
+  });
+};
+
+export const updateMultiplyAccountsApi = (
+  newData: UpdateAccountListData,
+) => {
+  return CashierService.accountsControllerUpdateItems({
     requestBody: newData,
   });
 };

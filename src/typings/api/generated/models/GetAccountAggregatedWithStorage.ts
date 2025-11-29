@@ -5,6 +5,7 @@
 import type { CurrencyDto } from './CurrencyDto';
 import type { MoneyStorageDto } from './MoneyStorageDto';
 export type GetAccountAggregatedWithStorage = {
+    ids: Array<number>;
     name: string;
     status: GetAccountAggregatedWithStorage.status;
     currency: CurrencyDto;

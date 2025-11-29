@@ -38,8 +38,7 @@ export type EditDropdown<Entity extends object> = {
   dropdownProp: keyof Entity;
   onDelete?: () => Promise<void>;
 }
-
-type Props<Entity extends object, T extends Record<keyof Entity, unknown>> = {
+type Props<Entity extends object, T extends Partial<Entity>> = {
   title: string;
   rows: FormItemRowProps<Entity, T>[];
   onUpdate: (formData: T) => Promise<void>;
