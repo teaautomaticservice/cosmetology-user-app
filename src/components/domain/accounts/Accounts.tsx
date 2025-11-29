@@ -21,7 +21,7 @@ export const Accounts: React.FC = () => {
     }
 
     if (isAggregated) {
-      return <AccountsAggregatedWithStorageList />;
+      return <AccountsAggregatedWithStorageList isExtended />;
     }
 
     return <AccountsWithStorageList />;

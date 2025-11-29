@@ -1,0 +1,14 @@
+.root {
+  .title {
+    margin-top: 0;
+  }
+
+  .subTitle {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .badge {
+    margin-left: 16px;
+  }
+}

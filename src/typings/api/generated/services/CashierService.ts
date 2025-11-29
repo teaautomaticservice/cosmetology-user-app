@@ -14,6 +14,7 @@ import type { GetAccountWithStorageDto } from '../models/GetAccountWithStorageDt
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
 import type { UpdateAccountDto } from '../models/UpdateAccountDto';
+import type { UpdateAccountListDto } from '../models/UpdateAccountListDto';
 import type { UpdateCurrencyDto } from '../models/UpdateCurrencyDto';
 import type { UpdateMoneyStorageDto } from '../models/UpdateMoneyStorageDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -299,7 +300,7 @@ export class CashierService {
         });
     }
     /**
-     * @returns GetAccountWithStorageDto Currency update
+     * @returns GetAccountWithStorageDto Update account body
      * @throws ApiError
      */
     public static accountsControllerUpdateItem({
@@ -337,6 +338,25 @@ export class CashierService {
             path: {
                 'id': id,
             },
+        });
+    }
+    /**
+     * @returns GetAccountWithStorageDto Currency update
+     * @throws ApiError
+     */
+    public static accountsControllerUpdateItems({
+        requestBody,
+    }: {
+        /**
+         * Update account list body
+         */
+        requestBody: UpdateAccountListDto,
+    }): CancelablePromise<GetAccountWithStorageDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/cashier/accounts/update-items',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

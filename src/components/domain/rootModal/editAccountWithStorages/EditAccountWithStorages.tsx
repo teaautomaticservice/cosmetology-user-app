@@ -16,6 +16,7 @@ import s from './editAccountWithStorages.module.css';
 type FormData = {
   name?: string;
   currencyId?: number;
+  status?: AccountWithStore['status'];
 }
 
 export const EditAccountWithStorages: React.FC = () => {

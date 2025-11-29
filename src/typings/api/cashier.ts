@@ -42,6 +42,8 @@ export const AccountWithStorageStatusEnum = GetAccountWithStorageDto['status'];
 export type CreateAccount = CreateAccountDto;
 export type UpdateAccountData =
   Parameters<typeof CashierService.accountsControllerUpdateItem>[0]['requestBody'];
+export type UpdateAccountListData =
+  Parameters<typeof CashierService.accountsControllerUpdateItems>[0]['requestBody'];
 
 export type Currency = CurrencyDto;
 export type CurrencyStatus = CurrencyDto['status'];
