@@ -9,12 +9,14 @@ import { useMoneyStoragesPageStore } from './moneyStoragesPage';
 
 type Store = {
   isEditMode: boolean;
+  isAggregated: boolean;
 };
 
 const {
   useStore,
 } = storeFactory<Store>({
   isEditMode: false,
+  isAggregated: false,
 });
 
 export const useAccountsPageStore = () => {
@@ -43,9 +45,10 @@ export const useAccountsPageStore = () => {
     accountsAggregatedWithStorage,
     isLoading: isAccountsAggregatedLoading,
     accountsAggregatedWithStorageCount,
+    updateAccountsAggregatedWithStorage,
   } = useAccountsAggregatedWithStorageStore();
 
-  const { isEditMode } = state;
+  const { isEditMode, isAggregated } = state;
 
   const isAccountsPageLoading =
     isAccountsLoading ||
@@ -53,7 +56,17 @@ export const useAccountsPageStore = () => {
     isAccountsAggregatedLoading;
 
   const toggleEditMode = () => {
-    updateState(({ isEditMode }) => ({ isEditMode: !isEditMode }));
+    updateState((state) => ({
+      ...state,
+      isEditMode: !state.isEditMode,
+    }));
+  };
+
+  const toggleAggregateMode = () => {
+    updateState((state) => ({
+      ...state,
+      isAggregated: !state.isAggregated,
+    }));
   };
 
   const disableEditMode = () => {
@@ -88,6 +101,7 @@ export const useAccountsPageStore = () => {
     accountsByStoresCount,
     accountsWithStoresCount,
     params,
+    isAggregated,
     updateAccountsList,
     toggleEditMode,
     updateCurrenciesList,
@@ -98,5 +112,7 @@ export const useAccountsPageStore = () => {
     updateCurrenciesPagination,
     updateAggregatedAccountsPagination,
     setCurrentAccountWithStore,
+    toggleAggregateMode,
+    updateAccountsAggregatedWithStorage,
   };
 };

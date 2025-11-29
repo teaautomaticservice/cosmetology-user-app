@@ -8,12 +8,14 @@ export const AccountsPage: React.FC = () => {
     updateCurrenciesList,
     disableEditMode,
     updateMoneyStorages,
+    updateAccountsAggregatedWithStorage,
   } = useAccountsPageStore();
 
   useEffect(() => {
     updateAccountsList();
     updateCurrenciesList();
     updateMoneyStorages();
+    updateAccountsAggregatedWithStorage();
 
     return () => {
       disableEditMode();
