@@ -2,6 +2,7 @@ import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntity
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useCurrenciesStore } from '@stores/cashier/currencies';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
+import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { CreateAccount } from '@typings/api/cashier';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
@@ -15,9 +16,11 @@ type FormData = {
 export const CreateAccountsModal: React.FC = () => {
   const {
     isAccountsLoading,
-    updateAccountsList,
     createAccount,
   } = useAccountsStore();
+  const {
+    updateAllAccounts,
+  } = useAccountsPageStore();
   const {
     activeCurrencies,
   } = useCurrenciesStore();
@@ -37,7 +40,7 @@ export const CreateAccountsModal: React.FC = () => {
       moneyStorageIds,
       name,
     });
-    await updateAccountsList();
+    await updateAllAccounts();
   };
 
   const currenciesOptions = fromEntityToOptionsList(activeCurrencies);

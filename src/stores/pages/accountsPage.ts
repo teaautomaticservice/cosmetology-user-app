@@ -89,6 +89,12 @@ export const useAccountsPageStore = () => {
     aggregatedAccountUpdater: updateAccountsList,
   });
 
+  const updateAllAccounts = () => {
+    updateAccountsList();
+    updateMoneyStorages();
+    updateAccountsAggregatedWithStorage();
+  };
+
   return {
     isEditMode,
     accountsByStores,
@@ -114,5 +120,6 @@ export const useAccountsPageStore = () => {
     setCurrentAccountWithStore,
     toggleAggregateMode,
     updateAccountsAggregatedWithStorage,
+    updateAllAccounts,
   };
 };

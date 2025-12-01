@@ -4,18 +4,14 @@ import { useAccountsPageStore } from '@stores/pages/accountsPage';
 
 export const AccountsPage: React.FC = () => {
   const {
-    updateAccountsList,
     updateCurrenciesList,
     disableEditMode,
-    updateMoneyStorages,
-    updateAccountsAggregatedWithStorage,
+    updateAllAccounts,
   } = useAccountsPageStore();
 
   useEffect(() => {
-    updateAccountsList();
     updateCurrenciesList();
-    updateMoneyStorages();
-    updateAccountsAggregatedWithStorage();
+    updateAllAccounts();
 
     return () => {
       disableEditMode();
