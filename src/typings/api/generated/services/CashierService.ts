@@ -13,6 +13,7 @@ import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
 import type { GetAccountWithStorageDto } from '../models/GetAccountWithStorageDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
+import type { TransactionsPaginated } from '../models/TransactionsPaginated';
 import type { UpdateAccountDto } from '../models/UpdateAccountDto';
 import type { UpdateAccountListDto } from '../models/UpdateAccountListDto';
 import type { UpdateCurrencyDto } from '../models/UpdateCurrencyDto';
@@ -300,6 +301,25 @@ export class CashierService {
         });
     }
     /**
+     * @returns boolean Currency update
+     * @throws ApiError
+     */
+    public static accountsControllerUpdateItems({
+        requestBody,
+    }: {
+        /**
+         * Update account list body
+         */
+        requestBody: UpdateAccountListDto,
+    }): CancelablePromise<boolean> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/cashier/accounts/update-items',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
      * @returns GetAccountWithStorageDto Update account body
      * @throws ApiError
      */
@@ -341,22 +361,23 @@ export class CashierService {
         });
     }
     /**
-     * @returns GetAccountWithStorageDto Currency update
+     * @returns TransactionsPaginated List of transactions
      * @throws ApiError
      */
-    public static accountsControllerUpdateItems({
-        requestBody,
+    public static transactionsControllerGetList({
+        page,
+        pageSize,
     }: {
-        /**
-         * Update account list body
-         */
-        requestBody: UpdateAccountListDto,
-    }): CancelablePromise<GetAccountWithStorageDto> {
+        page?: number,
+        pageSize?: number,
+    }): CancelablePromise<TransactionsPaginated> {
         return __request(OpenAPI, {
-            method: 'PATCH',
-            url: '/cashier/accounts/update-items',
-            body: requestBody,
-            mediaType: 'application/json',
+            method: 'GET',
+            url: '/cashier/transactions/list',
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+            },
         });
     }
 }

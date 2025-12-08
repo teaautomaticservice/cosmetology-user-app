@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Accounts } from '@components/domain/accounts/Accounts';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
+import { CashierService } from '@typings/api/generated';
 
 export const AccountsPage: React.FC = () => {
   const {
@@ -12,6 +13,7 @@ export const AccountsPage: React.FC = () => {
   useEffect(() => {
     updateCurrenciesList();
     updateAllAccounts();
+    CashierService.transactionsControllerGetList({});
 
     return () => {
       disableEditMode();

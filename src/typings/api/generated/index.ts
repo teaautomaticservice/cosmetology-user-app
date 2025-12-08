@@ -22,6 +22,7 @@ export { GetAccountAggregatedWithStorage } from './models/GetAccountAggregatedWi
 export { GetAccountDto } from './models/GetAccountDto';
 export { GetAccountsByStoreDto } from './models/GetAccountsByStoreDto';
 export { GetAccountWithStorageDto } from './models/GetAccountWithStorageDto';
+export type { GetTransactionDto } from './models/GetTransactionDto';
 export type { HistoryDto } from './models/HistoryDto';
 export type { HistoryPaginatedDto } from './models/HistoryPaginatedDto';
 export type { InitiateHardResetPasswordDto } from './models/InitiateHardResetPasswordDto';
@@ -32,6 +33,7 @@ export { MoneyStorageDto } from './models/MoneyStorageDto';
 export type { MoneyStoragePaginatedDto } from './models/MoneyStoragePaginatedDto';
 export type { PaginationMetaDto } from './models/PaginationMetaDto';
 export type { SetupNewPasswordDto } from './models/SetupNewPasswordDto';
+export type { TransactionsPaginated } from './models/TransactionsPaginated';
 export { UpdateAccountDto } from './models/UpdateAccountDto';
 export { UpdateAccountListDto } from './models/UpdateAccountListDto';
 export { UpdateCurrencyDto } from './models/UpdateCurrencyDto';
