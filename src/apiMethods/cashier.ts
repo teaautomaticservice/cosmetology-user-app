@@ -144,3 +144,7 @@ export const createCurrencyApi = (newData: CreateCurrencyData) => {
     requestBody: newData,
   });
 };
+
+export const getTransactionsList = () => {
+  return CashierService.transactionsControllerGetList({});
+};

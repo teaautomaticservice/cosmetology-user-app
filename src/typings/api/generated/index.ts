@@ -22,7 +22,7 @@ export { GetAccountAggregatedWithStorage } from './models/GetAccountAggregatedWi
 export { GetAccountDto } from './models/GetAccountDto';
 export { GetAccountsByStoreDto } from './models/GetAccountsByStoreDto';
 export { GetAccountWithStorageDto } from './models/GetAccountWithStorageDto';
-export type { GetTransactionDto } from './models/GetTransactionDto';
+export { GetTransactionDto } from './models/GetTransactionDto';
 export type { HistoryDto } from './models/HistoryDto';
 export type { HistoryPaginatedDto } from './models/HistoryPaginatedDto';
 export type { InitiateHardResetPasswordDto } from './models/InitiateHardResetPasswordDto';
