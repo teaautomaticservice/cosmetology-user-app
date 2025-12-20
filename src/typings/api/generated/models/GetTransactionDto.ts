@@ -2,13 +2,16 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { GetAccountDto } from './GetAccountDto';
 export type GetTransactionDto = {
     id: number;
     parentTransactionId: number | null;
     transactionId: string;
     amount: number;
     debitId: number | null;
+    debitAccount: GetAccountDto | null;
     creditId: number | null;
+    creditAccount: GetAccountDto | null;
     status: GetTransactionDto.status;
     operationType: GetTransactionDto.operationType;
     executionDate: string | null;

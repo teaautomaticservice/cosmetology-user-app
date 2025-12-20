@@ -21,12 +21,16 @@ const finalColumns: ColumnsType<Transaction> = [
     dataIndex: 'parentTransactionId',
   },
   {
-    title: 'Debit ID',
-    dataIndex: 'debitId'
+    title: 'Debit',
+    render: ({ debitAccount }: Transaction) => (
+      <span>{debitAccount?.name ?? '-'}</span>
+    ),
   },
   {
-    title: 'Credit ID',
-    dataIndex: 'creditId'
+    title: 'Credit',
+    render: ({ creditAccount }: Transaction) => (
+      <span>{creditAccount?.name ?? '-'}</span>
+    ),
   },
   {
     title: 'Amount',
