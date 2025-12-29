@@ -9,6 +9,7 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { AccountsAggregatedWithStoragePaginated } from './models/AccountsAggregatedWithStoragePaginated';
 export type { AccountsByStorePaginated } from './models/AccountsByStorePaginated';
+export { AccountStatus } from './models/AccountStatus';
 export type { AccountsWithStoragePaginatedDto } from './models/AccountsWithStoragePaginatedDto';
 export type { AppConfigDto } from './models/AppConfigDto';
 export type { CreateAccountDto } from './models/CreateAccountDto';

@@ -1,4 +1,5 @@
 import { useAppParams } from '@shared/hooks/useParams';
+import { AccountStatus } from '@typings/api/generated';
 import { PaginationProps } from 'antd';
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
   accountsPage?: string;
   accountsPageSize?: string;
   accountsMoneyStoragesIds?: string[];
+  status?: AccountStatus[];
 };
 
 export const useAccountsParams = () => {
@@ -43,11 +45,15 @@ export const useAccountsParams = () => {
 
   const updateAccountsFilters = ({
     accountsMoneyStoragesIds,
+    status,
   }: {
-      accountsMoneyStoragesIds?: string[];
-    }) => {
+    accountsMoneyStoragesIds?: string[];
+    status?: AccountStatus[];
+  }) => {
     setParams({
-      accountsMoneyStoragesIds,
+      ...params,
+      ...(accountsMoneyStoragesIds && { accountsMoneyStoragesIds }),
+      ...(status && { status }),
     });
   };
 

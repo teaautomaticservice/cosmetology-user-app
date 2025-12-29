@@ -75,6 +75,7 @@ export const getAccountsWithMoneyStoragesApi = ({
   order,
   sort,
   moneyStoragesIds,
+  status,
 }: GetAccountsControllerListParams = {}) => {
   return CashierService.accountsControllerGetList({
     page,
@@ -82,6 +83,7 @@ export const getAccountsWithMoneyStoragesApi = ({
     order,
     sort,
     moneyStoragesIds,
+    status,
   });
 };
 

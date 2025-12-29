@@ -23,6 +23,7 @@ export const AccountsPage: React.FC = () => {
     accountsMoneyStoragesIds,
     accountsPage,
     accountsPageSize,
+    status,
   } = params;
 
   const updateAccountListWithParams = debounce(() => {
@@ -31,6 +32,7 @@ export const AccountsPage: React.FC = () => {
         moneyStoragesIds: accountsMoneyStoragesIds,
         ...(accountsPage && { page: Number(accountsPage) }),
         ...(accountsPageSize && { pageSize: Number(accountsPageSize) }),
+        status,
       });
     }
   }, 100);

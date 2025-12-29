@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { AccountsAggregatedWithStoragePaginated } from '../models/AccountsAggregatedWithStoragePaginated';
 import type { AccountsByStorePaginated } from '../models/AccountsByStorePaginated';
+import type { AccountStatus } from '../models/AccountStatus';
 import type { AccountsWithStoragePaginatedDto } from '../models/AccountsWithStoragePaginatedDto';
 import type { CreateAccountDto } from '../models/CreateAccountDto';
 import type { CreateCurrencyDto } from '../models/CreateCurrencyDto';
@@ -265,12 +266,14 @@ export class CashierService {
         sort,
         order,
         moneyStoragesIds,
+        status,
     }: {
         page?: number,
         pageSize?: number,
         sort?: 'status' | 'name',
         order?: 'ASC' | 'DESC',
         moneyStoragesIds?: Array<string>,
+        status?: Array<AccountStatus>,
     }): CancelablePromise<AccountsWithStoragePaginatedDto> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -281,6 +284,7 @@ export class CashierService {
                 'sort': sort,
                 'order': order,
                 'moneyStoragesIds': moneyStoragesIds,
+                'status': status,
             },
         });
     }
