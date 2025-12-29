@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Accounts } from '@components/domain/accounts/Accounts';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
+import { debounce } from 'lodash';
 
 import { useAccountsParams } from './useAccountsParams';
 
@@ -15,6 +16,7 @@ export const AccountsPage: React.FC = () => {
 
   const {
     params,
+    isReady,
   } = useAccountsParams();
 
   const {
@@ -23,13 +25,15 @@ export const AccountsPage: React.FC = () => {
     accountsPageSize,
   } = params;
 
-  const updateAccountListWithParams = () => {
-    updateAccountsList({
-      moneyStoragesIds: accountsMoneyStoragesIds,
-      ...(accountsPage && { page: Number(accountsPage) }),
-      ...(accountsPageSize && { pageSize: Number(accountsPageSize) }),
-    });
-  };
+  const updateAccountListWithParams = debounce(() => {
+    if (isReady) {
+      updateAccountsList({
+        moneyStoragesIds: accountsMoneyStoragesIds,
+        ...(accountsPage && { page: Number(accountsPage) }),
+        ...(accountsPageSize && { pageSize: Number(accountsPageSize) }),
+      });
+    }
+  }, 100);
 
   useEffect(() => {
     updateCurrenciesList();

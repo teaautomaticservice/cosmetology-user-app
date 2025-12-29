@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const useAccountsParams = () => {
-  const { params, setParams } = useAppParams<Props>({
+  const { params, isReady, setParams } = useAppParams<Props>({
     customDefaultKeys: {
       currenciesPage: '1',
       currenciesPageSize: '10',
@@ -53,6 +53,7 @@ export const useAccountsParams = () => {
 
   return {
     params,
+    isReady,
     setParams,
     updateAggregatedAccountsPagination,
     updateCurrenciesPagination,
