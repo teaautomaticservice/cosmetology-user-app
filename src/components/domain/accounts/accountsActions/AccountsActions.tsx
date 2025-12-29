@@ -1,7 +1,16 @@
+import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
-import { Button, Checkbox, Tooltip } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Dropdown,
+  MenuProps,
+  Select,
+  Tooltip
+} from 'antd';
 import cn from 'classnames';
+import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
 import s from './accountsActions.module.css';
 
@@ -16,15 +25,31 @@ export const AccountsActions: React.FC<Props> = ({
     isEditMode,
     currencies,
     isAggregated,
+    moneyStorages,
     toggleEditMode,
     toggleAggregateMode,
   } = useAccountsPageStore();
   const { open } = useModalStore();
+  const {
+    params,
+    test,
+  } = useAccountsParams({
+    currenciesUpdater: async () => { },
+    aggregatedAccountUpdater: async () => { },
+  });
 
   const isDisableCreate = !Boolean(currencies.length);
 
+  const items = fromEntityToOptionsList(moneyStorages);
+
   const openCreateAccountModal = () => {
     open('createAccountsModal');
+  };
+
+  const onChange = (val: string[]) => {
+    test({
+      accountsMoneyStoragesIds: val
+    });
   };
 
   return (
@@ -39,7 +64,17 @@ export const AccountsActions: React.FC<Props> = ({
       </Tooltip>
       <Button type={isEditMode ? 'primary' : 'default'} onClick={toggleEditMode}>Edit mode</Button>
       {isEditMode && (
-        <Checkbox checked={isAggregated} onChange={toggleAggregateMode}>Aggregate</Checkbox>
+        <>
+          <Select
+            mode='multiple'
+            options={items}
+            placeholder='Select money storages'
+            value={params.accountsMoneyStoragesIds as any}
+            onChange={onChange}
+            className={s.select}
+          />
+          <Checkbox checked={isAggregated} onChange={toggleAggregateMode}>Aggregate</Checkbox>
+        </>
       )}
     </div>
   );

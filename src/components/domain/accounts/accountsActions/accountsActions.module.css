@@ -3,4 +3,8 @@
   align-items: center;
   width: 100%;
   gap: 8px;
+
+  .select {
+    min-width: 200px;
+  }
 }

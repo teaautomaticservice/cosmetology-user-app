@@ -46,9 +46,9 @@ export const useAccountsStore = () => {
       isLoading: true,
     });
     try {
-      const { aggregatedPage, aggregatedPageSize } = getSearchParams<{
-        aggregatedPage?: string;
-        aggregatedPageSize?: string;
+      const { accountsPage, accountsPageSize } = getSearchParams<{
+        accountsPage?: string;
+        accountsPageSize?: string;
       }>();
 
       const [
@@ -59,8 +59,8 @@ export const useAccountsStore = () => {
           sort: 'status',
         }),
         getAccountsWithMoneyStoragesApi({
-          ...(aggregatedPage && { page: Number(aggregatedPage) }),
-          ...(aggregatedPageSize && { pageSize: Number(aggregatedPageSize) }),
+          ...(accountsPage && { page: Number(accountsPage) }),
+          ...(accountsPageSize && { pageSize: Number(accountsPageSize) }),
         })
       ]);
       setState({

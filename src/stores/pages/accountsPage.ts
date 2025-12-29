@@ -39,6 +39,7 @@ export const useAccountsPageStore = () => {
     setCurrentCurrency,
   } = useCurrenciesStore();
   const {
+    moneyStorages,
     updateMoneyStorages,
   } = useMoneyStoragesPageStore();
   const {
@@ -108,6 +109,7 @@ export const useAccountsPageStore = () => {
     accountsWithStoresCount,
     params,
     isAggregated,
+    moneyStorages,
     updateAccountsList,
     toggleEditMode,
     updateCurrenciesList,

@@ -93,8 +93,8 @@ export const AccountsWithStorageList: React.FC<Props> = ({
         className={s.root}
         pagination={{
           total: accountsWithStoresCount,
-          current: Number(params.aggregatedPage ?? 1),
-          pageSize: Number(params.aggregatedPageSize ?? 10),
+          current: Number(params.accountsPage ?? 1),
+          pageSize: Number(params.accountsPageSize ?? 10),
           onChange: updateAggregatedAccountsPagination,
           onShowSizeChange: updateAggregatedAccountsPagination,
         }}

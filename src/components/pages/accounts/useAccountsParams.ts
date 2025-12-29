@@ -5,8 +5,9 @@ import { debounce } from 'lodash';
 type Props = {
   currenciesPage?: string;
   currenciesPageSize?: string;
-  aggregatedPage?: string;
-  aggregatedPageSize?: string;
+  accountsPage?: string;
+  accountsPageSize?: string;
+  accountsMoneyStoragesIds?: string[];
 };
 
 const DEBOUNCE_MS = 100;
@@ -22,8 +23,8 @@ export const useAccountsParams = ({
     customDefaultKeys: {
       currenciesPage: '1',
       currenciesPageSize: '10',
-      aggregatedPage: '1',
-      aggregatedPageSize: '10',
+      accountsPage: '1',
+      accountsPageSize: '10',
     },
   });
 
@@ -46,16 +47,27 @@ export const useAccountsParams = ({
     PaginationProps['onShowSizeChange']
     = (page, pageSize) => {
       setParams({
-        aggregatedPage: page.toString(),
-        aggregatedPageSize: pageSize.toString(),
+        accountsPage: page.toString(),
+        accountsPageSize: pageSize.toString(),
       });
       debouncedAggregatedAccountUpdater();
     };
+
+  const test = ({
+    accountsMoneyStoragesIds,
+  }: {
+      accountsMoneyStoragesIds?: string[];
+    }) => {
+    setParams({
+      accountsMoneyStoragesIds,
+    });
+  };
 
   return {
     params,
     setParams,
     updateCurrenciesPagination,
     updateAggregatedAccountsPagination,
+    test,
   };
 };
