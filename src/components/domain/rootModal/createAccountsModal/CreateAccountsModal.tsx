@@ -1,8 +1,9 @@
 import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntityModal';
+import { useAppParams } from '@shared/hooks/useParams';
 import { useAccountsStore } from '@stores/cashier/accounts';
+import { useAccountsAggregatedWithStorageStore } from '@stores/cashier/accountsAggregatedWithStorage';
 import { useCurrenciesStore } from '@stores/cashier/currencies';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
-import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { CreateAccount } from '@typings/api/cashier';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
@@ -17,16 +18,19 @@ export const CreateAccountsModal: React.FC = () => {
   const {
     isAccountsLoading,
     createAccount,
+    updateAccountsList,
   } = useAccountsStore();
-  const {
-    updateAllAccounts,
-  } = useAccountsPageStore();
   const {
     activeCurrencies,
   } = useCurrenciesStore();
   const {
     activeMoneyStorages,
+    updateMoneyStoragesList,
   } = useMoneyStoragesStore();
+  const {
+    updateAccountsAggregatedWithStorage,
+  } = useAccountsAggregatedWithStorageStore();
+  const { clearParams } = useAppParams();
 
   const onSubmit = async ({
     currencyId,
@@ -40,7 +44,12 @@ export const CreateAccountsModal: React.FC = () => {
       moneyStorageIds,
       name,
     });
-    await updateAllAccounts();
+    clearParams();
+    Promise.all([
+      updateAccountsList(),
+      updateMoneyStoragesList(),
+      updateAccountsAggregatedWithStorage(),
+    ]);
   };
 
   const currenciesOptions = fromEntityToOptionsList(activeCurrencies);

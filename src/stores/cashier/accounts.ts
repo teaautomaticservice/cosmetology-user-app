@@ -3,11 +3,11 @@ import {
   getAccountsByMoneyStoragesApi,
   getAccountsWithMoneyStoragesApi,
 } from '@apiMethods/cashier';
-import { getSearchParams } from '@shared/utils/getSearchParams';
 import {
   AccountsByStore,
   AccountWithStore,
   CreateAccount,
+  GetAccountsControllerListParams,
 } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
@@ -41,16 +41,11 @@ export const useAccountsStore = () => {
     isLoading: isAccountsLoading,
   } = state;
 
-  const updateAccountsList = async () => {
+  const updateAccountsList = async (params: GetAccountsControllerListParams = {}) => {
     setState({
       isLoading: true,
     });
     try {
-      const { accountsPage, accountsPageSize } = getSearchParams<{
-        accountsPage?: string;
-        accountsPageSize?: string;
-      }>();
-
       const [
         accountsByStoresResp,
         accountsWithStoresResp,
@@ -58,10 +53,7 @@ export const useAccountsStore = () => {
         getAccountsByMoneyStoragesApi({
           sort: 'status',
         }),
-        getAccountsWithMoneyStoragesApi({
-          ...(accountsPage && { page: Number(accountsPage) }),
-          ...(accountsPageSize && { pageSize: Number(accountsPageSize) }),
-        })
+        getAccountsWithMoneyStoragesApi(params)
       ]);
       setState({
         accountsByStores: accountsByStoresResp.data,

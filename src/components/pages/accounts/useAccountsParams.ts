@@ -1,6 +1,5 @@
 import { useAppParams } from '@shared/hooks/useParams';
 import { PaginationProps } from 'antd';
-import { debounce } from 'lodash';
 
 type Props = {
   currenciesPage?: string;
@@ -10,15 +9,7 @@ type Props = {
   accountsMoneyStoragesIds?: string[];
 };
 
-const DEBOUNCE_MS = 100;
-
-export const useAccountsParams = ({
-  currenciesUpdater,
-  aggregatedAccountUpdater,
-}: {
-  currenciesUpdater: (...args: any[]) => any;
-  aggregatedAccountUpdater: (...args: any[]) => any;
-}) => {
+export const useAccountsParams = () => {
   const { params, setParams } = useAppParams<Props>({
     customDefaultKeys: {
       currenciesPage: '1',
@@ -28,18 +19,15 @@ export const useAccountsParams = ({
     },
   });
 
-  const debouncedCurrenciesUpdater = debounce(currenciesUpdater, DEBOUNCE_MS);
-  const debouncedAggregatedAccountUpdater = debounce(aggregatedAccountUpdater, DEBOUNCE_MS);
-
   const updateCurrenciesPagination:
     PaginationProps['onChange'] |
     PaginationProps['onShowSizeChange']
     = (page, pageSize) => {
       setParams({
+        ...params,
         currenciesPage: page.toString(),
         currenciesPageSize: pageSize.toString(),
       });
-      debouncedCurrenciesUpdater();
     };
 
   const updateAggregatedAccountsPagination:
@@ -47,13 +35,13 @@ export const useAccountsParams = ({
     PaginationProps['onShowSizeChange']
     = (page, pageSize) => {
       setParams({
+        ...params,
         accountsPage: page.toString(),
         accountsPageSize: pageSize.toString(),
       });
-      debouncedAggregatedAccountUpdater();
     };
 
-  const test = ({
+  const updateAccountsFilters = ({
     accountsMoneyStoragesIds,
   }: {
       accountsMoneyStoragesIds?: string[];
@@ -66,8 +54,8 @@ export const useAccountsParams = ({
   return {
     params,
     setParams,
-    updateCurrenciesPagination,
     updateAggregatedAccountsPagination,
-    test,
+    updateCurrenciesPagination,
+    updateAccountsFilters,
   };
 };

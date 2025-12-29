@@ -1,4 +1,5 @@
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
+import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { TableUi } from '@components/ui/table/TableUi';
 import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
@@ -19,14 +20,16 @@ export const AccountsWithStorageList: React.FC<Props> = ({
   const {
     accountsWithStores,
     isAccountsPageLoading,
-    params,
     accountsWithStoresCount,
-    updateAggregatedAccountsPagination,
     setCurrentAccountWithStore,
   } = useAccountsPageStore();
   const {
     open,
   } = useModalStore();
+  const {
+    params,
+    updateAggregatedAccountsPagination,
+  } = useAccountsParams();
 
   const openEditModal = (account: AccountWithStore) => {
     setCurrentAccountWithStore(account);

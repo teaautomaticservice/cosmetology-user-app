@@ -4,8 +4,6 @@ import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import {
   Button,
   Checkbox,
-  Dropdown,
-  MenuProps,
   Select,
   Tooltip
 } from 'antd';
@@ -28,28 +26,28 @@ export const AccountsActions: React.FC<Props> = ({
     moneyStorages,
     toggleEditMode,
     toggleAggregateMode,
+    updateAccountsList,
   } = useAccountsPageStore();
   const { open } = useModalStore();
   const {
     params,
-    test,
-  } = useAccountsParams({
-    currenciesUpdater: async () => { },
-    aggregatedAccountUpdater: async () => { },
-  });
+    updateAccountsFilters,
+  } = useAccountsParams();
 
   const isDisableCreate = !Boolean(currencies.length);
 
   const items = fromEntityToOptionsList(moneyStorages);
+  const selectValues = params.accountsMoneyStoragesIds?.map((val) => Number(val));
 
   const openCreateAccountModal = () => {
     open('createAccountsModal');
   };
 
-  const onChange = (val: string[]) => {
-    test({
-      accountsMoneyStoragesIds: val
+  const onChange = (val: number[]) => {
+    updateAccountsFilters({
+      accountsMoneyStoragesIds: val.map((item) => String(item)),
     });
+    updateAccountsList();
   };
 
   return (
@@ -69,7 +67,7 @@ export const AccountsActions: React.FC<Props> = ({
             mode='multiple'
             options={items}
             placeholder='Select money storages'
-            value={params.accountsMoneyStoragesIds as any}
+            value={selectValues}
             onChange={onChange}
             className={s.select}
           />
