@@ -1,44 +1,36 @@
 import { useAppParams } from '@shared/hooks/useParams';
+import { AccountStatus } from '@typings/api/generated';
 import { PaginationProps } from 'antd';
-import { debounce } from 'lodash';
 
 type Props = {
   currenciesPage?: string;
   currenciesPageSize?: string;
-  aggregatedPage?: string;
-  aggregatedPageSize?: string;
+  accountsPage?: string;
+  accountsPageSize?: string;
+  accountsMoneyStoragesIds?: string[];
+  status?: AccountStatus[];
+  query?: string;
 };
 
-const DEBOUNCE_MS = 100;
-
-export const useAccountsParams = ({
-  currenciesUpdater,
-  aggregatedAccountUpdater,
-}: {
-  currenciesUpdater: (...args: any[]) => any;
-  aggregatedAccountUpdater: (...args: any[]) => any;
-}) => {
-  const { params, setParams } = useAppParams<Props>({
+export const useAccountsParams = () => {
+  const { params, isReady, setParams } = useAppParams<Props>({
     customDefaultKeys: {
       currenciesPage: '1',
       currenciesPageSize: '10',
-      aggregatedPage: '1',
-      aggregatedPageSize: '10',
+      accountsPage: '1',
+      accountsPageSize: '10',
     },
   });
-
-  const debouncedCurrenciesUpdater = debounce(currenciesUpdater, DEBOUNCE_MS);
-  const debouncedAggregatedAccountUpdater = debounce(aggregatedAccountUpdater, DEBOUNCE_MS);
 
   const updateCurrenciesPagination:
     PaginationProps['onChange'] |
     PaginationProps['onShowSizeChange']
     = (page, pageSize) => {
       setParams({
+        ...params,
         currenciesPage: page.toString(),
         currenciesPageSize: pageSize.toString(),
       });
-      debouncedCurrenciesUpdater();
     };
 
   const updateAggregatedAccountsPagination:
@@ -46,16 +38,48 @@ export const useAccountsParams = ({
     PaginationProps['onShowSizeChange']
     = (page, pageSize) => {
       setParams({
-        aggregatedPage: page.toString(),
-        aggregatedPageSize: pageSize.toString(),
+        ...params,
+        accountsPage: page.toString(),
+        accountsPageSize: pageSize.toString(),
       });
-      debouncedAggregatedAccountUpdater();
     };
+
+  const updateAccountsFilters = ({
+    accountsMoneyStoragesIds,
+    status,
+    query,
+  }: {
+    accountsMoneyStoragesIds?: string[];
+    status?: AccountStatus[];
+    query?: string;
+  }) => {
+    setParams({
+      ...params,
+      ...(accountsMoneyStoragesIds && { accountsMoneyStoragesIds }),
+      ...(status && { status }),
+      ...(query && { query }),
+    });
+  };
+
+  const deleteParam = (keys: (keyof Props)[]) => {
+    const currentParam = {
+      ...params,
+    };
+
+    keys.forEach((key) => {
+      delete currentParam[key];
+    });
+
+    setParams(currentParam);
+  };
 
   return {
     params,
+    isReady,
     setParams,
-    updateCurrenciesPagination,
     updateAggregatedAccountsPagination,
+    updateCurrenciesPagination,
+    updateAccountsFilters,
+    deleteParam,
   };
 };

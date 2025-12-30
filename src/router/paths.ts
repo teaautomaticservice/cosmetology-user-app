@@ -9,6 +9,7 @@ export const paths = {
   main: '/',
   moneyStorages: '/money-storages',
   accounts: '/accounts',
+  transactions: '/transactions',
 
   // history
   history: '/history',

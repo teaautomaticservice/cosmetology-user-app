@@ -7,6 +7,7 @@ import { HistoryPage } from '@components/pages/history/HistoryPage';
 import { LoginPage } from '@components/pages/login/LoginPage';
 import { MainPage } from '@components/pages/main/MainPage';
 import { MoneyStoragePage } from '@components/pages/moneyStorage/MoneyStoragePage';
+import { TransactionsPage } from '@components/pages/transactions/TransactionsPage';
 
 import { paths } from './paths';
 import { RouterPage, RouterRoleEnum } from './types';
@@ -46,6 +47,12 @@ const dashboards: RouterPage[] = [
     path: paths.accounts,
     Layout: DashboardLayout,
     Component: AccountsPage,
+    roles: [RouterRoleEnum.OPERATOR],
+  },
+  {
+    path: paths.transactions,
+    Layout: DashboardLayout,
+    Component: TransactionsPage,
     roles: [RouterRoleEnum.OPERATOR],
   },
 ];

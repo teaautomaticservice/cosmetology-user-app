@@ -1,4 +1,3 @@
-import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useAccountsAggregatedWithStorageStore } from '@stores/cashier/accountsAggregatedWithStorage';
 import { useCurrenciesStore } from '@stores/cashier/currencies';
@@ -39,6 +38,7 @@ export const useAccountsPageStore = () => {
     setCurrentCurrency,
   } = useCurrenciesStore();
   const {
+    moneyStorages,
     updateMoneyStorages,
   } = useMoneyStoragesPageStore();
   const {
@@ -80,21 +80,6 @@ export const useAccountsPageStore = () => {
     updateAccountsList();
   };
 
-  const {
-    params,
-    updateCurrenciesPagination,
-    updateAggregatedAccountsPagination,
-  } = useAccountsParams({
-    currenciesUpdater: updateCurrenciesList,
-    aggregatedAccountUpdater: updateAccountsList,
-  });
-
-  const updateAllAccounts = () => {
-    updateAccountsList();
-    updateMoneyStorages();
-    updateAccountsAggregatedWithStorage();
-  };
-
   return {
     isEditMode,
     accountsByStores,
@@ -106,8 +91,8 @@ export const useAccountsPageStore = () => {
     accountsAggregatedWithStorageCount,
     accountsByStoresCount,
     accountsWithStoresCount,
-    params,
     isAggregated,
+    moneyStorages,
     updateAccountsList,
     toggleEditMode,
     updateCurrenciesList,
@@ -115,11 +100,8 @@ export const useAccountsPageStore = () => {
     deleteCurrencyWithUpdateAccounts,
     setCurrentCurrency,
     updateMoneyStorages,
-    updateCurrenciesPagination,
-    updateAggregatedAccountsPagination,
     setCurrentAccountWithStore,
     toggleAggregateMode,
     updateAccountsAggregatedWithStorage,
-    updateAllAccounts,
   };
 };

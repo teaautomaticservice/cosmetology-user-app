@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { AccountsAggregatedWithStoragePaginated } from '../models/AccountsAggregatedWithStoragePaginated';
 import type { AccountsByStorePaginated } from '../models/AccountsByStorePaginated';
+import type { AccountStatus } from '../models/AccountStatus';
 import type { AccountsWithStoragePaginatedDto } from '../models/AccountsWithStoragePaginatedDto';
 import type { CreateAccountDto } from '../models/CreateAccountDto';
 import type { CreateCurrencyDto } from '../models/CreateCurrencyDto';
@@ -13,6 +14,8 @@ import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
 import type { GetAccountWithStorageDto } from '../models/GetAccountWithStorageDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
+import type { NewOpeningBalanceDto } from '../models/NewOpeningBalanceDto';
+import type { TransactionsPaginated } from '../models/TransactionsPaginated';
 import type { UpdateAccountDto } from '../models/UpdateAccountDto';
 import type { UpdateAccountListDto } from '../models/UpdateAccountListDto';
 import type { UpdateCurrencyDto } from '../models/UpdateCurrencyDto';
@@ -263,11 +266,17 @@ export class CashierService {
         pageSize,
         sort,
         order,
+        moneyStoragesIds,
+        status,
+        query,
     }: {
         page?: number,
         pageSize?: number,
         sort?: 'status' | 'name',
         order?: 'ASC' | 'DESC',
+        moneyStoragesIds?: Array<string>,
+        status?: Array<AccountStatus>,
+        query?: string,
     }): CancelablePromise<AccountsWithStoragePaginatedDto> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -277,6 +286,9 @@ export class CashierService {
                 'pageSize': pageSize,
                 'sort': sort,
                 'order': order,
+                'moneyStoragesIds': moneyStoragesIds,
+                'status': status,
+                'query': query,
             },
         });
     }
@@ -295,6 +307,25 @@ export class CashierService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/cashier/accounts/create',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns boolean Currency update
+     * @throws ApiError
+     */
+    public static accountsControllerUpdateItems({
+        requestBody,
+    }: {
+        /**
+         * Update account list body
+         */
+        requestBody: UpdateAccountListDto,
+    }): CancelablePromise<boolean> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/cashier/accounts/update-items',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -341,20 +372,40 @@ export class CashierService {
         });
     }
     /**
-     * @returns GetAccountWithStorageDto Currency update
+     * @returns TransactionsPaginated List of transactions
      * @throws ApiError
      */
-    public static accountsControllerUpdateItems({
+    public static transactionsControllerGetList({
+        page,
+        pageSize,
+    }: {
+        page?: number,
+        pageSize?: number,
+    }): CancelablePromise<TransactionsPaginated> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/cashier/transactions/list',
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+            },
+        });
+    }
+    /**
+     * @returns any New transaction Open Balance successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerOpenBalance({
         requestBody,
     }: {
         /**
-         * Update account list body
+         * Create account
          */
-        requestBody: UpdateAccountListDto,
-    }): CancelablePromise<GetAccountWithStorageDto> {
+        requestBody: NewOpeningBalanceDto,
+    }): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'PATCH',
-            url: '/cashier/accounts/update-items',
+            method: 'POST',
+            url: '/cashier/transactions/opening-balance',
             body: requestBody,
             mediaType: 'application/json',
         });

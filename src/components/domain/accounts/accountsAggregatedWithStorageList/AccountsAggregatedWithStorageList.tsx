@@ -4,6 +4,7 @@ import { TableUi } from '@components/ui/table/TableUi';
 import { useAccountsAggregatedWithStorageStore } from '@stores/cashier/accountsAggregatedWithStorage';
 import { useModalStore } from '@stores/modal';
 import { AccountAggregatedWithStorage, Currency } from '@typings/api/cashier';
+import { fromAmountApi } from '@utils/amount';
 import { Button } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import cn from 'classnames';
@@ -21,11 +22,15 @@ const columns: ColumnsType<AccountAggregatedWithStorage> = [
   },
   {
     title: 'Balance',
-    dataIndex: 'balance',
+    render: ({ balance }: AccountAggregatedWithStorage) => (
+      <span>{fromAmountApi(balance)}</span>
+    )
   },
   {
     title: 'Available',
-    dataIndex: 'available',
+    render: ({ available }: AccountAggregatedWithStorage) => (
+      <span>{fromAmountApi(available)}</span>
+    )
   },
   {
     title: 'Currency',

@@ -2,7 +2,6 @@ import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntity
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useCurrenciesStore } from '@stores/cashier/currencies';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
-import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { CreateAccount } from '@typings/api/cashier';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
@@ -18,9 +17,6 @@ export const CreateAccountsModal: React.FC = () => {
     isAccountsLoading,
     createAccount,
   } = useAccountsStore();
-  const {
-    updateAllAccounts,
-  } = useAccountsPageStore();
   const {
     activeCurrencies,
   } = useCurrenciesStore();
@@ -40,7 +36,7 @@ export const CreateAccountsModal: React.FC = () => {
       moneyStorageIds,
       name,
     });
-    await updateAllAccounts();
+    window.location.reload();
   };
 
   const currenciesOptions = fromEntityToOptionsList(activeCurrencies);

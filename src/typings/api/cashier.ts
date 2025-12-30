@@ -7,7 +7,9 @@ import {
   GetAccountDto,
   GetAccountsByStoreDto,
   GetAccountWithStorageDto,
+  GetTransactionDto,
   MoneyStorageDto,
+  NewOpeningBalanceDto,
 } from './generated';
 
 export type GetMoneyStorageListParams =
@@ -53,3 +55,6 @@ export type UpdateCurrencyData =
   Parameters<typeof CashierService.currenciesControllerUpdateItem>[0]['requestBody'];
 export type CreateCurrencyData =
   Parameters<typeof CashierService.currenciesControllerCreateCurrency>[0]['requestBody'];
+
+export type Transaction = GetTransactionDto;
+export type NewOpeningBalance = NewOpeningBalanceDto

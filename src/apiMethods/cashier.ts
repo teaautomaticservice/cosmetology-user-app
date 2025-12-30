@@ -7,6 +7,7 @@ import {
   GetAccountsByMoneyStoragesListParams,
   GetAccountsControllerListParams,
   GetMoneyStorageListSort,
+  NewOpeningBalance,
   UpdateAccountData,
   UpdateAccountListData,
   UpdateCurrencyData,
@@ -74,12 +75,18 @@ export const getAccountsWithMoneyStoragesApi = ({
   pageSize,
   order,
   sort,
+  moneyStoragesIds,
+  status,
+  query,
 }: GetAccountsControllerListParams = {}) => {
   return CashierService.accountsControllerGetList({
     page,
     pageSize,
     order,
     sort,
+    moneyStoragesIds,
+    status,
+    query,
   });
 };
 
@@ -141,6 +148,16 @@ export const updateCurrencyApi = (
 
 export const createCurrencyApi = (newData: CreateCurrencyData) => {
   return CashierService.currenciesControllerCreateCurrency({
+    requestBody: newData,
+  });
+};
+
+export const getTransactionsListApi = () => {
+  return CashierService.transactionsControllerGetList({});
+};
+
+export const createOpenBalanceApi = (newData: NewOpeningBalance) => {
+  return CashierService.transactionsControllerOpenBalance({
     requestBody: newData,
   });
 };

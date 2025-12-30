@@ -1,14 +1,18 @@
-import { Form, FormInstance, Input, Select } from 'antd';
+import { Form, FormInstance, Input, InputNumber, Select } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
 import TextArea from 'antd/es/input/TextArea';
 import { DefaultOptionType } from 'antd/es/select';
+import cn from 'classnames';
 
-export type FormInputType = 'input' | 'textarea' | 'select';
+import s from './formItemRow.module.css';
+
+export type FormInputType = 'input' | 'textarea' | 'select' | 'inputNumber';
 
 const formItemMap: Record<FormInputType, React.FC> = {
   'input': Input,
   'textarea': TextArea,
   'select': Select,
+  'inputNumber': InputNumber,
 };
 
 type InputProps<FormData> = {
@@ -28,6 +32,18 @@ type MultiselectProps = {
   onChange?: (value: any, option?: DefaultOptionType | DefaultOptionType[]) => void;
 };
 
+type InputNumberProps<FormData> = {
+  type: 'inputNumber';
+  min?: number;
+  max?: number;
+  defaultValue?: number;
+  suffix?: string;
+  precision?: number;
+  step?: string;
+  formatter?: (val: string) => number | string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>, formInstance: FormInstance<FormData>) => void;
+};
+
 export type Props<T extends object, FormData> = {
   label: string;
   name: NamePath<T>;
@@ -36,7 +52,8 @@ export type Props<T extends object, FormData> = {
 } & (
     InputProps<FormData> |
     TextareaProps<FormData> |
-    MultiselectProps
+    MultiselectProps |
+    InputNumberProps<FormData>
   );
 
 type FormItemRowProps<T extends object, FormData> = Props<T, FormData> & {
@@ -55,7 +72,10 @@ export const FormItemRow = <Entity extends object, FormData extends Record<keyof
     type = 'input',
     onChange,
   } = props;
-  const Component: React.FC<{ onChange?: React.ChangeEventHandler }> = formItemMap[type];
+  const Component: React.FC<{
+    onChange?: React.ChangeEventHandler;
+    className?: string;
+  }> = formItemMap[type];
 
   const rules = [];
   if (isRequired) {
@@ -69,6 +89,7 @@ export const FormItemRow = <Entity extends object, FormData extends Record<keyof
   };
 
   const componentProps = {
+    ...props,
     ...(
       type === 'select' && (props as MultiselectProps).options ?
         { options: (props as MultiselectProps).options } :
@@ -87,9 +108,9 @@ export const FormItemRow = <Entity extends object, FormData extends Record<keyof
       label={label}
       name={name as NamePath<FormData>}
       rules={rules}
-      className={className}
+      className={cn(s.root, className)}
     >
-      <Component {...componentProps} onChange={onCurrentChange} />
+      <Component className={s.item} {...componentProps} onChange={onCurrentChange} />
     </Form.Item>
   );
 };

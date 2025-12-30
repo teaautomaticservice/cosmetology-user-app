@@ -1,3 +1,4 @@
+import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { ColumnsType, TableUi } from '@components/ui/table/TableUi';
 import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
@@ -18,11 +19,13 @@ export const CurrenciesList: React.FC<Props> = ({
     isAccountsPageLoading,
     currencies,
     currenciesCount,
-    params,
     setCurrentCurrency,
-    updateCurrenciesPagination,
   } = useAccountsPageStore();
   const { open } = useModalStore();
+  const {
+    params,
+    updateCurrenciesPagination,
+  } = useAccountsParams();
 
   const openEditCurrencyModal = (currentCurrency: Currency) => {
     setCurrentCurrency(currentCurrency);
