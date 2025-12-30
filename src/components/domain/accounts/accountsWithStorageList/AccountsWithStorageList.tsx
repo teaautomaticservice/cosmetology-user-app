@@ -3,7 +3,8 @@ import { useAccountsParams } from '@components/pages/accounts/useAccountsParams'
 import { TableUi } from '@components/ui/table/TableUi';
 import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
-import { AccountWithStore, Currency, MoneyStorage } from '@typings/api/cashier';
+import { AccountWithStorageStatusEnum, AccountWithStore, Currency, MoneyStorage } from '@typings/api/cashier';
+import { fromAmountApi } from '@utils/amount';
 import { Button } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import cn from 'classnames';
@@ -36,6 +37,11 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     open('editAccountWithStorages');
   };
 
+  const openOpenBalanceModal = (account: AccountWithStore) => {
+    setCurrentAccountWithStore(account);
+    open('createOpenBalanceModal');
+  };
+
   const columns: ColumnsType<AccountWithStore> = [
     {
       title: 'ID',
@@ -51,11 +57,15 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     },
     {
       title: 'Balance',
-      dataIndex: 'balance',
+      render: ({ balance }: AccountWithStore) => (
+        <span>{fromAmountApi(balance)}</span>
+      )
     },
     {
       title: 'Available',
-      dataIndex: 'available',
+      render: ({ available }: AccountWithStore) => (
+        <span>{fromAmountApi(available)}</span>
+      )
     },
     {
       title: 'Currency',
@@ -79,9 +89,20 @@ export const AccountsWithStorageList: React.FC<Props> = ({
       className: s.actionsCol,
       render: (_, account) => (
         <div className={s.actions}>
-          <Button onClick={() => openEditModal(account)}>
-            Edit
-          </Button>
+          <div className={s.actionsWrapper}>
+            <Button onClick={() => openEditModal(account)}>
+              Edit
+            </Button>
+            {(
+              Number(account.balance) === 0 &&
+              Number(account.available) === 0 &&
+              account.status === AccountWithStorageStatusEnum.ACTIVE
+            ) && (
+              <Button onClick={() => openOpenBalanceModal(account)}>
+                  Open Balance
+              </Button>
+            )}
+          </div>
         </div>
       )
     }

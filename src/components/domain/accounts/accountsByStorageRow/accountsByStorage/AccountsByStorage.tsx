@@ -1,6 +1,7 @@
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
 import { type ColumnsType, TableUi } from '@components/ui/table/TableUi';
 import { Account, AccountsByStore, Currency } from '@typings/api/cashier';
+import { fromAmountApi } from '@utils/amount';
 
 import s from './accountsByStorage.module.css';
 
@@ -31,11 +32,15 @@ export const AccountsByStorage: React.FC<Props> = ({
         },
         {
           title: 'Balance',
-          dataIndex: 'balance',
+          render: ({ balance }: Account) => (
+            <span>{fromAmountApi(balance)}</span>
+          )
         },
         {
           title: 'Available',
-          dataIndex: 'available',
+          render: ({ available }: Account) => (
+            <span>{fromAmountApi(available)}</span>
+          )
         },
         {
           title: 'Currency',

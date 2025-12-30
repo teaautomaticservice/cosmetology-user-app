@@ -1,6 +1,7 @@
 import { TableUi } from '@components/ui/table/TableUi';
 import { useTransactionsStore } from '@stores/cashier/transactions';
 import { Transaction } from '@typings/api/cashier';
+import { fromAmountApi } from '@utils/amount';
 import { ColumnsType } from 'antd/es/table';
 
 const finalColumns: ColumnsType<Transaction> = [
@@ -34,7 +35,9 @@ const finalColumns: ColumnsType<Transaction> = [
   },
   {
     title: 'Amount',
-    dataIndex: 'amount'
+    render: ({ amount }: Transaction) => (
+      <span>{fromAmountApi(amount)}</span>
+    )
   },
   {
     title: 'Operation type',
