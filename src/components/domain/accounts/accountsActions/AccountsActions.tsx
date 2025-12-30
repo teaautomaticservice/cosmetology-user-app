@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react';
 import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
@@ -5,10 +6,12 @@ import { AccountStatus } from '@typings/api/generated';
 import {
   Button,
   Checkbox,
+  Input,
   Select,
   Tooltip
 } from 'antd';
 import cn from 'classnames';
+import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
 import s from './accountsActions.module.css';
@@ -32,6 +35,7 @@ export const AccountsActions: React.FC<Props> = ({
   const {
     params,
     updateAccountsFilters,
+    deleteParam,
   } = useAccountsParams();
 
   const isDisableCreate = !Boolean(currencies.length);
@@ -59,7 +63,17 @@ export const AccountsActions: React.FC<Props> = ({
       status: val,
     });
   };
- 
+
+  const onChangeInput = debounce(({ currentTarget }: ChangeEvent<HTMLInputElement>) => {
+    if (Boolean(currentTarget.value)) {
+      updateAccountsFilters({
+        query: currentTarget.value,
+      });
+    } else {
+      deleteParam(['query']);
+    }
+  }, 500);
+
   return (
     <div className={cn(s.root, className)}>
       <Tooltip title='Create currency first' open={isDisableCreate ? undefined : false}>
@@ -73,6 +87,12 @@ export const AccountsActions: React.FC<Props> = ({
       <Button type={isEditMode ? 'primary' : 'default'} onClick={toggleEditMode}>Edit mode</Button>
       {isEditMode && (
         <>
+          <Input
+            placeholder='Input query'
+            className={s.input}
+            onChange={onChangeInput}
+            defaultValue={params.query}
+          />
           <Select
             mode='multiple'
             options={itemsMoneyStorages}

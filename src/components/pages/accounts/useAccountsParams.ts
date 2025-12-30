@@ -9,6 +9,7 @@ type Props = {
   accountsPageSize?: string;
   accountsMoneyStoragesIds?: string[];
   status?: AccountStatus[];
+  query?: string;
 };
 
 export const useAccountsParams = () => {
@@ -46,15 +47,30 @@ export const useAccountsParams = () => {
   const updateAccountsFilters = ({
     accountsMoneyStoragesIds,
     status,
+    query,
   }: {
     accountsMoneyStoragesIds?: string[];
     status?: AccountStatus[];
+    query?: string;
   }) => {
     setParams({
       ...params,
       ...(accountsMoneyStoragesIds && { accountsMoneyStoragesIds }),
       ...(status && { status }),
+      ...(query && { query }),
     });
+  };
+
+  const deleteParam = (keys: (keyof Props)[]) => {
+    const currentParam = {
+      ...params,
+    };
+
+    keys.forEach((key) => {
+      delete currentParam[key];
+    });
+
+    setParams(currentParam);
   };
 
   return {
@@ -64,5 +80,6 @@ export const useAccountsParams = () => {
     updateAggregatedAccountsPagination,
     updateCurrenciesPagination,
     updateAccountsFilters,
+    deleteParam,
   };
 };

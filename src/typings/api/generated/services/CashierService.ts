@@ -268,6 +268,7 @@ export class CashierService {
         order,
         moneyStoragesIds,
         status,
+        query,
     }: {
         page?: number,
         pageSize?: number,
@@ -275,6 +276,7 @@ export class CashierService {
         order?: 'ASC' | 'DESC',
         moneyStoragesIds?: Array<string>,
         status?: Array<AccountStatus>,
+        query?: string,
     }): CancelablePromise<AccountsWithStoragePaginatedDto> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -286,6 +288,7 @@ export class CashierService {
                 'order': order,
                 'moneyStoragesIds': moneyStoragesIds,
                 'status': status,
+                'query': query,
             },
         });
     }

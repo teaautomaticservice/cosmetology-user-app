@@ -24,6 +24,7 @@ export const AccountsPage: React.FC = () => {
     accountsPage,
     accountsPageSize,
     status,
+    query,
   } = params;
 
   const updateAccountListWithParams = debounce(() => {
@@ -33,6 +34,7 @@ export const AccountsPage: React.FC = () => {
         ...(accountsPage && { page: Number(accountsPage) }),
         ...(accountsPageSize && { pageSize: Number(accountsPageSize) }),
         status,
+        query,
       });
     }
   }, 100);
