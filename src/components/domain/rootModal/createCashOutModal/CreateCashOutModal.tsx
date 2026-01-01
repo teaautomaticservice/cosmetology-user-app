@@ -2,20 +2,20 @@ import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntity
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useTransactionsStore } from '@stores/cashier/transactions';
 import { NewTransaction } from '@typings/api/cashier';
-import { toAmountApi } from '@utils/amount';
+import { fromAmountApi, toAmountApi } from '@utils/amount';
 
 type FormData = {
   amount: number;
   description?: string;
 }
 
-export const CreateOpenBalanceModal: React.FC = () => {
+export const CreateCashOutModal: React.FC = () => {
   const {
     isAccountsLoading,
     currentAccountWithStore,
   } = useAccountsStore();
   const {
-    createOpenBalance,
+    createCashOut,
   } = useTransactionsStore();
 
   const onSubmit = async ({
@@ -26,27 +26,27 @@ export const CreateOpenBalanceModal: React.FC = () => {
       return;
     }
 
-    await createOpenBalance({
+    await createCashOut({
       amount: toAmountApi(amount),
       description: description ?? null,
-      debitId: currentAccountWithStore.id,
-      creditId: null,
+      debitId: null,
+      creditId: currentAccountWithStore.id,
     });
     window.location.reload();
   };
 
   return (
     <CreateEntityModal<NewTransaction, FormData>
-      title="Open Balance"
+      title="Cash Out"
       onSubmit={onSubmit}
       rows={[
         {
-          initialValue: 0,
+          initialValue: fromAmountApi(currentAccountWithStore?.available ?? 0),
           label: 'Amount',
           name: 'amount',
           isRequired: true,
           type: 'inputNumber',
-          min: 0,
+          min: 0.01,
           precision: 2,
           step: '0.01',
           formatter: (value) => {

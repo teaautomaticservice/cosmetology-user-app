@@ -36,7 +36,6 @@ type InputNumberProps<FormData> = {
   type: 'inputNumber';
   min?: number;
   max?: number;
-  defaultValue?: number;
   suffix?: string;
   precision?: number;
   step?: string;
@@ -49,6 +48,7 @@ export type Props<T extends object, FormData> = {
   name: NamePath<T>;
   isRequired?: boolean;
   className?: string;
+  initialValue?: number | string;
 } & (
     InputProps<FormData> |
     TextareaProps<FormData> |
@@ -89,17 +89,20 @@ export const FormItemRow = <Entity extends object, FormData extends Record<keyof
   };
 
   const componentProps = {
-    ...props,
-    ...(
-      type === 'select' && (props as MultiselectProps).options ?
-        { options: (props as MultiselectProps).options } :
-        {}
-    ),
-    ...(
-      type === 'select' && (props as MultiselectProps).isMultiply ?
-        { mode: 'multiple' } :
-        {}
-    ),
+    className: cn(s.item, props.className),
+    onChange: onCurrentChange,
+    ...(type === 'select' && ({
+      mode: (props as MultiselectProps).isMultiply ? 'multiple' : undefined,
+      options: (props as MultiselectProps).options,
+    })),
+    ...(type === 'inputNumber' && ({
+      min: (props as InputNumberProps<FormData>).min,
+      max: (props as InputNumberProps<FormData>).max,
+      suffix: (props as InputNumberProps<FormData>).suffix,
+      precision: (props as InputNumberProps<FormData>).precision,
+      step: (props as InputNumberProps<FormData>).step,
+      formatter: (props as InputNumberProps<FormData>).formatter,
+    })),
   };
 
   return (
@@ -109,8 +112,9 @@ export const FormItemRow = <Entity extends object, FormData extends Record<keyof
       name={name as NamePath<FormData>}
       rules={rules}
       className={cn(s.root, className)}
+      initialValue={props.initialValue}
     >
-      <Component className={s.item} {...componentProps} onChange={onCurrentChange} />
+      <Component {...componentProps} />
     </Form.Item>
   );
 };

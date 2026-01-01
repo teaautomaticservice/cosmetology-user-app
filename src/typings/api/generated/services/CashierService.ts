@@ -14,7 +14,7 @@ import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
 import type { GetAccountWithStorageDto } from '../models/GetAccountWithStorageDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
-import type { NewOpeningBalanceDto } from '../models/NewOpeningBalanceDto';
+import type { NewTransactionDto } from '../models/NewTransactionDto';
 import type { TransactionsPaginated } from '../models/TransactionsPaginated';
 import type { UpdateAccountDto } from '../models/UpdateAccountDto';
 import type { UpdateAccountListDto } from '../models/UpdateAccountListDto';
@@ -399,13 +399,32 @@ export class CashierService {
         requestBody,
     }: {
         /**
-         * Create account
+         * Opening balance
          */
-        requestBody: NewOpeningBalanceDto,
+        requestBody: NewTransactionDto,
     }): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/cashier/transactions/opening-balance',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any New transaction Cash Out successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerCashOut({
+        requestBody,
+    }: {
+        /**
+         * Cash out
+         */
+        requestBody: NewTransactionDto,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/cash-out',
             body: requestBody,
             mediaType: 'application/json',
         });

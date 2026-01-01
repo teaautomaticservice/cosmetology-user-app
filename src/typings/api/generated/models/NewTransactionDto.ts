@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type NewOpeningBalanceDto = {
+export type NewTransactionDto = {
     amount: number;
-    debitId: number;
+    debitId: number | null;
     creditId: number | null;
     description: string | null;
 };

@@ -32,7 +32,7 @@ export type { LogsDto } from './models/LogsDto';
 export type { LogsPaginatedDto } from './models/LogsPaginatedDto';
 export { MoneyStorageDto } from './models/MoneyStorageDto';
 export type { MoneyStoragePaginatedDto } from './models/MoneyStoragePaginatedDto';
-export type { NewOpeningBalanceDto } from './models/NewOpeningBalanceDto';
+export type { NewTransactionDto } from './models/NewTransactionDto';
 export type { PaginationMetaDto } from './models/PaginationMetaDto';
 export type { SetupNewPasswordDto } from './models/SetupNewPasswordDto';
 export type { TransactionsPaginated } from './models/TransactionsPaginated';
