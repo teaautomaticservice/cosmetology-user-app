@@ -13,7 +13,7 @@ export const useMoneyStoragesPageStore = () => {
   } = useMoneyStoragesStore();
 
   const {
-    obligationAccountStorages,
+    obligationAccountsStorages,
     isObligationAccountLoading,
     updateObligationAccountList,
   } = useObligationAccountStore();
@@ -39,7 +39,7 @@ export const useMoneyStoragesPageStore = () => {
   return {
     isLoading,
     moneyStorages,
-    obligationAccountStorages,
+    obligationAccountsStorages,
     updateMoneyStorages,
     openUpdateModal,
   };

@@ -1,4 +1,13 @@
 .root {
+  width: 100%;
+
+  .wrapper {
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    gap: 8px;
+  }
+
   .statusRow {
     display: flex;
     gap: 8px;

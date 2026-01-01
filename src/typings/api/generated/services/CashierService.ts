@@ -136,13 +136,23 @@ export class CashierService {
         });
     }
     /**
-     * @returns MoneyStorageDto Obligation account of money storages successful has been got
+     * @returns MoneyStoragePaginatedDto Obligation account of money storages successful has been got
      * @throws ApiError
      */
-    public static moneyStoragesControllerGetObligationAccount(): CancelablePromise<MoneyStorageDto> {
+    public static moneyStoragesControllerGetObligationAccounts({
+        page,
+        pageSize,
+    }: {
+        page?: number,
+        pageSize?: number,
+    }): CancelablePromise<MoneyStoragePaginatedDto> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/cashier/money-storages/obligation-account',
+            url: '/cashier/money-storages/obligation-accounts',
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+            },
         });
     }
     /**

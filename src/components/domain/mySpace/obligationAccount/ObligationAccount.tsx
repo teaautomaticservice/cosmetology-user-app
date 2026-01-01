@@ -27,29 +27,33 @@ const columns: ColumnsType<MoneyStorage> = [
 ];
 
 export const ObligationAccount: React.FC = () => {
-  const { isLoading, obligationAccountStorages } = useMySpacePageStore();
-
-  const isStorageNotActive = obligationAccountStorages?.status !== MoneyStorageStatusEnum.ACTIVE;
+  const { isLoading, obligationAccountsStorages } = useMySpacePageStore();
 
   return (
     <div className={s.root}>
-      {isStorageNotActive && (
-        <div>
-          <Title level={3}>Money storage is not active</Title>
-          <div className={s.statusRow}>
-            <MoneyStorageBadge moneyStorageStatus={obligationAccountStorages?.status} />
-            <Typography>
-              Activate this storage for using history obligation
-            </Typography>
+      <div className={s.wrapper}>
+        {obligationAccountsStorages?.map(({ status, code }) => (
+          <div key={code}>
+            {status !== MoneyStorageStatusEnum.ACTIVE && (
+              <div>
+                <Title level={3}>Money storage is not active</Title>
+                <div className={s.statusRow}>
+                  <MoneyStorageBadge moneyStorageStatus={status} />
+                  <Typography>
+                    Activate this storage for using history obligation
+                  </Typography>
+                </div>
+              </div>
+            )}
+            <TableUi
+              className={s.table}
+              columns={columns}
+              dataSource={[]}
+              loading={isLoading}
+            />
           </div>
-        </div>
-      )}
-      <TableUi
-        className={s.table}
-        columns={columns}
-        dataSource={[]}
-        loading={isLoading}
-      />
+        ))}
+      </div>
     </div>
   );
 };

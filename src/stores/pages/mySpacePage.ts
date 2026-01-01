@@ -18,7 +18,7 @@ export const useMySpacePageStore = () => {
   } = useMoneyStoragesStore();
 
   const {
-    obligationAccountStorages,
+    obligationAccountsStorages,
     isObligationAccountLoading,
     updateObligationAccountList,
   } = useObligationAccountStore();
@@ -47,7 +47,7 @@ export const useMySpacePageStore = () => {
     isLoading,
     currencies,
     moneyStorages,
-    obligationAccountStorages,
+    obligationAccountsStorages,
     accountsAggregatedWithStorage,
     updateData,
   };
