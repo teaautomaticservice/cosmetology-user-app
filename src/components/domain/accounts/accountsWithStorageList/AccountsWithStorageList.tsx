@@ -42,6 +42,11 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     open('createOpenBalanceModal');
   };
 
+  const openCashOutModal = (account: AccountWithStore) => {
+    setCurrentAccountWithStore(account);
+    open('createCashOutModal');
+  };
+
   const columns: ColumnsType<AccountWithStore> = [
     {
       title: 'ID',
@@ -100,6 +105,14 @@ export const AccountsWithStorageList: React.FC<Props> = ({
             ) && (
               <Button onClick={() => openOpenBalanceModal(account)}>
                   Open Balance
+              </Button>
+            )}
+            {(
+              Number(account.available) > 0 &&
+              account.status === AccountWithStorageStatusEnum.ACTIVE
+            ) && (
+              <Button onClick={() => openCashOutModal(account)}>
+                  Cash Out
               </Button>
             )}
           </div>
