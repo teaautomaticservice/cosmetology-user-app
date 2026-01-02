@@ -25,8 +25,10 @@ export const useMySpacePageStore = () => {
 
   const {
     accountsAggregatedWithStorage,
+    obligationAccountsAggregatedWithStorage,
     isLoading: isAccountsAggregatedWithStorageLoading,
     updateAccountsAggregatedWithStorage,
+    updateObligationAccountsAggregatedWithStorage,
   } = useAccountsAggregatedWithStorageStore();
 
   const isLoading = isCurrenciesLoading ||
@@ -42,6 +44,9 @@ export const useMySpacePageStore = () => {
       updateAccountsAggregatedWithStorage({
         balanceFrom: 1,
       }),
+      updateObligationAccountsAggregatedWithStorage({
+        balanceFrom: 1,
+      })
     ]);
   };
 
@@ -51,6 +56,7 @@ export const useMySpacePageStore = () => {
     moneyStorages,
     obligationAccountsStorages,
     accountsAggregatedWithStorage,
+    obligationAccountsAggregatedWithStorage,
     updateData,
   };
 };

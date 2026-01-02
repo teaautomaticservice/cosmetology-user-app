@@ -294,6 +294,38 @@ export class CashierService {
         });
     }
     /**
+     * @returns AccountsAggregatedWithStoragePaginated List of obligation accounts with money storages
+     * @throws ApiError
+     */
+    public static accountsControllerGetObligationAccountsAggregatedWithStorageList({
+        page,
+        pageSize,
+        order,
+        balanceFrom,
+        balanceTo,
+        sort,
+    }: {
+        page?: number,
+        pageSize?: number,
+        order?: 'ASC' | 'DESC',
+        balanceFrom?: number,
+        balanceTo?: number,
+        sort?: 'status' | 'available' | 'balance' | 'name',
+    }): CancelablePromise<AccountsAggregatedWithStoragePaginated> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/cashier/accounts/obligation-accounts-aggregated-with-storage-list',
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+                'order': order,
+                'balanceFrom': balanceFrom,
+                'balanceTo': balanceTo,
+                'sort': sort,
+            },
+        });
+    }
+    /**
      * @returns AccountsWithStoragePaginatedDto List of accounts with money storages
      * @throws ApiError
      */

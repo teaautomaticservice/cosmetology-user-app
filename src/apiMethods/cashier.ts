@@ -122,6 +122,24 @@ export const getAccountsAggregatedWithMoneyStoragesApi = ({
   });
 };
 
+export const getObligationAccountsAggregatedWithMoneyStoragesApi = ({
+  page,
+  pageSize,
+  order,
+  sort,
+  balanceFrom,
+  balanceTo,
+}: GetAccountsAggregatedWithMoneyStoragesListParams = {}) => {
+  return CashierService.accountsControllerGetObligationAccountsAggregatedWithStorageList({
+    page,
+    pageSize,
+    order,
+    sort,
+    balanceFrom,
+    balanceTo,
+  });
+};
+
 export const createAccountApi = (newData: CreateAccount) => {
   return CashierService.accountsControllerCreateAccount({
     requestBody: newData,
