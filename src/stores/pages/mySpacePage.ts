@@ -20,7 +20,7 @@ export const useMySpacePageStore = () => {
   const {
     obligationAccountsStorages,
     isObligationAccountLoading,
-    updateObligationAccountList,
+    updateObligationAccountsList: updateObligationAccountList,
   } = useObligationAccountStore();
 
   const {

@@ -15,7 +15,7 @@ export const useMoneyStoragesPageStore = () => {
   const {
     obligationAccountsStorages,
     isObligationAccountLoading,
-    updateObligationAccountList,
+    updateObligationAccountsList: updateObligationAccountList,
   } = useObligationAccountStore();
 
   const { open } = useModalStore();

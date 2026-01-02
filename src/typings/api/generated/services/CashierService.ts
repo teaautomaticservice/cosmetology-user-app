@@ -156,6 +156,25 @@ export class CashierService {
         });
     }
     /**
+     * @returns MoneyStorageDto Obligation storage successful created
+     * @throws ApiError
+     */
+    public static moneyStoragesControllerCreateObligationItem({
+        requestBody,
+    }: {
+        /**
+         * Create obligation storage body
+         */
+        requestBody: CreateMoneyStorageDto,
+    }): CancelablePromise<MoneyStorageDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/money-storages/obligation-accounts',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
      * @returns MoneyStorageDto Money storage successful updated
      * @throws ApiError
      */

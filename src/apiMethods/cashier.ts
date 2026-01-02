@@ -38,13 +38,19 @@ export const getMoneyStoragesApi = ({
   });
 };
 
-export const getObligationAccounts = ({
+export const getObligationAccountsApi = ({
   page,
   pageSize,
 }: GetObligationStoragesListParams = {}) => {
   return CashierService.moneyStoragesControllerGetObligationAccounts({
     page,
     pageSize,
+  });
+};
+
+export const createObligationAccountApi = (newData: CreateMoneyStorageData) => {
+  return CashierService.moneyStoragesControllerCreateObligationItem({
+    requestBody: newData,
   });
 };
 

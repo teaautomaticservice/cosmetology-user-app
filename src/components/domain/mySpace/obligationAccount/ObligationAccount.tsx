@@ -31,28 +31,30 @@ export const ObligationAccount: React.FC = () => {
 
   return (
     <div className={s.root}>
-      <div className={s.wrapper}>
-        {obligationAccountsStorages?.map(({ status, code }) => (
-          <div key={code}>
-            {status !== MoneyStorageStatusEnum.ACTIVE && (
-              <div>
-                <Title level={3}>Money storage is not active</Title>
-                <div className={s.statusRow}>
-                  <MoneyStorageBadge moneyStorageStatus={status} />
-                  <Typography>
-                    Activate this storage for using history obligation
-                  </Typography>
+      <Title level={3} className={s.title}>Current obligation state</Title>
+      <div className={s.contentContainer}>
+        <div className={s.wrapper}>
+          {obligationAccountsStorages?.map(({ status, code }) => (
+            <div key={code}>
+              {status !== MoneyStorageStatusEnum.ACTIVE && (
+                <div>
+                  <div className={s.statusRow}>
+                    <MoneyStorageBadge moneyStorageStatus={status} className={s.status} />
+                    <Typography>
+                      Activate this storage for using history obligation
+                    </Typography>
+                  </div>
                 </div>
-              </div>
-            )}
-            <TableUi
-              className={s.table}
-              columns={columns}
-              dataSource={[]}
-              loading={isLoading}
-            />
-          </div>
-        ))}
+              )}
+              <TableUi
+                className={s.table}
+                columns={columns}
+                dataSource={[]}
+                loading={isLoading}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

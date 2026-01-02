@@ -1,5 +1,5 @@
-import { getObligationAccounts } from '@apiMethods/cashier';
-import { MoneyStorage } from '@typings/api/cashier';
+import { createObligationAccountApi, getObligationAccountsApi } from '@apiMethods/cashier';
+import { CreateMoneyStorageData, MoneyStorage } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
@@ -17,14 +17,14 @@ export const useObligationAccountStore = () => {
 
   const { obligationAccountsStorages, isLoading: isObligationAccountLoading } = state;
 
-  const updateObligationAccountList = async () => {
+  const updateObligationAccountsList = async () => {
     setState({
       isLoading: true,
     });
     try {
       const {
         data,
-      } = await getObligationAccounts();
+      } = await getObligationAccountsApi();
       setState({
         obligationAccountsStorages: data,
       });
@@ -36,9 +36,25 @@ export const useObligationAccountStore = () => {
     }
   };
 
+  const createObligationAccount = async (newData: CreateMoneyStorageData) => {
+    setState({
+      isLoading: true,
+    });
+    try {
+      await createObligationAccountApi(newData);
+      await updateObligationAccountsList();
+    } finally {
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
+    }
+  };
+
   return {
     obligationAccountsStorages,
     isObligationAccountLoading,
-    updateObligationAccountList,
+    updateObligationAccountsList,
+    createObligationAccount,
   };
 };
