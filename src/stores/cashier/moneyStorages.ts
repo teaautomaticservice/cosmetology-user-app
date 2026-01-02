@@ -23,7 +23,7 @@ const { useStore: useLoadingCreateItemStore } = storeFactory<boolean>(false);
 
 export const useMoneyStoragesStore = () => {
   const [state, setState] = useStore();
-  const { updateObligationAccountsList: updateObligationAccountList } = useObligationAccountStore();
+  const { updateObligationAccountsList } = useObligationAccountStore();
   const [isCreateItemLoading, setIsCreateItemLoading] = useLoadingCreateItemStore();
 
   const { moneyStorages, isLoading: isMoneyStoragesLoading } = state;
@@ -66,7 +66,7 @@ export const useMoneyStoragesStore = () => {
 
   const updateAllMoneyStorages = () => {
     updateMoneyStoragesList();
-    updateObligationAccountList();
+    updateObligationAccountsList();
   };
 
   return {
