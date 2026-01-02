@@ -8,6 +8,7 @@ import {
   GetAccountsControllerListParams,
   GetMoneyStorageListSort,
   GetObligationStoragesListParams,
+  NewOpenBalanceObligation,
   NewTransaction,
   UpdateAccountData,
   UpdateAccountListData,
@@ -175,6 +176,12 @@ export const getTransactionsListApi = () => {
 
 export const createOpenBalanceApi = (newData: NewTransaction) => {
   return CashierService.transactionsControllerOpenBalance({
+    requestBody: newData,
+  });
+};
+
+export const createOpenBalanceObligationApi = (newData: NewOpenBalanceObligation) => {
+  return CashierService.transactionsControllerCreateObligationItem({
     requestBody: newData,
   });
 };

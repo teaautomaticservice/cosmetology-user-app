@@ -14,6 +14,7 @@ import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
 import type { GetAccountWithStorageDto } from '../models/GetAccountWithStorageDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
+import type { NewOpenBalanceObligationDto } from '../models/NewOpenBalanceObligationDto';
 import type { NewTransactionDto } from '../models/NewTransactionDto';
 import type { TransactionsPaginated } from '../models/TransactionsPaginated';
 import type { UpdateAccountDto } from '../models/UpdateAccountDto';
@@ -169,7 +170,7 @@ export class CashierService {
     }): CancelablePromise<MoneyStorageDto> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/cashier/money-storages/obligation-accounts',
+            url: '/cashier/money-storages/obligation-account',
             body: requestBody,
             mediaType: 'application/json',
         });
@@ -427,7 +428,7 @@ export class CashierService {
         });
     }
     /**
-     * @returns any New transaction Open Balance successful created
+     * @returns boolean New transaction Open Balance successful created
      * @throws ApiError
      */
     public static transactionsControllerOpenBalance({
@@ -437,10 +438,29 @@ export class CashierService {
          * Opening balance
          */
         requestBody: NewTransactionDto,
-    }): CancelablePromise<any> {
+    }): CancelablePromise<boolean> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/cashier/transactions/opening-balance',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns boolean Obligation storage successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerCreateObligationItem({
+        requestBody,
+    }: {
+        /**
+         * Open balance for obligation account
+         */
+        requestBody: NewOpenBalanceObligationDto,
+    }): CancelablePromise<boolean> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/opening-balance-obligation-account',
             body: requestBody,
             mediaType: 'application/json',
         });

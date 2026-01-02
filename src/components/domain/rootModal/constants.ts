@@ -9,6 +9,9 @@ import { CreateCashOutModal } from './createCashOutModal/CreateCashOutModal';
 import { CreateCurrencyModal } from './createCurrencyModal/CreateCurrencyModal';
 import { CreateObligationStorageModal } from './createObligationStorageModal/CreateObligationStorageModal';
 import { CreateOpenBalanceModal } from './createOpenBalanceModal/CreateOpenBalanceModal';
+import {
+  CreateOpenBalanceObligationModal,
+} from './createOpenBalanceObligationModal/CreateOpenBalanceObligationModal';
 import { EditAccountWithStorages } from './editAccountWithStorages/EditAccountWithStorages';
 import { EditAggregatedAccount } from './editAggregatedAccount/EditAggregatedAccount';
 import { EditCurrency } from './editCurrency/EditCurrency';
@@ -25,4 +28,5 @@ export const ModalsMap = {
   'createOpenBalanceModal': CreateOpenBalanceModal,
   'createCashOutModal': CreateCashOutModal,
   'createObligationStorageModal': CreateObligationStorageModal,
+  'createOpenBalanceObligationModal': CreateOpenBalanceObligationModal,
 };

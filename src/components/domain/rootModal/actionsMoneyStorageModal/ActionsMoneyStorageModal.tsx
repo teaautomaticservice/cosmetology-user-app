@@ -1,8 +1,11 @@
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
 import { EditEntityModal } from '@components/ui/editEntityModal/EditEntityModal';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
+import { useObligationAccountStore } from '@stores/cashier/obligationAccount';
+import { useModalStore } from '@stores/modal';
 import { useUpdateMoneyStorageStore } from '@stores/updateMoneyStorage';
-import { MoneyStorage, MoneyStorageStatusEnum } from '@typings/api/cashier';
+import { MoneyStorage, MoneyStorageStatusEnum, MoneyStorageTypeEnum } from '@typings/api/cashier';
+import { Button } from 'antd';
 
 import s from './actionsMoneyStorageModal.module.css';
 
@@ -21,6 +24,12 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     updateMoneyStorageData,
     deleteMoneyStorage
   } = useUpdateMoneyStorageStore();
+  const {
+    setCurrentObligationStorage,
+  } = useObligationAccountStore();
+  const {
+    open,
+  } = useModalStore();
 
   const title = currentMoneyStorage ?
     `${currentMoneyStorage?.name}, ${currentMoneyStorage?.code}` :
@@ -36,6 +45,11 @@ export const ActionsMoneyStorageModal: React.FC = () => {
     updateAllMoneyStorages();
   };
 
+  const onOpenBalanceObligation = () => {
+    setCurrentObligationStorage(currentMoneyStorage);
+    open('createOpenBalanceObligationModal');
+  };
+
   const SubtitleComponent = () => (
     <>
       <strong>ID: {currentMoneyStorage?.id}</strong>
@@ -44,6 +58,12 @@ export const ActionsMoneyStorageModal: React.FC = () => {
         moneyStorageStatus={currentMoneyStorage?.status}
       />
     </>
+  );
+
+  const btnElForObligation = (
+    <Button onClick={onOpenBalanceObligation}>
+      Open balance for obligation
+    </Button>
   );
 
   return (
@@ -72,6 +92,7 @@ export const ActionsMoneyStorageModal: React.FC = () => {
         ],
         onDelete,
       }}
+      footerEl={currentMoneyStorage?.type === MoneyStorageTypeEnum.OBLIGATION && btnElForObligation}
     />
   );
 };

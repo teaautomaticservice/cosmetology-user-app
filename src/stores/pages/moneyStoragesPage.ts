@@ -1,3 +1,5 @@
+import { useCurrenciesStore } from '@stores/cashier/currencies';
+import { useTransactionsStore } from '@stores/cashier/transactions';
 import { useModalStore } from '@stores/modal';
 import { useUpdateMoneyStorageStore } from '@stores/updateMoneyStorage';
 import { MoneyStorage } from '@typings/api/cashier';
@@ -17,6 +19,14 @@ export const useMoneyStoragesPageStore = () => {
     isObligationAccountLoading,
     updateObligationAccountsList,
   } = useObligationAccountStore();
+
+  const {
+    updateTransactionsList,
+  } = useTransactionsStore();
+
+  const {
+    updateCurrenciesList,
+  } = useCurrenciesStore();
 
   const { open } = useModalStore();
   const { setCurrentMoneyStorage } = useUpdateMoneyStorageStore();
@@ -40,7 +50,9 @@ export const useMoneyStoragesPageStore = () => {
     isLoading,
     moneyStorages,
     obligationAccountsStorages,
+    updateTransactionsList,
     updateMoneyStorages,
     openUpdateModal,
+    updateCurrenciesList,
   };
 };

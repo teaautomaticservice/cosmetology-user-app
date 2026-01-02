@@ -50,6 +50,8 @@ type Props<Entity extends object, T extends Partial<Entity>> = {
   entity?: Entity | null;
   editDropdown?: EditDropdown<Entity>;
   onClose?: () => Promise<void> | void;
+  footerClassName?: string;
+  footerEl?: React.ReactNode;
 }
 
 export const EditEntityModal = <Entity extends object, FormData extends Partial<Entity>>({
@@ -64,6 +66,8 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
   entity,
   editDropdown,
   onClose,
+  footerClassName,
+  footerEl,
 }: Props<Entity, FormData>) => {
   const { close } = useModalStore();
 
@@ -226,7 +230,7 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
   };
 
   const footer = (
-    <div className={s.footer}>
+    <div className={cn(s.footer, footerClassName)}>
       <Button onClick={closeModal}>Cancel</Button>
 
       {editDropdown && (
@@ -236,6 +240,8 @@ export const EditEntityModal = <Entity extends object, FormData extends Partial<
           </Button>
         </Dropdown>
       )}
+
+      {footerEl}
     </div>
   );
 

@@ -9,6 +9,7 @@ import {
   GetAccountWithStorageDto,
   GetTransactionDto,
   MoneyStorageDto,
+  NewOpenBalanceObligationDto,
   NewTransactionDto,
 } from './generated';
 
@@ -36,6 +37,8 @@ export type GetAccountsAggregatedWithMoneyStoragesListParams =
 export type MoneyStorage = MoneyStorageDto;
 export type MoneyStorageStatus = MoneyStorageDto['status'];
 export const MoneyStorageStatusEnum = MoneyStorageDto['status'];
+export type MoneyStorageType = MoneyStorageDto['type'];
+export const MoneyStorageTypeEnum = MoneyStorageDto['type'];
 
 export type AccountsByStore = GetAccountsByStoreDto;
 export type Account = GetAccountDto;
@@ -60,3 +63,4 @@ export type CreateCurrencyData =
 
 export type Transaction = GetTransactionDto;
 export type NewTransaction = NewTransactionDto
+export type NewOpenBalanceObligation = NewOpenBalanceObligationDto;
