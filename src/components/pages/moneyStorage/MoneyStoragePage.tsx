@@ -4,11 +4,15 @@ import { useMoneyStoragesPageStore } from '@stores/pages/moneyStoragesPage';
 
 export const MoneyStoragePage: React.FC = () => {
   const {
-    updateMoneyStorages: updateData
+    updateMoneyStorages,
+    updateTransactionsList,
+    updateCurrenciesList,
   } = useMoneyStoragesPageStore();
 
   useEffect(() => {
-    updateData();
+    updateMoneyStorages();
+    updateTransactionsList();
+    updateCurrenciesList();
   }, []);
 
   return (

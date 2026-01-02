@@ -6,6 +6,7 @@ export type MoneyStorageDto = {
     id: number;
     name: string;
     status: MoneyStorageDto.status;
+    type: MoneyStorageDto.type;
     code: string;
     description: string | null;
 };
@@ -15,6 +16,10 @@ export namespace MoneyStorageDto {
         ACTIVE = 'active',
         FREEZED = 'freezed',
         DEACTIVATED = 'deactivated',
+    }
+    export enum type {
+        COMMON = 'common',
+        OBLIGATION = 'obligation',
     }
 }
 

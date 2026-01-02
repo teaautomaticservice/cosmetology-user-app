@@ -1,6 +1,7 @@
 import {
   createAccountApi,
   getAccountsAggregatedWithMoneyStoragesApi,
+  getObligationAccountsAggregatedWithMoneyStoragesApi,
   updateMultiplyAccountsApi,
 } from '@apiMethods/cashier';
 import {
@@ -13,6 +14,7 @@ import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
   accountsAggregatedWithStorage: AccountAggregatedWithStorage[];
+  obligationAccountsAggregatedWithStorage: AccountAggregatedWithStorage[];
   currentAggregatedAccount: AccountAggregatedWithStorage | null;
   count: number;
   isLoading: boolean;
@@ -20,6 +22,7 @@ type Store = {
 
 const { useStore } = storeFactory<Store>({
   accountsAggregatedWithStorage: [],
+  obligationAccountsAggregatedWithStorage: [],
   currentAggregatedAccount: null,
   count: 0,
   isLoading: false,
@@ -30,6 +33,7 @@ export const useAccountsAggregatedWithStorageStore = () => {
 
   const {
     accountsAggregatedWithStorage,
+    obligationAccountsAggregatedWithStorage,
     currentAggregatedAccount,
     count,
     isLoading,
@@ -43,14 +47,40 @@ export const useAccountsAggregatedWithStorageStore = () => {
     });
     try {
       const {
-        data: accountsAggregatedWithStorage,
+        data,
         meta,
       } = await getAccountsAggregatedWithMoneyStoragesApi({
         sort: 'status',
         ...params,
       });
       setState({
-        accountsAggregatedWithStorage: accountsAggregatedWithStorage,
+        accountsAggregatedWithStorage: data,
+        count: meta.count,
+      });
+    } finally {
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
+    }
+  };
+
+  const updateObligationAccountsAggregatedWithStorage = async (
+    params: GetAccountsAggregatedWithMoneyStoragesListParams = {},
+  ) => {
+    setState({
+      isLoading: true,
+    });
+    try {
+      const {
+        data,
+        meta,
+      } = await getObligationAccountsAggregatedWithMoneyStoragesApi({
+        sort: 'status',
+        ...params,
+      });
+      setState({
+        obligationAccountsAggregatedWithStorage: data,
         count: meta.count,
       });
     } finally {
@@ -100,7 +130,9 @@ export const useAccountsAggregatedWithStorageStore = () => {
     accountsAggregatedWithStorageCount: count,
     isLoading,
     currentAggregatedAccount,
+    obligationAccountsAggregatedWithStorage,
     updateAccountsAggregatedWithStorage,
+    updateObligationAccountsAggregatedWithStorage,
     createAccount,
     setCurrentAggregatedAccount,
     multiplyUpdateAccounts,

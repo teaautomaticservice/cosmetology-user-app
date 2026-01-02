@@ -7,6 +7,7 @@ export type GetAccountsByStoreDto = {
     id: number;
     name: string;
     status: GetAccountsByStoreDto.status;
+    type: GetAccountsByStoreDto.type;
     code: string;
     description: string | null;
     accounts: Array<GetAccountDto>;
@@ -17,6 +18,10 @@ export namespace GetAccountsByStoreDto {
         ACTIVE = 'active',
         FREEZED = 'freezed',
         DEACTIVATED = 'deactivated',
+    }
+    export enum type {
+        COMMON = 'common',
+        OBLIGATION = 'obligation',
     }
 }
 
