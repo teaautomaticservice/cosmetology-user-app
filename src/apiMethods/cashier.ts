@@ -7,6 +7,7 @@ import {
   GetAccountsByMoneyStoragesListParams,
   GetAccountsControllerListParams,
   GetMoneyStorageListSort,
+  GetObligationStoragesListParams,
   NewTransaction,
   UpdateAccountData,
   UpdateAccountListData,
@@ -37,8 +38,20 @@ export const getMoneyStoragesApi = ({
   });
 };
 
-export const getObligationAccount = () => {
-  return CashierService.moneyStoragesControllerGetObligationAccount();
+export const getObligationAccountsApi = ({
+  page,
+  pageSize,
+}: GetObligationStoragesListParams = {}) => {
+  return CashierService.moneyStoragesControllerGetObligationAccounts({
+    page,
+    pageSize,
+  });
+};
+
+export const createObligationAccountApi = (newData: CreateMoneyStorageData) => {
+  return CashierService.moneyStoragesControllerCreateObligationItem({
+    requestBody: newData,
+  });
 };
 
 export const updateMoneyStorageApi = ({

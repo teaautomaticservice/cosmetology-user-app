@@ -15,6 +15,8 @@ import {
 export type GetMoneyStorageListParams =
   Parameters<typeof CashierService.moneyStoragesControllerGetList>[0];
 export type GetMoneyStorageListSort = UseSort<GetMoneyStorageListParams['sort']>;
+export type GetObligationStoragesListParams =
+  Parameters<typeof CashierService.moneyStoragesControllerGetObligationAccounts>[0];
 
 export type UpdateMoneyStorageData =
   Parameters<typeof CashierService.moneyStoragesControllerUpdateItem>[0]['requestBody'];

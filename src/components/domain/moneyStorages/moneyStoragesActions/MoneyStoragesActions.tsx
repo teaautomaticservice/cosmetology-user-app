@@ -17,9 +17,14 @@ export const MoneyStoragesActions: React.FC<Props> = ({
     open('createMoneyStorageModal');
   };
 
+  const openCreateObligationStorageModal = () => {
+    open('createObligationStorageModal');
+  };
+
   return (
     <div className={cn(s.root, classNames)}>
       <Button onClick={openCreateMoneyStorageModal}>Create new Storage</Button>
+      <Button onClick={openCreateObligationStorageModal}>Create new Obligation Storage</Button>
     </div>
   );
 };

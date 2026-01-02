@@ -1,30 +1,32 @@
-import { getObligationAccount } from '@apiMethods/cashier';
-import { MoneyStorage } from '@typings/api/cashier';
+import { createObligationAccountApi, getObligationAccountsApi } from '@apiMethods/cashier';
+import { CreateMoneyStorageData, MoneyStorage } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
-  obligationAccountStorages: MoneyStorage | null;
+  obligationAccountsStorages: MoneyStorage[] | null;
   isLoading: boolean;
 }
 
 const { useStore } = storeFactory<Store>({
-  obligationAccountStorages: null,
+  obligationAccountsStorages: null,
   isLoading: true,
 });
 
 export const useObligationAccountStore = () => {
   const [state, setState] = useStore();
 
-  const { obligationAccountStorages, isLoading: isObligationAccountLoading } = state;
+  const { obligationAccountsStorages, isLoading: isObligationAccountLoading } = state;
 
-  const updateObligationAccountList = async () => {
+  const updateObligationAccountsList = async () => {
     setState({
       isLoading: true,
     });
     try {
-      const data = await getObligationAccount();
+      const {
+        data,
+      } = await getObligationAccountsApi();
       setState({
-        obligationAccountStorages: data,
+        obligationAccountsStorages: data,
       });
     } finally {
       setState((prevState) => ({
@@ -34,9 +36,25 @@ export const useObligationAccountStore = () => {
     }
   };
 
+  const createObligationAccount = async (newData: CreateMoneyStorageData) => {
+    setState({
+      isLoading: true,
+    });
+    try {
+      await createObligationAccountApi(newData);
+      await updateObligationAccountsList();
+    } finally {
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
+    }
+  };
+
   return {
-    obligationAccountStorages,
+    obligationAccountsStorages,
     isObligationAccountLoading,
-    updateObligationAccountList,
+    updateObligationAccountsList,
+    createObligationAccount,
   };
 };

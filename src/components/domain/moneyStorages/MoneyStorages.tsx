@@ -10,13 +10,14 @@ import s from './moneyStorages.module.css';
 export const MoneyStorages: React.FC = () => {
   const {
     moneyStorages,
-    obligationAccountStorages,
+    obligationAccountsStorages,
     isLoading,
   } = useMoneyStoragesPageStore();
 
   const itemsStorages: MoneyStorageDto[] = [
     ...moneyStorages,
-    ...(obligationAccountStorages ? [obligationAccountStorages] : []),
+
+    ...(obligationAccountsStorages ? obligationAccountsStorages : []),
   ];
 
   return (

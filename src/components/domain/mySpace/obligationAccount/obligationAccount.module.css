@@ -1,8 +1,25 @@
 .root {
+  width: 100%;
+
+  .contentContainer {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .wrapper {
+    width: auto;
+    display: flex;
+    gap: 8px;
+  }
+
+  .status {
+    line-height: 22px;
+  }
+
   .statusRow {
     display: flex;
     gap: 8px;
     margin-bottom: 16px;
-    align-items: center;
+    align-items: flex-start;
   }
 }

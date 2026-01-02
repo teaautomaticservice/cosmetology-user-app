@@ -1,5 +1,5 @@
 import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntityModal';
-import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
+import { useObligationAccountStore } from '@stores/cashier/obligationAccount';
 import { MoneyStorage } from '@typings/api/cashier';
 
 type FormData = {
@@ -8,13 +8,14 @@ type FormData = {
   description?: string;
 }
 
-export const CreateMoneyStorageModal: React.FC = () => {
+export const CreateObligationStorageModal: React.FC = () => {
   const {
-    isCreateItemLoading,
-    createMoneyStorage,
-  } = useMoneyStoragesStore();
+    createObligationAccount,
+    isObligationAccountLoading,
+  } = useObligationAccountStore();
+
   const onSubmit = async (values: FormData) => {
-    await createMoneyStorage(values);
+    await createObligationAccount(values);
     window.location.reload();
   };
 
@@ -37,7 +38,7 @@ export const CreateMoneyStorageModal: React.FC = () => {
         },
         { label: 'description', name: 'description', type: 'textarea' }
       ]}
-      isLoading={isCreateItemLoading}
+      isLoading={isObligationAccountLoading}
     />
   );
 };

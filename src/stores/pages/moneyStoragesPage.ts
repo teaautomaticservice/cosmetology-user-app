@@ -13,9 +13,9 @@ export const useMoneyStoragesPageStore = () => {
   } = useMoneyStoragesStore();
 
   const {
-    obligationAccountStorages,
+    obligationAccountsStorages,
     isObligationAccountLoading,
-    updateObligationAccountList,
+    updateObligationAccountsList,
   } = useObligationAccountStore();
 
   const { open } = useModalStore();
@@ -27,7 +27,7 @@ export const useMoneyStoragesPageStore = () => {
   const updateMoneyStorages = async () => {
     await Promise.all([
       updateMoneyStoragesList(),
-      updateObligationAccountList(),
+      updateObligationAccountsList(),
     ]);
   };
 
@@ -39,7 +39,7 @@ export const useMoneyStoragesPageStore = () => {
   return {
     isLoading,
     moneyStorages,
-    obligationAccountStorages,
+    obligationAccountsStorages,
     updateMoneyStorages,
     openUpdateModal,
   };

@@ -2,6 +2,8 @@ import { getColorStatus } from '@constants/colorStatusMap';
 import { MoneyStorageStatus } from '@typings/api/cashier';
 import { Badge } from 'antd';
 
+import s from './moneyStorageBadge.module.css';
+
 type Props = {
   moneyStorageStatus?: MoneyStorageStatus;
   className?: string;
@@ -20,6 +22,7 @@ export const MoneyStorageBadge: React.FC<Props> = ({
   return (
     <Badge
       className={className}
+      rootClassName={s.root}
       color={getColorStatus(moneyStorageStatus)}
       text={isSmall ? '' : moneyStorageStatus}
     />
