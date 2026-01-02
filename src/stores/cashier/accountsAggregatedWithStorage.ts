@@ -6,6 +6,7 @@ import {
 import {
   AccountAggregatedWithStorage,
   CreateAccount,
+  GetAccountsAggregatedWithMoneyStoragesListParams,
   UpdateAccountListData,
 } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
@@ -34,7 +35,9 @@ export const useAccountsAggregatedWithStorageStore = () => {
     isLoading,
   } = state;
 
-  const updateAccountsAggregatedWithStorage = async () => {
+  const updateAccountsAggregatedWithStorage = async (
+    params: GetAccountsAggregatedWithMoneyStoragesListParams = {},
+  ) => {
     setState({
       isLoading: true,
     });
@@ -44,6 +47,7 @@ export const useAccountsAggregatedWithStorageStore = () => {
         meta,
       } = await getAccountsAggregatedWithMoneyStoragesApi({
         sort: 'status',
+        ...params,
       });
       setState({
         accountsAggregatedWithStorage: accountsAggregatedWithStorage,

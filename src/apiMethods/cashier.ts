@@ -108,12 +108,16 @@ export const getAccountsAggregatedWithMoneyStoragesApi = ({
   pageSize,
   order,
   sort,
+  balanceFrom,
+  balanceTo,
 }: GetAccountsAggregatedWithMoneyStoragesListParams = {}) => {
   return CashierService.accountsControllerGetAccountsAggregatedWithStorageList({
     page,
     pageSize,
     order,
     sort,
+    balanceFrom,
+    balanceTo,
   });
 };
 
