@@ -20,7 +20,7 @@ export const useMySpacePageStore = () => {
   const {
     obligationAccountsStorages,
     isObligationAccountLoading,
-    updateObligationAccountsList: updateObligationAccountList,
+    updateObligationAccountsList,
   } = useObligationAccountStore();
 
   const {
@@ -38,7 +38,7 @@ export const useMySpacePageStore = () => {
     await Promise.all([
       updateCurrenciesList(),
       updateMoneyStoragesList(),
-      updateObligationAccountList(),
+      updateObligationAccountsList(),
       updateAccountsAggregatedWithStorage(),
     ]);
   };

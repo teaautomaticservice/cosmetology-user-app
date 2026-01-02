@@ -12,11 +12,10 @@ export const CreateMoneyStorageModal: React.FC = () => {
   const {
     isCreateItemLoading,
     createMoneyStorage,
-    updateAllMoneyStorages,
   } = useMoneyStoragesStore();
   const onSubmit = async (values: FormData) => {
     await createMoneyStorage(values);
-    updateAllMoneyStorages();
+    window.location.reload();
   };
 
   return (
