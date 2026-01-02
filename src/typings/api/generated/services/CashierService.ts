@@ -268,11 +268,15 @@ export class CashierService {
         page,
         pageSize,
         order,
+        balanceFrom,
+        balanceTo,
         sort,
     }: {
         page?: number,
         pageSize?: number,
         order?: 'ASC' | 'DESC',
+        balanceFrom?: number,
+        balanceTo?: number,
         sort?: 'status' | 'available' | 'balance' | 'name',
     }): CancelablePromise<AccountsAggregatedWithStoragePaginated> {
         return __request(OpenAPI, {
@@ -282,6 +286,8 @@ export class CashierService {
                 'page': page,
                 'pageSize': pageSize,
                 'order': order,
+                'balanceFrom': balanceFrom,
+                'balanceTo': balanceTo,
                 'sort': sort,
             },
         });

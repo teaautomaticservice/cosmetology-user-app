@@ -39,7 +39,9 @@ export const useMySpacePageStore = () => {
       updateCurrenciesList(),
       updateMoneyStoragesList(),
       updateObligationAccountsList(),
-      updateAccountsAggregatedWithStorage(),
+      updateAccountsAggregatedWithStorage({
+        balanceFrom: 1,
+      }),
     ]);
   };
 
