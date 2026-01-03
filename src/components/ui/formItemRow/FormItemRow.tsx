@@ -25,11 +25,11 @@ type TextareaProps<FormData> = {
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>, formInstance: FormInstance<FormData>) => void;
 };
 
-type MultiselectProps = {
+type MultiselectProps<FormData> = {
   type: 'select';
   options: DefaultOptionType[];
   isMultiply?: boolean;
-  onChange?: (value: any, option?: DefaultOptionType | DefaultOptionType[]) => void;
+  onChange?: (value: string | number, formInstance: FormInstance<FormData>) => void;
 };
 
 type InputNumberProps<FormData> = {
@@ -52,7 +52,7 @@ export type Props<T extends object, FormData> = {
 } & (
     InputProps<FormData> |
     TextareaProps<FormData> |
-    MultiselectProps |
+    MultiselectProps<FormData> |
     InputNumberProps<FormData>
   );
 
@@ -60,7 +60,7 @@ type FormItemRowProps<T extends object, FormData> = Props<T, FormData> & {
   formInstance: FormInstance<FormData>;
 };
 
-export const FormItemRow = <Entity extends object, FormData extends Record<keyof Entity, unknown>>(
+export const FormItemRow = <Entity extends object, FormData extends Record<string, unknown>>(
   props: FormItemRowProps<Entity, FormData>
 ) => {
   const {
@@ -92,8 +92,8 @@ export const FormItemRow = <Entity extends object, FormData extends Record<keyof
     className: cn(s.item, props.className),
     onChange: onCurrentChange,
     ...(type === 'select' && ({
-      mode: (props as MultiselectProps).isMultiply ? 'multiple' : undefined,
-      options: (props as MultiselectProps).options,
+      mode: (props as MultiselectProps<FormData>).isMultiply ? 'multiple' : undefined,
+      options: (props as MultiselectProps<FormData>).options,
     })),
     ...(type === 'inputNumber' && ({
       min: (props as InputNumberProps<FormData>).min,

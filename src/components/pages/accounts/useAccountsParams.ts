@@ -8,6 +8,8 @@ type Props = {
   accountsPage?: string;
   accountsPageSize?: string;
   accountsMoneyStoragesIds?: string[];
+  balanceFrom?: string;
+  balanceTo?: string;
   status?: AccountStatus[];
   query?: string;
 };
@@ -48,16 +50,22 @@ export const useAccountsParams = () => {
     accountsMoneyStoragesIds,
     status,
     query,
+    balanceFrom,
+    balanceTo,
   }: {
     accountsMoneyStoragesIds?: string[];
     status?: AccountStatus[];
     query?: string;
+    balanceFrom?: string;
+    balanceTo?: string;
   }) => {
     setParams({
       ...params,
       ...(accountsMoneyStoragesIds && { accountsMoneyStoragesIds }),
       ...(status && { status }),
       ...(query && { query }),
+      ...(balanceFrom && { balanceFrom }),
+      ...(balanceTo && { balanceTo }),
     });
   };
 

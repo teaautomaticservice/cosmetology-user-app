@@ -1,10 +1,11 @@
 import {
   createCashOutApi,
+  createLoanApi,
   createOpenBalanceApi,
   createOpenBalanceObligationApi,
   getTransactionsListApi
 } from '@apiMethods/cashier';
-import { NewOpenBalanceObligation, NewTransaction, Transaction } from '@typings/api/cashier';
+import { NewLoan, NewOpenBalanceObligation, NewTransaction, Transaction } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
@@ -83,6 +84,19 @@ export const useTransactionsStore = () => {
     }
   };
 
+  const createLoan = async (data: NewLoan) => {
+    setState({
+      isLoading: true,
+    });
+    try {
+      await createLoanApi(data);
+    } finally {
+      setState({
+        isLoading: false,
+      });
+    }
+  };
+
   return {
     transactions,
     isLoading,
@@ -90,5 +104,6 @@ export const useTransactionsStore = () => {
     createOpenBalance,
     createCashOut,
     createOpenBalanceObligation,
+    createLoan,
   };
 };

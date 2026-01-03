@@ -30,8 +30,8 @@ export const CreateOpenBalanceObligationModal: React.FC = () => {
 
   const currenciesOptions = fromEntityToOptionsList(activeCurrencies);
 
-  const onChangeCurrency = (currentId: number) => {
-    const selectedCurrency = activeCurrencies.find(({ id }) => id === currentId );
+  const onChangeCurrency = (currentId: number | string) => {
+    const selectedCurrency = activeCurrencies.find(({ id }) => id === Number(currentId) );
     setCurrentCurrency(selectedCurrency ?? null);
   };
 

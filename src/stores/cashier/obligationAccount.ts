@@ -3,13 +3,13 @@ import { CreateMoneyStorageData, MoneyStorage } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
-  obligationAccountsStorages: MoneyStorage[] | null;
+  obligationAccountsStorages: MoneyStorage[];
   currentObligationStorage: MoneyStorage | null;
   isLoading: boolean;
 }
 
 const { useStore } = storeFactory<Store>({
-  obligationAccountsStorages: null,
+  obligationAccountsStorages: [],
   currentObligationStorage: null,
   isLoading: true,
 });

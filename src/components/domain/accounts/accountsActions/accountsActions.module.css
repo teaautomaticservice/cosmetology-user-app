@@ -1,8 +1,13 @@
 .root {
-  display: flex;
-  align-items: center;
   width: 100%;
-  gap: 8px;
+  overflow-x: auto;
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    width: auto;
+    gap: 8px;
+  }
 
   .input {
     width: 200px;
