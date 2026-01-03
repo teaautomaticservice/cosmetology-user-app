@@ -5,7 +5,7 @@
 import type { GetAccountDto } from './GetAccountDto';
 export type GetTransactionDto = {
     id: number;
-    parentTransactionId: number | null;
+    parentTransactionId: string | null;
     transactionId: string;
     amount: number;
     debitId: number | null;

@@ -9,6 +9,7 @@ import {
   GetAccountWithStorageDto,
   GetTransactionDto,
   MoneyStorageDto,
+  NewLoanDto,
   NewOpenBalanceObligationDto,
   NewTransactionDto,
 } from './generated';
@@ -64,3 +65,4 @@ export type CreateCurrencyData =
 export type Transaction = GetTransactionDto;
 export type NewTransaction = NewTransactionDto
 export type NewOpenBalanceObligation = NewOpenBalanceObligationDto;
+export type NewLoan = NewLoanDto;

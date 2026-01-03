@@ -15,6 +15,7 @@ type Store = {
   accountsByStores: AccountsByStore[];
   accountsByStoresCount: number;
   accountsWithStores: AccountWithStore[];
+  accountsWithStoresForParams: AccountWithStore[];
   currentAccountWithStore: AccountWithStore | null;
   accountsWithStoresCount: number;
   isLoading: boolean;
@@ -24,6 +25,7 @@ const { useStore } = storeFactory<Store>({
   accountsByStores: [],
   accountsByStoresCount: 0,
   accountsWithStores: [],
+  accountsWithStoresForParams: [],
   currentAccountWithStore: null,
   accountsWithStoresCount: 0,
   isLoading: true,
@@ -35,6 +37,7 @@ export const useAccountsStore = () => {
   const {
     accountsByStores,
     accountsWithStores,
+    accountsWithStoresForParams,
     accountsByStoresCount,
     accountsWithStoresCount,
     currentAccountWithStore,
@@ -59,7 +62,27 @@ export const useAccountsStore = () => {
         accountsByStores: accountsByStoresResp.data,
         accountsByStoresCount: accountsByStoresResp.meta.count,
         accountsWithStores: accountsWithStoresResp.data,
+        accountsWithStoresForParams: accountsWithStoresResp.data,
         accountsWithStoresCount: accountsWithStoresResp.meta.count,
+      });
+    } finally {
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
+    }
+  };
+
+  const updateAccountsListParams = async (params: GetAccountsControllerListParams = {}) => {
+    setState({
+      isLoading: true,
+    });
+    try {
+      const {
+        data,
+      } = await getAccountsWithMoneyStoragesApi(params);
+      setState({
+        accountsWithStoresForParams: data,
       });
     } finally {
       setState((prevState) => ({
@@ -92,6 +115,7 @@ export const useAccountsStore = () => {
   return {
     accountsByStores,
     accountsWithStores,
+    accountsWithStoresForParams,
     isAccountsLoading,
     accountsByStoresCount,
     accountsWithStoresCount,
@@ -99,5 +123,6 @@ export const useAccountsStore = () => {
     updateAccountsList,
     createAccount,
     setCurrentAccountWithStore,
+    updateAccountsListParams,
   };
 };

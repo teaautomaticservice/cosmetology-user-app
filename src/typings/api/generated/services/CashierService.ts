@@ -14,6 +14,7 @@ import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
 import type { GetAccountWithStorageDto } from '../models/GetAccountWithStorageDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
+import type { NewLoanDto } from '../models/NewLoanDto';
 import type { NewOpenBalanceObligationDto } from '../models/NewOpenBalanceObligationDto';
 import type { NewTransactionDto } from '../models/NewTransactionDto';
 import type { TransactionsPaginated } from '../models/TransactionsPaginated';
@@ -337,6 +338,8 @@ export class CashierService {
         moneyStoragesIds,
         status,
         query,
+        balanceFrom,
+        balanceTo,
     }: {
         page?: number,
         pageSize?: number,
@@ -345,6 +348,8 @@ export class CashierService {
         moneyStoragesIds?: Array<string>,
         status?: Array<AccountStatus>,
         query?: string,
+        balanceFrom?: number,
+        balanceTo?: number,
     }): CancelablePromise<AccountsWithStoragePaginatedDto> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -357,6 +362,8 @@ export class CashierService {
                 'moneyStoragesIds': moneyStoragesIds,
                 'status': status,
                 'query': query,
+                'balanceFrom': balanceFrom,
+                'balanceTo': balanceTo,
             },
         });
     }
@@ -512,6 +519,25 @@ export class CashierService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/cashier/transactions/cash-out',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any New transaction Loan successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerLoan({
+        requestBody,
+    }: {
+        /**
+         * Loan
+         */
+        requestBody: NewLoanDto,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/loan',
             body: requestBody,
             mediaType: 'application/json',
         });
