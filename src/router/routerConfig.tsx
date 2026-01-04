@@ -4,6 +4,7 @@ import { GenericLayout } from '@components/layouts/genericLayout/GenericLayout';
 import { AccountsPage } from '@components/pages/accounts/AccountsPage';
 import { AccountsAggregatedPage } from '@components/pages/accounts/aggregated/AccountsAggregatedPage';
 import { AccountsByStoragePage } from '@components/pages/accounts/byStorage/AccountsByStoragePage';
+import { ObligationAccountsPage } from '@components/pages/accounts/obligation/ObligationAccountsPage';
 import { CompleteRegistrationPage } from '@components/pages/completeRegistration/CompleteRegistrationPage';
 import { CurrenciesPage } from '@components/pages/currencies/CurrenciesPage';
 import { HistoryPage } from '@components/pages/history/HistoryPage';
@@ -62,6 +63,12 @@ const dashboards: RouterPage[] = [
     path: paths.accountsByStorage,
     Layout: DashboardLayout,
     Component: AccountsByStoragePage,
+    roles: [RouterRoleEnum.OPERATOR],
+  },
+  {
+    path: paths.obligationAccounts,
+    Layout: DashboardLayout,
+    Component: ObligationAccountsPage,
     roles: [RouterRoleEnum.OPERATOR],
   },
   {

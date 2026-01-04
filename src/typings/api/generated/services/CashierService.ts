@@ -15,6 +15,7 @@ import type { GetAccountWithStorageDto } from '../models/GetAccountWithStorageDt
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
 import type { NewLoanDto } from '../models/NewLoanDto';
+import type { NewLoanRepaymentDto } from '../models/NewLoanRepaymentDto';
 import type { NewOpenBalanceObligationDto } from '../models/NewOpenBalanceObligationDto';
 import type { NewTransactionDto } from '../models/NewTransactionDto';
 import type { TransactionsPaginated } from '../models/TransactionsPaginated';
@@ -263,6 +264,32 @@ export class CashierService {
         });
     }
     /**
+     * @returns AccountsByStorePaginated List of accounts by money storages successful
+     * @throws ApiError
+     */
+    public static accountsControllerGetAccountsByObligationStoragesList({
+        page,
+        pageSize,
+        sort,
+        order,
+    }: {
+        page?: number,
+        pageSize?: number,
+        sort?: 'status',
+        order?: 'ASC' | 'DESC',
+    }): CancelablePromise<AccountsByStorePaginated> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/cashier/accounts/accounts-by-obligation-storages-list',
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+                'sort': sort,
+                'order': order,
+            },
+        });
+    }
+    /**
      * @returns AccountsAggregatedWithStoragePaginated List of accounts with money storages
      * @throws ApiError
      */
@@ -354,6 +381,47 @@ export class CashierService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/cashier/accounts/list',
+            query: {
+                'page': page,
+                'pageSize': pageSize,
+                'sort': sort,
+                'order': order,
+                'moneyStoragesIds': moneyStoragesIds,
+                'status': status,
+                'query': query,
+                'balanceFrom': balanceFrom,
+                'balanceTo': balanceTo,
+            },
+        });
+    }
+    /**
+     * @returns AccountsWithStoragePaginatedDto List of accounts with obligation storages
+     * @throws ApiError
+     */
+    public static accountsControllerGetObligationList({
+        page,
+        pageSize,
+        sort,
+        order,
+        moneyStoragesIds,
+        status,
+        query,
+        balanceFrom,
+        balanceTo,
+    }: {
+        page?: number,
+        pageSize?: number,
+        sort?: 'status' | 'name',
+        order?: 'ASC' | 'DESC',
+        moneyStoragesIds?: Array<string>,
+        status?: Array<AccountStatus>,
+        query?: string,
+        balanceFrom?: number,
+        balanceTo?: number,
+    }): CancelablePromise<AccountsWithStoragePaginatedDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/cashier/accounts/obligation-list',
             query: {
                 'page': page,
                 'pageSize': pageSize,
@@ -524,6 +592,25 @@ export class CashierService {
         });
     }
     /**
+     * @returns any New transaction Receipt successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerReceipt({
+        requestBody,
+    }: {
+        /**
+         * receipt
+         */
+        requestBody: NewTransactionDto,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/receipt',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
      * @returns any New transaction Loan successful created
      * @throws ApiError
      */
@@ -543,20 +630,20 @@ export class CashierService {
         });
     }
     /**
-     * @returns any New transaction Receipt successful created
+     * @returns any New transaction Loan Repayment successful created
      * @throws ApiError
      */
-    public static transactionsControllerReceipt({
+    public static transactionsControllerLoanRepayment({
         requestBody,
     }: {
         /**
-         * receipt
+         * Loan
          */
-        requestBody: NewTransactionDto,
+        requestBody: NewLoanRepaymentDto,
     }): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/cashier/transactions/receipt',
+            url: '/cashier/transactions/loan-repayment',
             body: requestBody,
             mediaType: 'application/json',
         });

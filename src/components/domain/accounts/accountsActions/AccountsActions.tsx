@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
+import { useObligationAccountStore } from '@stores/cashier/obligationAccount';
 import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { AccountStatus } from '@typings/api/generated';
@@ -19,10 +20,14 @@ import s from './accountsActions.module.css';
 
 type Props = {
   className?: string;
+  isCreateAccount?: boolean;
+  typeMoneyStorages?: 'common' | 'obligation';
 }
 
 export const AccountsActions: React.FC<Props> = ({
   className,
+  isCreateAccount = false,
+  typeMoneyStorages = 'common',
 }) => {
   const {
     currencies,
@@ -34,10 +39,16 @@ export const AccountsActions: React.FC<Props> = ({
     updateAccountsFilters,
     deleteParam,
   } = useAccountsParams();
+  const {
+    obligationAccountsStorages,
+  } = useObligationAccountStore();
 
   const isDisableCreate = !Boolean(currencies.length);
 
-  const itemsMoneyStorages = fromEntityToOptionsList(moneyStorages);
+  const itemsMoneyStorages = fromEntityToOptionsList(
+    typeMoneyStorages === 'obligation' ? obligationAccountsStorages : moneyStorages
+  );
+
   const itemsStatuses = Object.values(AccountStatus).map((value) => ({
     value: value,
     label: value,
@@ -94,14 +105,16 @@ export const AccountsActions: React.FC<Props> = ({
   return (
     <div className={cn(s.root, className)}>
       <div className={s.wrapper}>
-        <Tooltip title='Create currency first' open={isDisableCreate ? undefined : false}>
-          <Button
-            disabled={isDisableCreate}
-            onClick={openCreateAccountModal}
-          >
-            Create account
-          </Button>
-        </Tooltip>
+        {isCreateAccount && (
+          <Tooltip title='Create currency first' open={isDisableCreate ? undefined : false}>
+            <Button
+              disabled={isDisableCreate}
+              onClick={openCreateAccountModal}
+            >
+              Create account
+            </Button>
+          </Tooltip>
+        )}
         <>
           <Input
             placeholder='Input query'

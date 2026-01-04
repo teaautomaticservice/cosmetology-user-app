@@ -35,6 +35,10 @@ const dashboardsMenu: MenuItemGroupType<MenuItemType> = {
       key: paths.accountsAggregated,
     },
     {
+      label: 'Obligation Accounts',
+      key: paths.obligationAccounts,
+    },
+    {
       type: 'divider',
     },
     {

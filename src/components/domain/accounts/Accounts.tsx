@@ -9,7 +9,7 @@ export const Accounts: React.FC = () => {
   return (
     <div className={s.root}>
       <Title>Accounts</Title>
-      <AccountsActions className={s.actions} />
+      <AccountsActions className={s.actions} isCreateAccount />
       <AccountsWithStorageList />
     </div>
   );
