@@ -52,6 +52,11 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     open('takeLoanModal');
   };
 
+  const openReceiptModal = (account: AccountWithStore) => {
+    setCurrentAccountWithStore(account);
+    open('createReceiptModal');
+  };
+
   const columns: ColumnsType<AccountWithStore> = [
     {
       title: 'ID',
@@ -117,6 +122,13 @@ export const AccountsWithStorageList: React.FC<Props> = ({
             ) && (
               <Button onClick={() => openTakeLoanModal(account)}>
                   Take loan
+              </Button>
+            )}
+            {(
+              account.status === AccountWithStorageStatusEnum.ACTIVE
+            ) && (
+              <Button onClick={() => openReceiptModal(account)}>
+                  Receipt
               </Button>
             )}
             {(

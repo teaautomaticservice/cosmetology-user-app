@@ -12,6 +12,7 @@ import { CreateOpenBalanceModal } from './createOpenBalanceModal/CreateOpenBalan
 import {
   CreateOpenBalanceObligationModal,
 } from './createOpenBalanceObligationModal/CreateOpenBalanceObligationModal';
+import { CreateReceiptModal } from './createReceiptModal/CreateReceiptModal';
 import { EditAccountWithStorages } from './editAccountWithStorages/EditAccountWithStorages';
 import { EditAggregatedAccount } from './editAggregatedAccount/EditAggregatedAccount';
 import { EditCurrency } from './editCurrency/EditCurrency';
@@ -31,4 +32,5 @@ export const ModalsMap = {
   'createObligationStorageModal': CreateObligationStorageModal,
   'createOpenBalanceObligationModal': CreateOpenBalanceObligationModal,
   'takeLoanModal': TakeLoanModal,
+  'createReceiptModal': CreateReceiptModal,
 };

@@ -542,4 +542,23 @@ export class CashierService {
             mediaType: 'application/json',
         });
     }
+    /**
+     * @returns any New transaction Receipt successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerReceipt({
+        requestBody,
+    }: {
+        /**
+         * receipt
+         */
+        requestBody: NewTransactionDto,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/receipt',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
 }

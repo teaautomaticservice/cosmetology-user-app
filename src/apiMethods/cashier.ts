@@ -220,3 +220,9 @@ export const createLoanApi = (newData: NewLoan) => {
     requestBody: newData,
   });
 };
+
+export const createReceiptApi = (newData: NewTransaction) => {
+  return CashierService.transactionsControllerReceipt({
+    requestBody: newData,
+  });
+};
