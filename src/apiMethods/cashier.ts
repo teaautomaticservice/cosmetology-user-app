@@ -9,6 +9,7 @@ import {
   GetMoneyStorageListSort,
   GetObligationStoragesListParams,
   NewLoan,
+  NewLoanRepayment,
   NewOpenBalanceObligation,
   NewTransaction,
   UpdateAccountData,
@@ -82,6 +83,16 @@ export const getAccountsByMoneyStoragesApi = ({
 }: Pick<GetAccountsByMoneyStoragesListParams, 'sort'> = {}) => {
   return CashierService.accountsControllerGetAccountsByMoneyStoragesList({
     sort,
+    pageSize: 100,
+  });
+};
+
+export const getAccountsByObligationStoragesApi = ({
+  sort,
+}: Pick<GetAccountsByMoneyStoragesListParams, 'sort'> = {}) => {
+  return CashierService.accountsControllerGetAccountsByObligationStoragesList({
+    sort,
+    pageSize: 100,
   });
 };
 
@@ -97,6 +108,30 @@ export const getAccountsWithMoneyStoragesApi = ({
   balanceTo,
 }: GetAccountsControllerListParams = {}) => {
   return CashierService.accountsControllerGetList({
+    page,
+    pageSize,
+    order,
+    sort,
+    moneyStoragesIds,
+    status,
+    query,
+    balanceFrom,
+    balanceTo,
+  });
+};
+
+export const getAccountsWithObligationStoragesApi = ({
+  page,
+  pageSize,
+  order,
+  sort,
+  moneyStoragesIds,
+  status,
+  query,
+  balanceFrom,
+  balanceTo,
+}: GetAccountsControllerListParams = {}) => {
+  return CashierService.accountsControllerGetObligationList({
     page,
     pageSize,
     order,
@@ -217,6 +252,12 @@ export const createCashOutApi = (newData: NewTransaction) => {
 
 export const createLoanApi = (newData: NewLoan) => {
   return CashierService.transactionsControllerLoan({
+    requestBody: newData,
+  });
+};
+
+export const createLoanRepaymentApi = (newData: NewLoanRepayment) => {
+  return CashierService.transactionsControllerLoanRepayment({
     requestBody: newData,
   });
 };

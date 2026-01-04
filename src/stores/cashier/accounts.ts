@@ -1,7 +1,9 @@
 import {
   createAccountApi,
   getAccountsByMoneyStoragesApi,
+  getAccountsByObligationStoragesApi,
   getAccountsWithMoneyStoragesApi,
+  getAccountsWithObligationStoragesApi,
 } from '@apiMethods/cashier';
 import {
   AccountsByStore,
@@ -13,8 +15,11 @@ import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
   accountsByStores: AccountsByStore[];
+  accountsByObligationStores: AccountsByStore[];
   accountsByStoresCount: number;
   accountsWithStores: AccountWithStore[];
+  obligationAccountsWithStores: AccountWithStore[];
+  obligationAccountsWithStoresCount: number;
   accountsWithStoresForParams: AccountWithStore[];
   currentAccountWithStore: AccountWithStore | null;
   accountsWithStoresCount: number;
@@ -24,10 +29,13 @@ type Store = {
 const { useStore } = storeFactory<Store>({
   accountsByStores: [],
   accountsByStoresCount: 0,
+  accountsByObligationStores: [],
   accountsWithStores: [],
+  accountsWithStoresCount: 0,
+  obligationAccountsWithStores: [],
+  obligationAccountsWithStoresCount: 0,
   accountsWithStoresForParams: [],
   currentAccountWithStore: null,
-  accountsWithStoresCount: 0,
   isLoading: true,
 });
 
@@ -41,6 +49,9 @@ export const useAccountsStore = () => {
     accountsByStoresCount,
     accountsWithStoresCount,
     currentAccountWithStore,
+    accountsByObligationStores,
+    obligationAccountsWithStores,
+    obligationAccountsWithStoresCount,
     isLoading: isAccountsLoading,
   } = state;
 
@@ -52,16 +63,25 @@ export const useAccountsStore = () => {
       const [
         accountsByStoresResp,
         accountsWithStoresResp,
+        accountsByObligationStoresResp,
+        obligationAccountsWithStoresResp,
       ] = await Promise.all([
         getAccountsByMoneyStoragesApi({
           sort: 'status',
         }),
-        getAccountsWithMoneyStoragesApi(params)
+        getAccountsWithMoneyStoragesApi(params),
+        getAccountsByObligationStoragesApi({
+          sort: 'status',
+        }),
+        getAccountsWithObligationStoragesApi(params),
       ]);
       setState({
         accountsByStores: accountsByStoresResp.data,
+        accountsByObligationStores: accountsByObligationStoresResp.data,
         accountsByStoresCount: accountsByStoresResp.meta.count,
         accountsWithStores: accountsWithStoresResp.data,
+        obligationAccountsWithStores: obligationAccountsWithStoresResp.data,
+        obligationAccountsWithStoresCount: obligationAccountsWithStoresResp.meta.count,
         accountsWithStoresForParams: accountsWithStoresResp.data,
         accountsWithStoresCount: accountsWithStoresResp.meta.count,
       });
@@ -120,6 +140,9 @@ export const useAccountsStore = () => {
     accountsByStoresCount,
     accountsWithStoresCount,
     currentAccountWithStore,
+    accountsByObligationStores,
+    obligationAccountsWithStores,
+    obligationAccountsWithStoresCount,
     updateAccountsList,
     createAccount,
     setCurrentAccountWithStore,

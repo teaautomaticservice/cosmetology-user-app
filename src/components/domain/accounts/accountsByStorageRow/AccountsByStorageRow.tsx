@@ -1,4 +1,4 @@
-import { useAccountsPageStore } from '@stores/pages/accountsPage';
+import { useAccountsStore } from '@stores/cashier/accounts';
 import { Skeleton } from 'antd';
 import cn from 'classnames';
 
@@ -13,7 +13,7 @@ type Props = {
 export const AccountsByStorageRow: React.FC<Props> = ({
   className,
 }) => {
-  const { accountsByStores, isAccountsPageLoading: isAccountsLoading } = useAccountsPageStore();
+  const { accountsByStores, isAccountsLoading } = useAccountsStore();
 
   return (
     <div className={cn(s.root, className)}>

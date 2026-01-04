@@ -58,6 +58,9 @@ export const AccountsByStorage: React.FC<Props> = ({
       className={s.root}
       columns={columns}
       dataSource={data.accounts}
+      pagination={{
+        pageSize: 50,
+      }}
     />
   );
 };

@@ -9,6 +9,10 @@ export const paths = {
   main: '/',
   moneyStorages: '/money-storages',
   accounts: '/accounts',
+  accountsAggregated: '/accounts/aggregated',
+  accountsByStorage: '/accounts/by-storage',
+  obligationAccounts: '/accounts/obligation',
+  currencies: '/currencies',
   transactions: '/transactions',
 
   // history

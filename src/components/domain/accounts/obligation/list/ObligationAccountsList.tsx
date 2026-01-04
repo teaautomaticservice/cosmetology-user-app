@@ -1,60 +1,39 @@
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
 import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
-import { TableUi } from '@components/ui/table/TableUi';
+import { ColumnsType, TableUi } from '@components/ui/table/TableUi';
+import { useAccountsStore } from '@stores/cashier/accounts';
 import { useModalStore } from '@stores/modal';
-import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { AccountWithStorageStatusEnum, AccountWithStore, Currency, MoneyStorage } from '@typings/api/cashier';
 import { fromAmountApi } from '@utils/amount';
 import { Button } from 'antd';
-import { ColumnsType } from 'antd/es/table';
-import cn from 'classnames';
 
-import s from './accountsWithStorageList.module.css';
+import s from './obligationAccountsList.module.css';
 
 type Props = {
   className?: string;
 }
 
-export const AccountsWithStorageList: React.FC<Props> = ({
+export const ObligationAccountsList: React.FC<Props> = ({
   className,
 }) => {
   const {
-    accountsWithStores,
-    isAccountsPageLoading,
-    accountsWithStoresCount,
+    obligationAccountsWithStores,
+    isAccountsLoading,
+    obligationAccountsWithStoresCount,
     setCurrentAccountWithStore,
-  } = useAccountsPageStore();
+  } = useAccountsStore();
   const {
     open,
   } = useModalStore();
+
   const {
     params,
     updateAggregatedAccountsPagination,
   } = useAccountsParams();
 
-  const openEditModal = (account: AccountWithStore) => {
+  const openLoanRepayment = (account: AccountWithStore) => {
     setCurrentAccountWithStore(account);
-    open('editAccountWithStorages');
-  };
-
-  const openOpenBalanceModal = (account: AccountWithStore) => {
-    setCurrentAccountWithStore(account);
-    open('createOpenBalanceModal');
-  };
-
-  const openCashOutModal = (account: AccountWithStore) => {
-    setCurrentAccountWithStore(account);
-    open('createCashOutModal');
-  };
-
-  const openTakeLoanModal = (account: AccountWithStore) => {
-    setCurrentAccountWithStore(account);
-    open('takeLoanModal');
-  };
-
-  const openReceiptModal = (account: AccountWithStore) => {
-    setCurrentAccountWithStore(account);
-    open('createReceiptModal');
+    open('createLoanRepaymentModal');
   };
 
   const columns: ColumnsType<AccountWithStore> = [
@@ -105,38 +84,12 @@ export const AccountsWithStorageList: React.FC<Props> = ({
       render: (_, account) => (
         <div className={s.actions}>
           <div className={s.actionsWrapper}>
-            <Button onClick={() => openEditModal(account)}>
-              Edit
-            </Button>
-            {(
-              Number(account.balance) === 0 &&
-              Number(account.available) === 0 &&
-              account.status === AccountWithStorageStatusEnum.ACTIVE
-            ) && (
-              <Button onClick={() => openOpenBalanceModal(account)}>
-                  Open Balance
-              </Button>
-            )}
-            {(
-              account.status === AccountWithStorageStatusEnum.ACTIVE
-            ) && (
-              <Button onClick={() => openTakeLoanModal(account)}>
-                  Take loan
-              </Button>
-            )}
-            {(
-              account.status === AccountWithStorageStatusEnum.ACTIVE
-            ) && (
-              <Button onClick={() => openReceiptModal(account)}>
-                  Receipt
-              </Button>
-            )}
             {(
               Number(account.available) > 0 &&
               account.status === AccountWithStorageStatusEnum.ACTIVE
             ) && (
-              <Button onClick={() => openCashOutModal(account)}>
-                  Cash Out
+              <Button onClick={() => openLoanRepayment(account)}>
+                  Loan Repayment
               </Button>
             )}
           </div>
@@ -146,14 +99,14 @@ export const AccountsWithStorageList: React.FC<Props> = ({
   ];
 
   return (
-    <div className={cn(className)}>
+    <div className={className}>
       <TableUi
         columns={columns}
-        dataSource={accountsWithStores}
-        loading={isAccountsPageLoading}
+        dataSource={obligationAccountsWithStores}
+        loading={isAccountsLoading}
         className={s.root}
         pagination={{
-          total: accountsWithStoresCount,
+          total: obligationAccountsWithStoresCount,
           current: Number(params.page ?? 1),
           pageSize: Number(params.pageSize ?? 10),
           onChange: updateAggregatedAccountsPagination,

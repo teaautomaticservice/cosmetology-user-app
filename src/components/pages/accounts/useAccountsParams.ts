@@ -3,10 +3,8 @@ import { AccountStatus } from '@typings/api/generated';
 import { PaginationProps } from 'antd';
 
 type Props = {
-  currenciesPage?: string;
-  currenciesPageSize?: string;
-  accountsPage?: string;
-  accountsPageSize?: string;
+  page?: string;
+  pageSize?: string;
   accountsMoneyStoragesIds?: string[];
   balanceFrom?: string;
   balanceTo?: string;
@@ -17,23 +15,10 @@ type Props = {
 export const useAccountsParams = () => {
   const { params, isReady, setParams } = useAppParams<Props>({
     customDefaultKeys: {
-      currenciesPage: '1',
-      currenciesPageSize: '10',
-      accountsPage: '1',
-      accountsPageSize: '10',
+      page: '1',
+      pageSize: '10',
     },
   });
-
-  const updateCurrenciesPagination:
-    PaginationProps['onChange'] |
-    PaginationProps['onShowSizeChange']
-    = (page, pageSize) => {
-      setParams({
-        ...params,
-        currenciesPage: page.toString(),
-        currenciesPageSize: pageSize.toString(),
-      });
-    };
 
   const updateAggregatedAccountsPagination:
     PaginationProps['onChange'] |
@@ -41,8 +26,8 @@ export const useAccountsParams = () => {
     = (page, pageSize) => {
       setParams({
         ...params,
-        accountsPage: page.toString(),
-        accountsPageSize: pageSize.toString(),
+        page: page.toString(),
+        pageSize: pageSize.toString(),
       });
     };
 
@@ -59,14 +44,17 @@ export const useAccountsParams = () => {
     balanceFrom?: string;
     balanceTo?: string;
   }) => {
-    setParams({
+    const newParams = {
       ...params,
       ...(accountsMoneyStoragesIds && { accountsMoneyStoragesIds }),
       ...(status && { status }),
       ...(query && { query }),
       ...(balanceFrom && { balanceFrom }),
       ...(balanceTo && { balanceTo }),
-    });
+    };
+    delete newParams.page;
+    delete newParams.pageSize;
+    setParams(newParams);
   };
 
   const deleteParam = (keys: (keyof Props)[]) => {
@@ -86,7 +74,6 @@ export const useAccountsParams = () => {
     isReady,
     setParams,
     updateAggregatedAccountsPagination,
-    updateCurrenciesPagination,
     updateAccountsFilters,
     deleteParam,
   };

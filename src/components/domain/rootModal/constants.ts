@@ -7,6 +7,7 @@ import { MessageModal } from '@components/domain/rootModal/messageModal/MessageM
 import { CreateAccountsModal } from './createAccountsModal/CreateAccountsModal';
 import { CreateCashOutModal } from './createCashOutModal/CreateCashOutModal';
 import { CreateCurrencyModal } from './createCurrencyModal/CreateCurrencyModal';
+import { CreateLoanRepaymentModal } from './createLoanRepaymentModal/CreateLoanRepaymentModal';
 import { CreateObligationStorageModal } from './createObligationStorageModal/CreateObligationStorageModal';
 import { CreateOpenBalanceModal } from './createOpenBalanceModal/CreateOpenBalanceModal';
 import {
@@ -33,4 +34,5 @@ export const ModalsMap = {
   'createOpenBalanceObligationModal': CreateOpenBalanceObligationModal,
   'takeLoanModal': TakeLoanModal,
   'createReceiptModal': CreateReceiptModal,
+  'createLoanRepaymentModal': CreateLoanRepaymentModal,
 };

@@ -1,23 +1,23 @@
 import { useEffect } from 'react';
-import { Accounts } from '@components/domain/accounts/Accounts';
+import { ObligationAccounts } from '@components/domain/accounts/obligation/ObligationAccounts';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { debounce } from 'lodash';
 
-import { useAccountsParams } from './useAccountsParams';
+import { useAccountsParams } from '../useAccountsParams';
 
-export const AccountsPage: React.FC = () => {
+export const ObligationAccountsPage: React.FC = () => {
   const {
     updateCurrenciesList,
     updateAccountsAggregatedWithStorage,
     updateMoneyStorages,
     updateAccountsList,
   } = useAccountsPageStore();
-
+  
   const {
     params,
     isReady,
   } = useAccountsParams();
-
+  
   const {
     accountsMoneyStoragesIds,
     page,
@@ -27,7 +27,7 @@ export const AccountsPage: React.FC = () => {
     balanceFrom,
     balanceTo,
   } = params;
-
+  
   const updateAccountListWithParams = debounce(() => {
     if (isReady) {
       updateAccountsList({
@@ -41,19 +41,19 @@ export const AccountsPage: React.FC = () => {
       });
     }
   }, 100);
-
+  
   useEffect(() => {
     updateCurrenciesList();
     updateAccountListWithParams();
     updateAccountsAggregatedWithStorage();
     updateMoneyStorages();
   }, []);
-
+  
   useEffect(() => {
     updateAccountListWithParams();
   }, [params]);
 
   return (
-    <Accounts />
+    <ObligationAccounts />
   );
 };
