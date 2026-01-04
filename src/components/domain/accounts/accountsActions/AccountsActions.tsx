@@ -6,7 +6,6 @@ import { AccountStatus } from '@typings/api/generated';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
 import {
   Button,
-  Checkbox,
   Input,
   InputNumber,
   Select,
@@ -26,12 +25,8 @@ export const AccountsActions: React.FC<Props> = ({
   className,
 }) => {
   const {
-    isEditMode,
     currencies,
-    isAggregated,
     moneyStorages,
-    toggleEditMode,
-    toggleAggregateMode,
   } = useAccountsPageStore();
   const { open } = useModalStore();
   const {
@@ -107,62 +102,58 @@ export const AccountsActions: React.FC<Props> = ({
             Create account
           </Button>
         </Tooltip>
-        <Button type={isEditMode ? 'primary' : 'default'} onClick={toggleEditMode}>Edit mode</Button>
-        {isEditMode && (
-          <>
-            <Input
-              placeholder='Input query'
-              className={s.input}
-              onChange={onChangeInput}
-              defaultValue={params.query}
-            />
-            <InputNumber
-              placeholder='Input balance From'
-              className={s.input}
-              onChange={onChangeBalanceFrom}
-              defaultValue={params.balanceFrom ? Number(fromAmountApi(params.balanceFrom)) : undefined}
-              precision={2}
-              step={'0.01'}
-              formatter={(value) => {
-                if (!value) {
-                  return String(value ?? '');
-                }
-                return String(Number(value).toFixed(2));
-              }}
-            />
-            <InputNumber
-              placeholder='Input balance To'
-              className={s.input}
-              onChange={onChangeBalanceTo}
-              defaultValue={params.balanceTo ? Number(fromAmountApi(params.balanceTo)) : undefined}
-              precision={2}
-              step={'0.01'}
-              formatter={(value) => {
-                if (!value) {
-                  return String(value ?? '');
-                }
-                return String(Number(value).toFixed(2));
-              }}
-            />
-            < Select
-              mode='multiple'
-              options={itemsMoneyStorages}
-              placeholder='Select money storages'
-              value={selectedMoneyStorages}
-              onChange={onChangeMoneyStorage}
-              className={s.select}
-            />
-            <Select
-              mode='multiple'
-              options={itemsStatuses}
-              placeholder='Select statuses'
-              value={selectedStatuses}
-              onChange={onChangeStatus}
-              className={s.select}
-            />
-            <Checkbox checked={isAggregated} onChange={toggleAggregateMode}>Aggregate</Checkbox>
-          </>
-        )}
+        <>
+          <Input
+            placeholder='Input query'
+            className={s.input}
+            onChange={onChangeInput}
+            defaultValue={params.query}
+          />
+          <InputNumber
+            placeholder='Input balance From'
+            className={s.input}
+            onChange={onChangeBalanceFrom}
+            defaultValue={params.balanceFrom ? Number(fromAmountApi(params.balanceFrom)) : undefined}
+            precision={2}
+            step={'0.01'}
+            formatter={(value) => {
+              if (!value) {
+                return String(value ?? '');
+              }
+              return String(Number(value).toFixed(2));
+            }}
+          />
+          <InputNumber
+            placeholder='Input balance To'
+            className={s.input}
+            onChange={onChangeBalanceTo}
+            defaultValue={params.balanceTo ? Number(fromAmountApi(params.balanceTo)) : undefined}
+            precision={2}
+            step={'0.01'}
+            formatter={(value) => {
+              if (!value) {
+                return String(value ?? '');
+              }
+              return String(Number(value).toFixed(2));
+            }}
+          />
+          < Select
+            mode='multiple'
+            options={itemsMoneyStorages}
+            placeholder='Select money storages'
+            value={selectedMoneyStorages}
+            onChange={onChangeMoneyStorage}
+            className={s.select}
+          />
+          <Select
+            mode='multiple'
+            options={itemsStatuses}
+            placeholder='Select statuses'
+            value={selectedStatuses}
+            onChange={onChangeStatus}
+            className={s.select}
+          />
+        </>
       </div>
     </div>
   );

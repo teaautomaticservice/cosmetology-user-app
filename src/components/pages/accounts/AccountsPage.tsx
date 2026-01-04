@@ -8,7 +8,6 @@ import { useAccountsParams } from './useAccountsParams';
 export const AccountsPage: React.FC = () => {
   const {
     updateCurrenciesList,
-    disableEditMode,
     updateAccountsAggregatedWithStorage,
     updateMoneyStorages,
     updateAccountsList,
@@ -48,10 +47,6 @@ export const AccountsPage: React.FC = () => {
     updateAccountListWithParams();
     updateAccountsAggregatedWithStorage();
     updateMoneyStorages();
-
-    return () => {
-      disableEditMode();
-    };
   }, []);
 
   useEffect(() => {

@@ -20,12 +20,30 @@ const dashboardsMenu: MenuItemGroupType<MenuItemType> = {
       key: paths.transactions,
     },
     {
+      type: 'divider',
+    },
+    {
       label: 'Accounts',
       key: paths.accounts,
     },
     {
+      label: 'Accounts by Storage',
+      key: paths.accountsByStorage,
+    },
+    {
+      label: 'Accounts aggregated',
+      key: paths.accountsAggregated,
+    },
+    {
+      type: 'divider',
+    },
+    {
       label: 'Money storages',
       key: paths.moneyStorages,
+    },
+    {
+      label: 'Currencies',
+      key: paths.currencies,
     },
   ],
 };
@@ -44,9 +62,8 @@ export const Navbar: React.FC<Props> = ({
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const chapterOfPath = `/${pathname.split('/')[1]}`;
-
   const onClick: MenuClickEventHandler = ({ key }) => {
+
     if (typeof key === 'string') {
       navigate(key);
     }
@@ -58,7 +75,7 @@ export const Navbar: React.FC<Props> = ({
         className={s.menu}
         mode="inline"
         onClick={onClick}
-        defaultSelectedKeys={[chapterOfPath]}
+        defaultSelectedKeys={[pathname]}
         items={menuItems}
       />
     </div>

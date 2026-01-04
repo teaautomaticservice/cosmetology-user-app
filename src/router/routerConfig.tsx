@@ -2,7 +2,10 @@ import { AuthorizedLayout } from '@components/layouts/authorizedLayout/Authorize
 import { DashboardLayout } from '@components/layouts/dashboardLayout/DashboardLayout';
 import { GenericLayout } from '@components/layouts/genericLayout/GenericLayout';
 import { AccountsPage } from '@components/pages/accounts/AccountsPage';
+import { AccountsAggregatedPage } from '@components/pages/accounts/aggregated/AccountsAggregatedPage';
+import { AccountsByStoragePage } from '@components/pages/accounts/byStorage/AccountsByStoragePage';
 import { CompleteRegistrationPage } from '@components/pages/completeRegistration/CompleteRegistrationPage';
+import { CurrenciesPage } from '@components/pages/currencies/CurrenciesPage';
 import { HistoryPage } from '@components/pages/history/HistoryPage';
 import { LoginPage } from '@components/pages/login/LoginPage';
 import { MainPage } from '@components/pages/main/MainPage';
@@ -50,11 +53,29 @@ const dashboards: RouterPage[] = [
     roles: [RouterRoleEnum.OPERATOR],
   },
   {
+    path: paths.accountsAggregated,
+    Layout: DashboardLayout,
+    Component: AccountsAggregatedPage,
+    roles: [RouterRoleEnum.OPERATOR],
+  },
+  {
+    path: paths.accountsByStorage,
+    Layout: DashboardLayout,
+    Component: AccountsByStoragePage,
+    roles: [RouterRoleEnum.OPERATOR],
+  },
+  {
     path: paths.transactions,
     Layout: DashboardLayout,
     Component: TransactionsPage,
     roles: [RouterRoleEnum.OPERATOR],
   },
+  {
+    path: paths.currencies,
+    Layout: DashboardLayout,
+    Component: CurrenciesPage,
+    roles: [RouterRoleEnum.OPERATOR],
+  }
 ];
 
 const history: RouterPage[] = [

@@ -1,7 +1,6 @@
-import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { ColumnsType, TableUi } from '@components/ui/table/TableUi';
+import { useCurrenciesStore } from '@stores/cashier/currencies';
 import { useModalStore } from '@stores/modal';
-import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { Currency } from '@typings/api/cashier';
 import { Button } from 'antd';
 import cn from 'classnames';
@@ -16,16 +15,12 @@ export const CurrenciesList: React.FC<Props> = ({
   className,
 }) => {
   const {
-    isAccountsPageLoading,
     currencies,
     currenciesCount,
+    isCurrenciesLoading,
     setCurrentCurrency,
-  } = useAccountsPageStore();
+  } = useCurrenciesStore();
   const { open } = useModalStore();
-  const {
-    params,
-    updateCurrenciesPagination,
-  } = useAccountsParams();
 
   const openEditCurrencyModal = (currentCurrency: Currency) => {
     setCurrentCurrency(currentCurrency);
@@ -63,13 +58,10 @@ export const CurrenciesList: React.FC<Props> = ({
       <TableUi
         columns={finalColumns}
         dataSource={currencies}
-        loading={isAccountsPageLoading}
+        loading={isCurrenciesLoading}
         pagination={{
           total: currenciesCount,
-          current: Number(params.currenciesPage ?? 1),
-          pageSize: Number(params.currenciesPageSize ?? 10),
-          onChange: updateCurrenciesPagination,
-          onShowSizeChange: updateCurrenciesPagination,
+          pageSize: 50,
         }}
       />
     </div>
