@@ -3,6 +3,7 @@ import {
   createLoanApi,
   createOpenBalanceApi,
   createOpenBalanceObligationApi,
+  createReceiptApi,
   getTransactionsListApi
 } from '@apiMethods/cashier';
 import { NewLoan, NewOpenBalanceObligation, NewTransaction, Transaction } from '@typings/api/cashier';
@@ -97,6 +98,19 @@ export const useTransactionsStore = () => {
     }
   };
 
+  const createReceipt = async (data: NewTransaction) => {
+    setState({
+      isLoading: true,
+    });
+    try {
+      await createReceiptApi(data);
+    } finally {
+      setState({
+        isLoading: false,
+      });
+    }
+  };
+
   return {
     transactions,
     isLoading,
@@ -105,5 +119,6 @@ export const useTransactionsStore = () => {
     createCashOut,
     createOpenBalanceObligation,
     createLoan,
+    createReceipt,
   };
 };
