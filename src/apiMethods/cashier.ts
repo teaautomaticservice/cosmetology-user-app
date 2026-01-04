@@ -9,6 +9,7 @@ import {
   GetMoneyStorageListSort,
   GetObligationStoragesListParams,
   NewLoan,
+  NewLoanRepayment,
   NewOpenBalanceObligation,
   NewTransaction,
   UpdateAccountData,
@@ -251,6 +252,12 @@ export const createCashOutApi = (newData: NewTransaction) => {
 
 export const createLoanApi = (newData: NewLoan) => {
   return CashierService.transactionsControllerLoan({
+    requestBody: newData,
+  });
+};
+
+export const createLoanRepaymentApi = (newData: NewLoanRepayment) => {
+  return CashierService.transactionsControllerLoanRepayment({
     requestBody: newData,
   });
 };

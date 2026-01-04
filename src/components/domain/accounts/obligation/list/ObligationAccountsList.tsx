@@ -33,7 +33,7 @@ export const ObligationAccountsList: React.FC<Props> = ({
 
   const openLoanRepayment = (account: AccountWithStore) => {
     setCurrentAccountWithStore(account);
-    open('createOpenBalanceModal');
+    open('createLoanRepaymentModal');
   };
 
   const columns: ColumnsType<AccountWithStore> = [
