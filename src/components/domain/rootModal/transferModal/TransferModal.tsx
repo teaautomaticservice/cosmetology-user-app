@@ -12,7 +12,7 @@ type FormData = {
   moneyStorageId: number;
   description?: string;
   amount: number;
-  creditId: number;
+  debitId: number;
 }
 
 export const TransferModal: React.FC = () => {
@@ -47,7 +47,6 @@ export const TransferModal: React.FC = () => {
 
   const updateFilterAccounts = debounce((filterData: FormData) => {
     updateAccountsListParams({
-      balanceFrom: toAmountApi(filterData.amount ?? 1),
       moneyStoragesIds: filterData.moneyStorageId ? [filterData.moneyStorageId.toString()] : undefined,
     });
   }, 500);
@@ -55,7 +54,7 @@ export const TransferModal: React.FC = () => {
   const onSubmit = async ({
     amount,
     description,
-    creditId,
+    debitId,
   }: FormData) => {
     if (!currentAccountWithStore) {
       return;
@@ -65,15 +64,13 @@ export const TransferModal: React.FC = () => {
       amount: toAmountApi(amount),
       description: description ?? null,
       creditId: currentAccountWithStore.id,
-      debitId: creditId,
+      debitId,
     });
     window.location.reload();
   };
 
   useEffect(() => {
-    updateAccountsListParams({
-      balanceFrom: 1,
-    });
+    updateAccountsListParams();
   }, []);
 
   useEffect(() => {
@@ -120,8 +117,8 @@ export const TransferModal: React.FC = () => {
             updateFilterAccounts(formInstance.getFieldsValue()),
         },
         {
-          label: 'Credit account',
-          name: 'creditId',
+          label: 'Debit account',
+          name: 'debitId',
           isRequired: true,
           type: 'select',
           options: accountsOptions,

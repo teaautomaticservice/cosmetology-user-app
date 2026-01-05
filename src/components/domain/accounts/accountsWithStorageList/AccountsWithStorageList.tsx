@@ -142,7 +142,7 @@ export const AccountsWithStorageList: React.FC<Props> = ({
               account.status === AccountWithStorageStatusEnum.ACTIVE
             ) && (
               <Button onClick={() => openTransferModal(account)}>
-                  Transfer
+                  Transfer to
               </Button>
             )}
             {(
