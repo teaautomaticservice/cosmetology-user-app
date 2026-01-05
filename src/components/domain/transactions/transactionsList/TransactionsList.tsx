@@ -74,7 +74,7 @@ export const TransactionsList: React.FC = () => {
       pagination={{
         total: count,
         current: Number(params.page ?? 1),
-        pageSize: Number(params.pageSize ?? 50),
+        pageSize: Number(params.pageSize ?? 10),
         onChange: updatePagination,
         onShowSizeChange: updatePagination,
       }}

@@ -10,7 +10,7 @@ export const useTransactionsParams = () => {
   const { params, isReady, setParams } = useAppParams<Props>({
     customDefaultKeys: {
       page: '1',
-      pageSize: '50',
+      pageSize: '10',
     },
   });
 
