@@ -14,17 +14,20 @@ import {
   NewOpenBalanceObligation,
   NewTransaction,
   NewTransfer,
-  Transaction
+  Transaction,
+  TransactionsControllerGetListParams
 } from '@typings/api/cashier';
 import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
   transactions: Transaction[];
+  count: number;
   isLoading: boolean;
 };
 
 const { useStore } = storeFactory<Store>({
   transactions: [],
+  count: 0,
   isLoading: true,
 });
 
@@ -34,18 +37,21 @@ export const useTransactionsStore = () => {
   const {
     transactions,
     isLoading,
+    count,
   } = state;
 
-  const updateTransactionsList = async () => {
+  const updateTransactionsList = async (params: TransactionsControllerGetListParams = {}) => {
     setState({
       isLoading: true,
     });
     try {
       const {
         data,
-      } = await getTransactionsListApi();
+        meta,
+      } = await getTransactionsListApi(params);
       setState({
         transactions: data,
+        count: meta.count,
       });
     } finally {
       setState((state) => ({
@@ -149,6 +155,7 @@ export const useTransactionsStore = () => {
   return {
     transactions,
     isLoading,
+    count,
     updateTransactionsList,
     createOpenBalance,
     createCashOut,

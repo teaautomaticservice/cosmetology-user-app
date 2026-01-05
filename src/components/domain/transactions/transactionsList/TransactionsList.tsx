@@ -1,3 +1,4 @@
+import { useTransactionsParams } from '@components/pages/transactions/useTransactionsParams';
 import { TableUi } from '@components/ui/table/TableUi';
 import { useTransactionsStore } from '@stores/cashier/transactions';
 import { Transaction } from '@typings/api/cashier';
@@ -57,13 +58,26 @@ export const TransactionsList: React.FC = () => {
   const {
     transactions,
     isLoading,
+    count,
   } = useTransactionsStore();
+
+  const {
+    params,
+    updatePagination,
+  } = useTransactionsParams();
 
   return (
     <TableUi
       columns={finalColumns}
       dataSource={transactions}
       loading={isLoading}
+      pagination={{
+        total: count,
+        current: Number(params.page ?? 1),
+        pageSize: Number(params.pageSize ?? 50),
+        onChange: updatePagination,
+        onShowSizeChange: updatePagination,
+      }}
     />
   );
 };

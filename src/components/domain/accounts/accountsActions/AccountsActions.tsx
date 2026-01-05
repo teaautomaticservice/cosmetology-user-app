@@ -120,13 +120,13 @@ export const AccountsActions: React.FC<Props> = ({
             placeholder='Input query'
             className={s.input}
             onChange={onChangeInput}
-            value={params.query}
+            defaultValue={params.query}
           />
           <InputNumber
             placeholder='Input balance From'
             className={s.input}
             onChange={onChangeBalanceFrom}
-            value={params.balanceFrom ? Number(fromAmountApi(params.balanceFrom)) : undefined}
+            defaultValue={params.balanceFrom ? Number(fromAmountApi(params.balanceFrom)) : undefined}
             precision={2}
             step={'0.01'}
             formatter={(value) => {
@@ -140,7 +140,7 @@ export const AccountsActions: React.FC<Props> = ({
             placeholder='Input balance To'
             className={s.input}
             onChange={onChangeBalanceTo}
-            value={params.balanceTo ? Number(fromAmountApi(params.balanceTo)) : undefined}
+            defaultValue={params.balanceTo ? Number(fromAmountApi(params.balanceTo)) : undefined}
             precision={2}
             step={'0.01'}
             formatter={(value) => {
@@ -150,7 +150,7 @@ export const AccountsActions: React.FC<Props> = ({
               return String(Number(value).toFixed(2));
             }}
           />
-          < Select
+          <Select
             mode='multiple'
             options={itemsMoneyStorages}
             placeholder='Select money storages'
