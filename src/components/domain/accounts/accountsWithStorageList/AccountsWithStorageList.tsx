@@ -54,6 +54,11 @@ export const AccountsWithStorageList: React.FC<Props> = ({
 
   const openReceiptModal = (account: AccountWithStore) => {
     setCurrentAccountWithStore(account);
+    open('createReceiptModal');
+  };
+
+  const openTransferModal = (account: AccountWithStore) => {
+    setCurrentAccountWithStore(account);
     open('transferModal');
   };
 
@@ -136,7 +141,7 @@ export const AccountsWithStorageList: React.FC<Props> = ({
               Number(account.available) > 0 &&
               account.status === AccountWithStorageStatusEnum.ACTIVE
             ) && (
-              <Button onClick={() => openReceiptModal(account)}>
+              <Button onClick={() => openTransferModal(account)}>
                   Transfer
               </Button>
             )}
