@@ -23,7 +23,6 @@ export const EditAccountWithStorages: React.FC = () => {
   const {
     currentAccountWithStore,
     isAccountsLoading,
-    updateAccountsList,
     setCurrentAccountWithStore,
   } = useAccountsStore();
   const {
@@ -40,14 +39,14 @@ export const EditAccountWithStorages: React.FC = () => {
     if (currentAccountWithStore) {
       const resp = await updateAccountApi(currentAccountWithStore.id, formData);
       setCurrentAccountWithStore(resp);
-      updateAccountsList();
+      window.location.reload();
     }
   };
 
   const onDelete = async () => {
     if (currentAccountWithStore) {
       await deleteAccountApi(currentAccountWithStore.id);
-      updateAccountsList();
+      window.location.reload();
     }
   };
 
