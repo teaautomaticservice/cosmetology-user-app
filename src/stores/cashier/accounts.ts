@@ -100,7 +100,10 @@ export const useAccountsStore = () => {
     try {
       const {
         data,
-      } = await getAccountsWithMoneyStoragesApi(params);
+      } = await getAccountsWithMoneyStoragesApi({
+        pageSize: 100,
+        ...params,
+      });
       setState({
         accountsWithStoresForParams: data,
       });
