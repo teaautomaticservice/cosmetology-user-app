@@ -47,7 +47,7 @@ export type AccountsByStore = GetAccountsByStoreDto;
 export type Account = GetAccountDto;
 export type AccountWithStore = GetAccountWithStorageDto;
 export type AccountAggregatedWithStorage = GetAccountAggregatedWithStorage;
-export type AccountWithStorageStatus =  `${GetAccountWithStorageDto['status']}`;
+export type AccountWithStorageStatus = `${GetAccountWithStorageDto['status']}`;
 export const AccountWithStorageStatusEnum = GetAccountWithStorageDto['status'];
 export type CreateAccount = CreateAccountDto;
 export type UpdateAccountData =
@@ -64,6 +64,8 @@ export type UpdateCurrencyData =
 export type CreateCurrencyData =
   Parameters<typeof CashierService.currenciesControllerCreateCurrency>[0]['requestBody'];
 
+export type TransactionsControllerGetListParams =
+  Parameters<typeof CashierService.transactionsControllerGetList>[0];
 export type Transaction = GetTransactionDto;
 export type NewTransaction = NewTransactionDto
 export type NewOpenBalanceObligation = NewOpenBalanceObligationDto;
