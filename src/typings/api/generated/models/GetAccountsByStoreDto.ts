@@ -11,6 +11,8 @@ export type GetAccountsByStoreDto = {
     code: string;
     description: string | null;
     accounts: Array<GetAccountDto>;
+    balance: number;
+    available: number;
 };
 export namespace GetAccountsByStoreDto {
     export enum status {

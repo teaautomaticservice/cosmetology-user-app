@@ -18,6 +18,7 @@ import { EditAccountWithStorages } from './editAccountWithStorages/EditAccountWi
 import { EditAggregatedAccount } from './editAggregatedAccount/EditAggregatedAccount';
 import { EditCurrency } from './editCurrency/EditCurrency';
 import { TakeLoanModal } from './takeLoanModal/TakeLoanModal';
+import { TransferModal } from './transferModal/TransferModal';
 
 export const ModalsMap = {
   'history': MessageModal,
@@ -35,4 +36,5 @@ export const ModalsMap = {
   'takeLoanModal': TakeLoanModal,
   'createReceiptModal': CreateReceiptModal,
   'createLoanRepaymentModal': CreateLoanRepaymentModal,
+  'transferModal': TransferModal,
 };

@@ -18,6 +18,7 @@ import type { NewLoanDto } from '../models/NewLoanDto';
 import type { NewLoanRepaymentDto } from '../models/NewLoanRepaymentDto';
 import type { NewOpenBalanceObligationDto } from '../models/NewOpenBalanceObligationDto';
 import type { NewTransactionDto } from '../models/NewTransactionDto';
+import type { NewTransferDto } from '../models/NewTransferDto';
 import type { TransactionsPaginated } from '../models/TransactionsPaginated';
 import type { UpdateAccountDto } from '../models/UpdateAccountDto';
 import type { UpdateAccountListDto } from '../models/UpdateAccountListDto';
@@ -644,6 +645,25 @@ export class CashierService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/cashier/transactions/loan-repayment',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any New transaction Transfer Repayment successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerTransfer({
+        requestBody,
+    }: {
+        /**
+         * Transfer
+         */
+        requestBody: NewTransferDto,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/transfer',
             body: requestBody,
             mediaType: 'application/json',
         });

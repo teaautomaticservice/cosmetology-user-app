@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntityModal';
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
-import { useObligationAccountStore } from '@stores/cashier/obligationAccount';
 import { useTransactionsStore } from '@stores/cashier/transactions';
-import { AccountWithStorageStatusEnum, NewLoan } from '@typings/api/cashier';
+import { NewTransfer } from '@typings/api/cashier';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
 import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
@@ -13,16 +12,12 @@ type FormData = {
   moneyStorageId: number;
   description?: string;
   amount: number;
-  obligationStorageId: number;
   creditId: number;
 }
 
-export const TakeLoanModal: React.FC = () => {
+export const TransferModal: React.FC = () => {
   const {
-    obligationAccountsStorages,
-  } = useObligationAccountStore();
-  const {
-    createLoan,
+    createTransfer,
   } = useTransactionsStore();
   const {
     accountsWithStoresForParams,
@@ -36,11 +31,7 @@ export const TakeLoanModal: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const accountsFiltered = accountsWithStoresForParams.filter(({ id, name, currencyId }) => (
-    id !== currentAccountWithStore?.id &&
-    name !== currentAccountWithStore?.name &&
-    currencyId === currentAccountWithStore?.currencyId
-  ));
+  const accountsFiltered = accountsWithStoresForParams.filter(({ id }) => id !== currentAccountWithStore?.id);
   const accountsOptions = accountsFiltered.map((({
     id,
     name,
@@ -53,9 +44,6 @@ export const TakeLoanModal: React.FC = () => {
   })));
 
   const moneyStoragesOptions = fromEntityToOptionsList(moneyStorages);
-  const activeObligationStorages =
-    obligationAccountsStorages?.filter(({ status }) => status === AccountWithStorageStatusEnum.ACTIVE);
-  const optionsObligationsStorages = fromEntityToOptionsList(activeObligationStorages);
 
   const updateFilterAccounts = debounce((filterData: FormData) => {
     updateAccountsListParams({
@@ -68,18 +56,16 @@ export const TakeLoanModal: React.FC = () => {
     amount,
     description,
     creditId,
-    obligationStorageId,
   }: FormData) => {
     if (!currentAccountWithStore) {
       return;
     }
 
-    await createLoan({
+    await createTransfer({
       amount: toAmountApi(amount),
-      obligationStorageId,
       description: description ?? null,
-      creditId,
-      debitId: currentAccountWithStore.id,
+      creditId: currentAccountWithStore.id,
+      debitId: creditId,
     });
     window.location.reload();
   };
@@ -97,8 +83,12 @@ export const TakeLoanModal: React.FC = () => {
   }, [isAccountsLoading]);
 
   return (
-    <CreateEntityModal<NewLoan & FormData, FormData >
-      title="Take Loan"
+    <CreateEntityModal<NewTransfer & FormData, FormData >
+      title={`Transfer: ${
+        fromAmountApi(currentAccountWithStore?.available ?? 0)
+      } ${
+        currentAccountWithStore?.currency.code ?? ''
+      }`}
       onSubmit={onSubmit}
       rows={[
         {
@@ -108,6 +98,7 @@ export const TakeLoanModal: React.FC = () => {
           isRequired: true,
           type: 'inputNumber',
           min: 0.01,
+          max: currentAccountWithStore?.available,
           precision: 2,
           step: '0.01',
           formatter: (value) => {
@@ -134,13 +125,6 @@ export const TakeLoanModal: React.FC = () => {
           isRequired: true,
           type: 'select',
           options: accountsOptions,
-        },
-        {
-          label: 'Obligation Storage',
-          name: 'obligationStorageId',
-          isRequired: true,
-          type: 'select',
-          options: optionsObligationsStorages,
         },
         { label: 'Description', name: 'description', type: 'textarea' },
       ]}

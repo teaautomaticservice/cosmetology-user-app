@@ -12,6 +12,7 @@ import {
   NewLoanRepayment,
   NewOpenBalanceObligation,
   NewTransaction,
+  NewTransfer,
   UpdateAccountData,
   UpdateAccountListData,
   UpdateCurrencyData,
@@ -264,6 +265,12 @@ export const createLoanRepaymentApi = (newData: NewLoanRepayment) => {
 
 export const createReceiptApi = (newData: NewTransaction) => {
   return CashierService.transactionsControllerReceipt({
+    requestBody: newData,
+  });
+};
+
+export const createTransferApi = (newData: NewTransfer) => {
+  return CashierService.transactionsControllerTransfer({
     requestBody: newData,
   });
 };
