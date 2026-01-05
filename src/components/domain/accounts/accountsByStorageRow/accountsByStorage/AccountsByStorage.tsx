@@ -17,7 +17,15 @@ export const AccountsByStorage: React.FC<Props> = ({
       align: 'left',
       title: () => (
         <span>
-          <strong>{data.name}</strong>, {data.code}
+          <strong>{
+            data.name
+          }</strong>, {
+            data.code
+          } Balance: {
+            fromAmountApi(data.balance)
+          } Available: {
+            fromAmountApi(data.available)
+          }
           <MoneyStorageBadge moneyStorageStatus={data.status} className={s.badge} />
         </span>
       ),
