@@ -3,10 +3,11 @@ import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntity
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useTransactionsStore } from '@stores/cashier/transactions';
-import { NewTransfer } from '@typings/api/cashier';
+import { AccountWithStorageStatus, AccountWithStorageStatusEnum, NewTransfer } from '@typings/api/cashier';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
 import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
+import { AccountStatus } from '@typings/api/generated';
 
 type FormData = {
   moneyStorageId: number;
@@ -31,7 +32,9 @@ export const TransferModal: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const accountsFiltered = accountsWithStoresForParams.filter(({ id }) => id !== currentAccountWithStore?.id);
+  const accountsFiltered = accountsWithStoresForParams.filter(({ id, status }) => (
+    id !== currentAccountWithStore?.id
+  ));
   const accountsOptions = accountsFiltered.map((({
     id,
     name,
@@ -70,7 +73,9 @@ export const TransferModal: React.FC = () => {
   };
 
   useEffect(() => {
-    updateAccountsListParams();
+    updateAccountsListParams({
+      status: [AccountStatus.ACTIVE],
+    });
   }, []);
 
   useEffect(() => {
