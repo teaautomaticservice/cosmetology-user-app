@@ -36,6 +36,7 @@ export type { NewLoanDto } from './models/NewLoanDto';
 export type { NewLoanRepaymentDto } from './models/NewLoanRepaymentDto';
 export type { NewOpenBalanceObligationDto } from './models/NewOpenBalanceObligationDto';
 export type { NewTransactionDto } from './models/NewTransactionDto';
+export type { NewTransferDto } from './models/NewTransferDto';
 export type { PaginationMetaDto } from './models/PaginationMetaDto';
 export type { SetupNewPasswordDto } from './models/SetupNewPasswordDto';
 export type { TransactionsPaginated } from './models/TransactionsPaginated';

@@ -13,6 +13,7 @@ import {
   NewLoanRepaymentDto,
   NewOpenBalanceObligationDto,
   NewTransactionDto,
+  NewTransferDto,
 } from './generated';
 
 export type GetMoneyStorageListParams =
@@ -68,3 +69,4 @@ export type NewTransaction = NewTransactionDto
 export type NewOpenBalanceObligation = NewOpenBalanceObligationDto;
 export type NewLoan = NewLoanDto;
 export type NewLoanRepayment = NewLoanRepaymentDto;
+export type NewTransfer = NewTransferDto;

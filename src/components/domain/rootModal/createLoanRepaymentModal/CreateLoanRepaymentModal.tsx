@@ -28,7 +28,10 @@ export const CreateLoanRepaymentModal: React.FC = () => {
     moneyStorages,
   } = useMoneyStoragesStore();
 
-  const accountsFiltered = accountsWithStoresForParams.filter(({ id }) => id !== currentAccountWithStore?.id);
+  const accountsFiltered = accountsWithStoresForParams.filter(({ id, name }) => (
+    id !== currentAccountWithStore?.id &&
+    name.toLowerCase() !== currentAccountWithStore?.name.toLowerCase()
+  ));
   const accountsOptions = accountsFiltered.map((({
     id,
     name,
@@ -78,7 +81,7 @@ export const CreateLoanRepaymentModal: React.FC = () => {
       onSubmit={onSubmit}
       rows={[
         {
-          initialValue: 0,
+          initialValue: fromAmountApi(currentAccountWithStore?.available ?? 0),
           label: 'Amount',
           name: 'amount',
           isRequired: true,
