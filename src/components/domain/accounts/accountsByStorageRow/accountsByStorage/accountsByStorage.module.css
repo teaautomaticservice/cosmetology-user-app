@@ -1,6 +1,12 @@
 .root {
   width: 400px;
 
+  .title {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
   .badge {
     margin-left: 8px;
     float: right;
