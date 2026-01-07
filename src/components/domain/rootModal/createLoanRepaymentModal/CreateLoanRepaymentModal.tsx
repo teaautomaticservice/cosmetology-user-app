@@ -11,6 +11,7 @@ import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 type FormData = {
   amount: number;
   description?: string;
+  debitId: number;
   creditId: number;
   obligationStorageId?: number;
 }
@@ -28,11 +29,7 @@ export const CreateLoanRepaymentModal: React.FC = () => {
     moneyStorages,
   } = useMoneyStoragesStore();
 
-  const accountsFiltered = accountsWithStoresForParams.filter(({ id, name }) => (
-    id !== currentAccountWithStore?.id &&
-    name.toLowerCase() !== currentAccountWithStore?.name.toLowerCase()
-  ));
-  const accountsOptions = accountsFiltered.map((({
+  const accountsOptions = accountsWithStoresForParams.map((({
     id,
     name,
     moneyStorage,
@@ -46,7 +43,6 @@ export const CreateLoanRepaymentModal: React.FC = () => {
 
   const updateFilterAccounts = debounce((filterData: FormData) => {
     updateAccountsListParams({
-      balanceFrom: toAmountApi(filterData.amount ?? 1),
       moneyStoragesIds: filterData.obligationStorageId ? [filterData.obligationStorageId.toString()] : undefined,
     });
   }, 500);
@@ -55,6 +51,7 @@ export const CreateLoanRepaymentModal: React.FC = () => {
     amount,
     description,
     creditId,
+    debitId,
   }: FormData) => {
     if (!currentAccountWithStore) {
       return;
@@ -64,15 +61,14 @@ export const CreateLoanRepaymentModal: React.FC = () => {
       amount: toAmountApi(amount),
       description: description ?? null,
       creditObligationAccountId: currentAccountWithStore.id,
-      creditId: creditId,
+      creditId,
+      debitId
     });
     window.location.reload();
   };
 
   useEffect(() => {
-    updateAccountsListParams({
-      balanceFrom: 1,
-    });
+    updateAccountsListParams();
   }, []);
 
   return (
@@ -100,7 +96,7 @@ export const CreateLoanRepaymentModal: React.FC = () => {
           suffix: currentAccountWithStore?.currency.code ?? 'n/a',
         },
         {
-          label: 'Filter accounts by Obligation Storage',
+          label: 'Filter accounts by Money Storage',
           name: 'obligationStorageId',
           type: 'select',
           options: moneyStoragesOptions,
@@ -110,6 +106,13 @@ export const CreateLoanRepaymentModal: React.FC = () => {
         {
           label: 'Credit account',
           name: 'creditId',
+          isRequired: true,
+          type: 'select',
+          options: accountsOptions,
+        },
+        {
+          label: 'Debit account',
+          name: 'debitId',
           isRequired: true,
           type: 'select',
           options: accountsOptions,

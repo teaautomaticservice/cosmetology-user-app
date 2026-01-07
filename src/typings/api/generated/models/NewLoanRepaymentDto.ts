@@ -5,6 +5,7 @@
 export type NewLoanRepaymentDto = {
     amount: number;
     creditObligationAccountId: number;
+    debitId: number;
     creditId: number;
     description: string | null;
 };
