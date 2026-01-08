@@ -48,7 +48,7 @@ export const AccountsByStorage: React.FC<Props> = ({
               className={s.badge}
               color={isHealth ? 'green' : 'red'}
               text={isHealth ? 'good' : `bad: ${
-                fromAmountApi(data.balance - data.income - data.expend)
+                fromAmountApi(data.balance - (data.income - data.expend))
               }`}
             /></span>
           )}
