@@ -15,7 +15,9 @@ export type GetAccountsByStoreDto = {
     available: number;
     income: number;
     expend: number;
-    transfer: number;
+    insideTransfer: number;
+    incomeTransfer: number;
+    expendTransfer: number;
 };
 export namespace GetAccountsByStoreDto {
     export enum status {
