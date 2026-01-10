@@ -13,7 +13,8 @@ type Props = {
 export const AccountsByStorage: React.FC<Props> = ({
   data,
 }) => {
-  const isHealth = data.income - data.expend === data.balance;
+  const isHealth = (data.income + data.incomeTransfer) - (data.expend + data.expendTransfer) === data.balance;
+  const different = data.balance - ((data.income + data.incomeTransfer) - (data.expend + data.expendTransfer));
   const columns: ColumnsType<Account> = [
     {
       align: 'left',
@@ -40,7 +41,14 @@ export const AccountsByStorage: React.FC<Props> = ({
             } Expend: {
               fromAmountApi(data.expend)
             } Transfer: {
-              fromAmountApi(data.transfer)
+              fromAmountApi(data.insideTransfer)
+            }
+          </span>
+          <span>
+            Income transfer: {
+              fromAmountApi(data.incomeTransfer)
+            } Expend transfer: {
+              fromAmountApi(data.expendTransfer)
             }
           </span>
           {data.status === MoneyStorageStatusEnum.ACTIVE && (
@@ -48,7 +56,7 @@ export const AccountsByStorage: React.FC<Props> = ({
               className={s.badge}
               color={isHealth ? 'green' : 'red'}
               text={isHealth ? 'good' : `bad: ${
-                fromAmountApi(data.balance - (data.income - data.expend))
+                fromAmountApi(different)
               }`}
             /></span>
           )}
