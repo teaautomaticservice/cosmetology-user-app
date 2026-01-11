@@ -113,6 +113,9 @@ export const AccountsAggregatedWithStorageList: React.FC<Props> = ({
         dataSource={accountsAggregatedWithStorage}
         loading={isLoading}
         className={s.root}
+        pagination={{
+          pageSize: 100,
+        }}
       />
     </div>
   );
