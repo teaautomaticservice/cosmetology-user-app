@@ -21,7 +21,7 @@ export const CreateObligationStorageModal: React.FC = () => {
 
   return (
     <CreateEntityModal<MoneyStorage, FormData>
-      title="Create money storage"
+      title="Create Obligation storage"
       onSubmit={onSubmit}
       rows={[
         { label: 'Name', name: 'name', isRequired: true },

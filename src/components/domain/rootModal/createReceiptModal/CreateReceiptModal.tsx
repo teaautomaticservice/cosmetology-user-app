@@ -3,6 +3,7 @@ import { useAccountsStore } from '@stores/cashier/accounts';
 import { useTransactionsStore } from '@stores/cashier/transactions';
 import { NewTransaction } from '@typings/api/cashier';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
+import cn from 'classnames';
 
 type FormData = {
   amount: number;
@@ -37,11 +38,15 @@ export const CreateReceiptModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewTransaction, FormData>
-      title={`Receipt: ${currentAccountWithStore?.name
-      } - ${currentAccountWithStore?.moneyStorage?.code
-      } Available: ${fromAmountApi(currentAccountWithStore?.available ?? 0)
-      } ${currentAccountWithStore?.currency?.code
-      }`}
+      title={cn(
+        'Receipt:',
+        currentAccountWithStore?.name,
+        '-',
+        currentAccountWithStore?.moneyStorage?.code,
+        'Available:',
+        fromAmountApi(currentAccountWithStore?.available ?? 0),
+        currentAccountWithStore?.currency.code,
+      )}
       onSubmit={onSubmit}
       rows={[
         {

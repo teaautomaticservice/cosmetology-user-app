@@ -5,6 +5,7 @@ import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useTransactionsStore } from '@stores/cashier/transactions';
 import { NewTransaction } from '@typings/api/cashier';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
+import cn from 'classnames';
 import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
@@ -73,11 +74,15 @@ export const CreateLoanRepaymentModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewTransaction & FormData, FormData>
-      title="Cash Out"
+      title={cn(
+        'Loan Repayment',
+        fromAmountApi(currentAccountWithStore?.available ?? 0),
+        currentAccountWithStore?.currency.code,
+      )}
       onSubmit={onSubmit}
       rows={[
         {
-          initialValue: fromAmountApi(currentAccountWithStore?.available ?? 0),
+          initialValue: 0,
           label: 'Amount',
           name: 'amount',
           isRequired: true,
