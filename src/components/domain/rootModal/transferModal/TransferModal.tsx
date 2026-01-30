@@ -6,6 +6,7 @@ import { useTransactionsStore } from '@stores/cashier/transactions';
 import { NewTransfer } from '@typings/api/cashier';
 import { AccountStatus } from '@typings/api/generated';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
+import cn from 'classnames';
 import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
@@ -86,11 +87,11 @@ export const TransferModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewTransfer & FormData, FormData >
-      title={`Transfer: ${
-        fromAmountApi(currentAccountWithStore?.available ?? 0)
-      } ${
-        currentAccountWithStore?.currency.code ?? ''
-      }`}
+      title={cn(
+        'Transfer:',
+        fromAmountApi(currentAccountWithStore?.available ?? 0),
+        currentAccountWithStore?.currency.code,
+      )}
       onSubmit={onSubmit}
       rows={[
         {
@@ -117,6 +118,7 @@ export const TransferModal: React.FC = () => {
           label: 'Filter accounts by Money Storage',
           name: 'moneyStorageId',
           type: 'select',
+          isSearch: true,
           options: moneyStoragesOptions,
           onChange: (_, formInstance) =>
             updateFilterAccounts(formInstance.getFieldsValue()),
@@ -126,6 +128,8 @@ export const TransferModal: React.FC = () => {
           name: 'debitId',
           isRequired: true,
           type: 'select',
+          isSearch: true,
+          isSort: true,
           options: accountsOptions,
         },
         { label: 'Description', name: 'description', type: 'textarea' },

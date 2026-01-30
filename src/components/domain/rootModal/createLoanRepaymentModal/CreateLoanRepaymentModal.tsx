@@ -5,6 +5,7 @@ import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useTransactionsStore } from '@stores/cashier/transactions';
 import { NewTransaction } from '@typings/api/cashier';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
+import cn from 'classnames';
 import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
@@ -73,11 +74,15 @@ export const CreateLoanRepaymentModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewTransaction & FormData, FormData>
-      title="Cash Out"
+      title={cn(
+        'Loan Repayment',
+        fromAmountApi(currentAccountWithStore?.available ?? 0),
+        currentAccountWithStore?.currency.code,
+      )}
       onSubmit={onSubmit}
       rows={[
         {
-          initialValue: fromAmountApi(currentAccountWithStore?.available ?? 0),
+          initialValue: 0,
           label: 'Amount',
           name: 'amount',
           isRequired: true,
@@ -99,6 +104,7 @@ export const CreateLoanRepaymentModal: React.FC = () => {
           label: 'Filter accounts by Money Storage',
           name: 'obligationStorageId',
           type: 'select',
+          isSearch: true,
           options: moneyStoragesOptions,
           onChange: (_, formInstance) =>
             updateFilterAccounts(formInstance.getFieldsValue()),
@@ -108,6 +114,8 @@ export const CreateLoanRepaymentModal: React.FC = () => {
           name: 'creditId',
           isRequired: true,
           type: 'select',
+          isSearch: true,
+          isSort: true,
           options: accountsOptions,
         },
         {
@@ -115,6 +123,8 @@ export const CreateLoanRepaymentModal: React.FC = () => {
           name: 'debitId',
           isRequired: true,
           type: 'select',
+          isSearch: true,
+          isSort: true,
           options: accountsOptions,
         },
         { label: 'Description', name: 'description', type: 'textarea' },

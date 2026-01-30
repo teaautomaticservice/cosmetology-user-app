@@ -57,7 +57,7 @@ export const CreateOpenBalanceObligationModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewOpenBalanceObligation, FormData>
-      title="Open Balance"
+      title="Obligation Open Balance"
       onSubmit={onSubmit}
       rows={[
         { label: 'Debit Name', name: 'debitName', isRequired: true },
