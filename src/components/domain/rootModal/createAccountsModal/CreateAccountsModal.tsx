@@ -53,6 +53,7 @@ export const CreateAccountsModal: React.FC = () => {
           name: 'currencyId',
           isRequired: true,
           type: 'select',
+          isSearch: true,
           options: currenciesOptions,
         },
         {
@@ -60,6 +61,7 @@ export const CreateAccountsModal: React.FC = () => {
           name: 'moneyStorageIds',
           isRequired: true,
           type: 'select',
+          isSearch: true,
           options: moneyStoragesOptions,
           isMultiply: true,
         },

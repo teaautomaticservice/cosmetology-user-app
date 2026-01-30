@@ -104,6 +104,7 @@ export const CreateLoanRepaymentModal: React.FC = () => {
           label: 'Filter accounts by Money Storage',
           name: 'obligationStorageId',
           type: 'select',
+          isSearch: true,
           options: moneyStoragesOptions,
           onChange: (_, formInstance) =>
             updateFilterAccounts(formInstance.getFieldsValue()),
@@ -113,6 +114,8 @@ export const CreateLoanRepaymentModal: React.FC = () => {
           name: 'creditId',
           isRequired: true,
           type: 'select',
+          isSearch: true,
+          isSort: true,
           options: accountsOptions,
         },
         {
@@ -120,6 +123,8 @@ export const CreateLoanRepaymentModal: React.FC = () => {
           name: 'debitId',
           isRequired: true,
           type: 'select',
+          isSearch: true,
+          isSort: true,
           options: accountsOptions,
         },
         { label: 'Description', name: 'description', type: 'textarea' },

@@ -118,6 +118,7 @@ export const TransferModal: React.FC = () => {
           label: 'Filter accounts by Money Storage',
           name: 'moneyStorageId',
           type: 'select',
+          isSearch: true,
           options: moneyStoragesOptions,
           onChange: (_, formInstance) =>
             updateFilterAccounts(formInstance.getFieldsValue()),
@@ -127,6 +128,8 @@ export const TransferModal: React.FC = () => {
           name: 'debitId',
           isRequired: true,
           type: 'select',
+          isSearch: true,
+          isSort: true,
           options: accountsOptions,
         },
         { label: 'Description', name: 'description', type: 'textarea' },

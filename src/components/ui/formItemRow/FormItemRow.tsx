@@ -8,6 +8,9 @@ import s from './formItemRow.module.css';
 
 export type FormInputType = 'input' | 'textarea' | 'select' | 'inputNumber';
 
+type FilterOption = (input: string, option: DefaultOptionType) => boolean;
+type FilterSort = (optionA: DefaultOptionType, optionB: DefaultOptionType) => number;
+
 const formItemMap: Record<FormInputType, React.FC> = {
   'input': Input,
   'textarea': TextArea,
@@ -29,6 +32,8 @@ type MultiselectProps<FormData> = {
   type: 'select';
   options: DefaultOptionType[];
   isMultiply?: boolean;
+  isSearch?: boolean;
+  isSort?: boolean;
   onChange?: (value: string | number, formInstance: FormInstance<FormData>) => void;
 };
 
@@ -94,6 +99,20 @@ export const FormItemRow = <Entity extends object, FormData extends Record<strin
     ...(type === 'select' && ({
       mode: (props as MultiselectProps<FormData>).isMultiply ? 'multiple' : undefined,
       options: (props as MultiselectProps<FormData>).options,
+      ...((props as MultiselectProps<FormData>).isSearch && {
+        showSearch: true,
+        filterOption: ((input: string, option: DefaultOptionType): boolean => {
+          const label = option?.label || '';
+          return String(label).toLowerCase().includes(input.toLowerCase());
+        }) satisfies FilterOption,
+      }),
+      ...((props as MultiselectProps<FormData>).isSort && {
+        filterSort: ((optionA: DefaultOptionType, optionB: DefaultOptionType): number => {
+          const labelA = String(optionA?.label || '');
+          const labelB = String(optionB?.label || '');
+          return labelA.toLowerCase().localeCompare(labelB.toLowerCase());
+        }) satisfies FilterSort,
+      }),
     })),
     ...(type === 'inputNumber' && ({
       min: (props as InputNumberProps<FormData>).min,
