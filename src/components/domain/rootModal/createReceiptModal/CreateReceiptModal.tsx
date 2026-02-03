@@ -2,8 +2,9 @@ import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntity
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useTransactionsStore } from '@stores/cashier/transactions';
 import { NewTransaction } from '@typings/api/cashier';
-import { fromAmountApi, toAmountApi } from '@utils/amount';
-import cn from 'classnames';
+import { toAmountApi } from '@utils/amount';
+
+import { createTitle } from '../utils/createTitile';
 
 type FormData = {
   amount: number;
@@ -38,15 +39,7 @@ export const CreateReceiptModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewTransaction, FormData>
-      title={cn(
-        'Receipt:',
-        currentAccountWithStore?.name,
-        '-',
-        currentAccountWithStore?.moneyStorage?.code,
-        'Available:',
-        fromAmountApi(currentAccountWithStore?.available ?? 0),
-        currentAccountWithStore?.currency.code,
-      )}
+      title={createTitle(currentAccountWithStore, { title: 'Receipt' })}
       onSubmit={onSubmit}
       rows={[
         {
