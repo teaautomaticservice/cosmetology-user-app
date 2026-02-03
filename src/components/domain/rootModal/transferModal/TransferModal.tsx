@@ -6,9 +6,10 @@ import { useTransactionsStore } from '@stores/cashier/transactions';
 import { NewTransfer } from '@typings/api/cashier';
 import { AccountStatus } from '@typings/api/generated';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
-import cn from 'classnames';
 import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
+
+import { createTitle } from '../utils/createTitile';
 
 type FormData = {
   moneyStorageId: number;
@@ -87,11 +88,7 @@ export const TransferModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewTransfer & FormData, FormData >
-      title={cn(
-        'Transfer:',
-        fromAmountApi(currentAccountWithStore?.available ?? 0),
-        currentAccountWithStore?.currency.code,
-      )}
+      title={createTitle(currentAccountWithStore, { title: 'Transfer' })}
       onSubmit={onSubmit}
       rows={[
         {

@@ -5,9 +5,10 @@ import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useTransactionsStore } from '@stores/cashier/transactions';
 import { NewTransaction } from '@typings/api/cashier';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
-import cn from 'classnames';
 import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
+
+import { createTitle } from '../utils/createTitile';
 
 type FormData = {
   amount: number;
@@ -74,11 +75,7 @@ export const CreateLoanRepaymentModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewTransaction & FormData, FormData>
-      title={cn(
-        'Loan Repayment',
-        fromAmountApi(currentAccountWithStore?.available ?? 0),
-        currentAccountWithStore?.currency.code,
-      )}
+      title={createTitle(currentAccountWithStore, { title: 'Loan Repayment' })}
       onSubmit={onSubmit}
       rows={[
         {
