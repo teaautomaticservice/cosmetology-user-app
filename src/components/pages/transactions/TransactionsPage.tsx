@@ -20,6 +20,13 @@ export const TransactionsPage: React.FC = () => {
   const {
     page,
     pageSize,
+    amountFrom,
+    amountTo,
+    anyAccountIds,
+    creditIds,
+    debitIds,
+    ids,
+    status,
   } = params;
 
   const updateAccountListWithParams = debounce(() => {
@@ -27,6 +34,13 @@ export const TransactionsPage: React.FC = () => {
       updateTransactionsList({
         ...(page && { page: Number(page) }),
         ...(pageSize && { pageSize: Number(pageSize) }),
+        ...(amountFrom && { balanceFrom: Number(amountFrom) }),
+        ...(amountTo && { balanceFrom: Number(amountTo) }),
+        status,
+        ...(anyAccountIds && { anyAccountIds: anyAccountIds.map(Number) }),
+        ...(creditIds && { creditIds: creditIds.map(Number) }),
+        ...(debitIds && { debitIds: debitIds.map(Number) }),
+        ...(ids && { ids: ids.map(Number) }),
       });
     }
   }, 100);

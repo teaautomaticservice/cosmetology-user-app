@@ -16,6 +16,8 @@ import {
   NewTransferDto,
 } from './generated';
 
+export { TransactionStatus } from './generated';
+
 export type GetMoneyStorageListParams =
   Parameters<typeof CashierService.moneyStoragesControllerGetList>[0];
 export type GetMoneyStorageListSort = UseSort<GetMoneyStorageListParams['sort']>;

@@ -40,6 +40,7 @@ export type { NewTransferDto } from './models/NewTransferDto';
 export type { PaginationMetaDto } from './models/PaginationMetaDto';
 export type { SetupNewPasswordDto } from './models/SetupNewPasswordDto';
 export type { TransactionsPaginated } from './models/TransactionsPaginated';
+export { TransactionStatus } from './models/TransactionStatus';
 export { UpdateAccountDto } from './models/UpdateAccountDto';
 export { UpdateAccountListDto } from './models/UpdateAccountListDto';
 export { UpdateCurrencyDto } from './models/UpdateCurrencyDto';

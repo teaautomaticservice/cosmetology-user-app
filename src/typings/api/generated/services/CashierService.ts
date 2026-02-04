@@ -20,6 +20,7 @@ import type { NewOpenBalanceObligationDto } from '../models/NewOpenBalanceObliga
 import type { NewTransactionDto } from '../models/NewTransactionDto';
 import type { NewTransferDto } from '../models/NewTransferDto';
 import type { TransactionsPaginated } from '../models/TransactionsPaginated';
+import type { TransactionStatus } from '../models/TransactionStatus';
 import type { UpdateAccountDto } from '../models/UpdateAccountDto';
 import type { UpdateAccountListDto } from '../models/UpdateAccountListDto';
 import type { UpdateCurrencyDto } from '../models/UpdateCurrencyDto';
@@ -522,9 +523,23 @@ export class CashierService {
     public static transactionsControllerGetList({
         page,
         pageSize,
+        amountFrom,
+        amountTo,
+        status,
+        anyAccountIds,
+        creditIds,
+        debitIds,
+        ids,
     }: {
         page?: number,
         pageSize?: number,
+        amountFrom?: number,
+        amountTo?: number,
+        status?: Array<TransactionStatus>,
+        anyAccountIds?: Array<number>,
+        creditIds?: Array<number>,
+        debitIds?: Array<number>,
+        ids?: Array<number>,
     }): CancelablePromise<TransactionsPaginated> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -532,6 +547,13 @@ export class CashierService {
             query: {
                 'page': page,
                 'pageSize': pageSize,
+                'amountFrom': amountFrom,
+                'amountTo': amountTo,
+                'status': status,
+                'anyAccountIds': anyAccountIds,
+                'creditIds': creditIds,
+                'debitIds': debitIds,
+                'ids': ids,
             },
         });
     }

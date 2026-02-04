@@ -11,8 +11,8 @@
   .sectionContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    flex: 0 1 33%;
-    max-width: 33%;
+    align-items: flex-start;
+    flex: 0 1 50%;
+    max-width: 50%;
   }
 }
