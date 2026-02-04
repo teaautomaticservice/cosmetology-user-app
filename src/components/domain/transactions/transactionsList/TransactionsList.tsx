@@ -1,5 +1,6 @@
 import { useTransactionsParams } from '@components/pages/transactions/useTransactionsParams';
 import { TableUi } from '@components/ui/table/TableUi';
+import { dateUtils } from '@shared/utils/dateUtils';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useObligationAccountStore } from '@stores/cashier/obligationAccount';
 import { useTransactionsStore } from '@stores/cashier/transactions';
@@ -40,11 +41,15 @@ export const TransactionsList: React.FC = () => {
   const finalColumns: ColumnsType<Transaction> = [
     {
       title: 'Execution date',
-      dataIndex: 'executionDate'
+      render: ({ executionDate }: Transaction) => (
+        <span>{executionDate ? dateUtils.formattedDateWithTime(new Date(executionDate)) : '-'}</span>
+      ),
     },
     {
       title: 'Expired date',
-      dataIndex: 'expireDate',
+      render: ({ expireDate }: Transaction) => (
+        <span>{expireDate ? dateUtils.formattedDateWithTime(new Date(expireDate)) : '-'}</span>
+      ),
     },
     {
       title: 'Transaction ID',
@@ -61,7 +66,7 @@ export const TransactionsList: React.FC = () => {
       ),
     },
     {
-      title: 'Credit Storage',
+      title: 'Debit Storage',
       render: ({ debitAccount }: Transaction) => (
         <span>{getStorageData(debitAccount?.moneyStorageId)}</span>
       ),
