@@ -1,4 +1,3 @@
-import { ChangeEvent } from 'react';
 import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { withParams } from '@hocs/withParams';
 import { useObligationAccountStore } from '@stores/cashier/obligationAccount';
@@ -15,7 +14,6 @@ import {
   Tooltip
 } from 'antd';
 import cn from 'classnames';
-import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
 import s from './accountsActions.module.css';
@@ -77,17 +75,17 @@ export const AccountsActions: React.FC<Props> = ({
     });
   };
 
-  const onChangeInput = debounce(({ currentTarget }: ChangeEvent<HTMLInputElement>) => {
-    if (Boolean(currentTarget.value)) {
+  const onChangeInput = (value?: string) => {
+    if (Boolean(value)) {
       updateAccountsFilters({
-        query: currentTarget.value,
+        query: value,
       });
     } else {
       deleteParam(['query']);
     }
-  }, 500);
+  };
 
-  const onChangeBalanceFrom = (value: number | null) => {
+  const onChangeBalanceFrom = (value?: number) => {
     if (value) {
       updateAccountsFilters({
         balanceFrom: toAmountApi(value).toString(),
@@ -97,7 +95,7 @@ export const AccountsActions: React.FC<Props> = ({
     }
   };
 
-  const onChangeBalanceTo = debounce((value: number | null) => {
+  const onChangeBalanceTo = (value?: number) => {
     if (value) {
       updateAccountsFilters({
         balanceTo: toAmountApi(value).toString(),
@@ -105,7 +103,7 @@ export const AccountsActions: React.FC<Props> = ({
     } else {
       deleteParam(['balanceTo']);
     }
-  }, 500);
+  };
 
   return (
     <div className={cn(s.root, className)}>

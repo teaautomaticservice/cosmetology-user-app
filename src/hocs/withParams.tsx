@@ -30,7 +30,7 @@ export const withParams = <V extends Value = Value, T extends Record<string, any
       undefined;
 
     const onChangeInput = (eventOrValue: React.ChangeEvent | V) => {
-      let value: V | null = null;
+      let value: V | undefined;
       const typeOfArg = typeof eventOrValue;
 
       if (typeOfArg === 'string' || typeOfArg === 'number') {
