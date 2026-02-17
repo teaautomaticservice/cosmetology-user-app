@@ -1,10 +1,12 @@
 import { ChangeEvent } from 'react';
 import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
+import { withParams } from '@hocs/withParams';
 import { useObligationAccountStore } from '@stores/cashier/obligationAccount';
 import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { AccountStatus } from '@typings/api/generated';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
+import { inputFormatter } from '@utils/domain/inputFormatter';
 import {
   Button,
   Input,
@@ -23,6 +25,9 @@ type Props = {
   isCreateAccount?: boolean;
   typeMoneyStorages?: 'common' | 'obligation';
 }
+
+const InputParams = withParams<string | undefined>(Input);
+const InputNumberParams = withParams<string | undefined>(InputNumber);
 
 export const AccountsActions: React.FC<Props> = ({
   className,
@@ -82,7 +87,7 @@ export const AccountsActions: React.FC<Props> = ({
     }
   }, 500);
 
-  const onChangeBalanceFrom = debounce((value: number | null) => {
+  const onChangeBalanceFrom = (value: number | null) => {
     if (value) {
       updateAccountsFilters({
         balanceFrom: toAmountApi(value).toString(),
@@ -90,7 +95,7 @@ export const AccountsActions: React.FC<Props> = ({
     } else {
       deleteParam(['balanceFrom']);
     }
-  }, 500);
+  };
 
   const onChangeBalanceTo = debounce((value: number | null) => {
     if (value) {
@@ -116,39 +121,29 @@ export const AccountsActions: React.FC<Props> = ({
           </Tooltip>
         )}
         <>
-          <Input
+          <InputParams
             placeholder='Input query'
             className={s.input}
             onChange={onChangeInput}
-            defaultValue={params.query}
+            value={params.query}
           />
-          <InputNumber
+          <InputNumberParams
             placeholder='Input balance From'
             className={s.input}
             onChange={onChangeBalanceFrom}
-            defaultValue={params.balanceFrom ? Number(fromAmountApi(params.balanceFrom)) : undefined}
+            value={params.balanceFrom ? Number(fromAmountApi(params.balanceFrom)) : undefined}
             precision={2}
             step={'0.01'}
-            formatter={(value) => {
-              if (!value) {
-                return String(value ?? '');
-              }
-              return String(Number(value).toFixed(2));
-            }}
+            formatter={inputFormatter}
           />
-          <InputNumber
+          <InputNumberParams
             placeholder='Input balance To'
             className={s.input}
             onChange={onChangeBalanceTo}
             defaultValue={params.balanceTo ? Number(fromAmountApi(params.balanceTo)) : undefined}
             precision={2}
             step={'0.01'}
-            formatter={(value) => {
-              if (!value) {
-                return String(value ?? '');
-              }
-              return String(Number(value).toFixed(2));
-            }}
+            formatter={inputFormatter}
           />
           <Select
             mode='multiple'
