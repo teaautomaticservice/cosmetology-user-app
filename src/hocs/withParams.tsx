@@ -39,6 +39,8 @@ export const withParams = <V extends Value = Value, T extends Record<string, any
         value = (eventOrValue as React.ChangeEvent<any>)?.currentTarget?.value as V;
       }
 
+      // console.log(value);
+
       setCurrentValue(value);
       onCHangeDebounced?.(value);
     };

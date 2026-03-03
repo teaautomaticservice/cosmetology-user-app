@@ -1,0 +1,19 @@
+.root {
+  width: 100%;
+  overflow-x: auto;
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    width: auto;
+    gap: 8px;
+  }
+
+  .input {
+    width: 200px;
+  }
+
+  .select {
+    min-width: 200px;
+  }
+}

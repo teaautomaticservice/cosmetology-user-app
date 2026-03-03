@@ -124,6 +124,7 @@ export const AccountsActions: React.FC<Props> = ({
             className={s.input}
             onChange={onChangeInput}
             value={params.query}
+            allowClear
           />
           <InputNumberParams
             placeholder='Input balance From'
@@ -150,6 +151,7 @@ export const AccountsActions: React.FC<Props> = ({
             value={selectedMoneyStorages}
             onChange={onChangeMoneyStorage}
             className={s.select}
+            allowClear
           />
           <Select
             mode='multiple'
@@ -158,6 +160,7 @@ export const AccountsActions: React.FC<Props> = ({
             value={selectedStatuses}
             onChange={onChangeStatus}
             className={s.select}
+            allowClear
           />
         </>
       </div>
