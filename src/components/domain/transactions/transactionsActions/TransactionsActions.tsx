@@ -1,9 +1,7 @@
-// import { ChangeEvent } from 'react';
 import { useTransactionsParams } from '@components/pages/transactions/useTransactionsParams';
 import { withParams } from '@hocs/withParams';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
 import { inputFormatter } from '@utils/domain/inputFormatter';
-// import { useTransactionsStore } from '@stores/cashier/transactions';
 import { Input, InputNumber, InputNumberProps, InputProps } from 'antd';
 import cn from 'classnames';
 
