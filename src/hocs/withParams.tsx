@@ -1,26 +1,28 @@
-import { ChangeEventHandler, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useAppParams } from '@shared/hooks/useParams';
 import { debounce } from 'lodash';
 
 type Value = string | number | undefined;
 
-type ChangeValueHandler = (value: Value) => void
+type ChangeValueHandler<V = Value> = (value: V) => void;
 
-type Props = {
+type Props<V = Value> = {
   placeholder?: string;
   className?: string;
   value?: any;
-  onChange?: ChangeEventHandler | ChangeValueHandler;
+  onChange?: ChangeValueHandler<V>;
 }
 
-export const withParams = <V extends Value = Value, T extends Record<string, any> = Record<string, any>>(
+type CurrentProps<V, T> = Omit<T, 'onChange'> & { onChange?: ChangeValueHandler<V> };
+
+export const withParams = <V extends Value = Value, T extends Props<any> = Props<V>>(
   Component: React.ComponentType<T>,
-): React.ComponentType<T> => {
-  return (props: T) => {
+): React.ComponentType<CurrentProps<V, T>> => {
+  return (props: CurrentProps<V, T>) => {
     const {
       value,
       onChange,
-    } = props as Props;
+    } = props as Props<V>;
 
     const [currentValue, setCurrentValue] = useState(value);
     const { isReady } = useAppParams();

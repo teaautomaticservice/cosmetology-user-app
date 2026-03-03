@@ -25,22 +25,20 @@ export const TransactionsPage: React.FC = () => {
     anyAccountIds,
     creditIds,
     debitIds,
-    ids,
     status,
   } = params;
 
   const updateAccountListWithParams = debounce(() => {
     if (isReady) {
       updateTransactionsList({
-        ...(page && { page: Number(page) }),
-        ...(pageSize && { pageSize: Number(pageSize) }),
-        ...(amountFrom && { balanceFrom: Number(amountFrom) }),
-        ...(amountTo && { balanceFrom: Number(amountTo) }),
+        page: page ? Number(page) : undefined,
+        pageSize: pageSize ? Number(pageSize) : undefined,
         status,
-        ...(anyAccountIds && { anyAccountIds: anyAccountIds.map(Number) }),
-        ...(creditIds && { creditIds: creditIds.map(Number) }),
-        ...(debitIds && { debitIds: debitIds.map(Number) }),
-        ...(ids && { ids: ids.map(Number) }),
+        amountFrom: amountFrom ? Number(amountFrom) : undefined,
+        amountTo: amountTo ? Number(amountTo) : undefined,
+        anyAccountIds: anyAccountIds ? anyAccountIds.map(Number) : undefined,
+        creditIds: creditIds ? creditIds.map(Number) : undefined,
+        debitIds: debitIds ? debitIds.map(Number) : undefined,
       });
     }
   }, 100);

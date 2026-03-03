@@ -11,7 +11,6 @@ type Props = {
   anyAccountIds?: string[],
   creditIds?: string[],
   debitIds?: string[],
-  ids?: string[],
 };
 
 export const useTransactionsParams = () => {
@@ -33,7 +32,7 @@ export const useTransactionsParams = () => {
       });
     };
 
-  const updateAccountsFilters = ({
+  const updateTransactionsFilters = ({
     amountFrom,
     amountTo,
     status,
@@ -83,6 +82,6 @@ export const useTransactionsParams = () => {
     setParams,
     updatePagination,
     deleteParam,
-    updateAccountsFilters,
+    updateTransactionsFilters,
   };
 };

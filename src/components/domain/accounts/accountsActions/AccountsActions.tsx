@@ -10,6 +10,8 @@ import {
   Button,
   Input,
   InputNumber,
+  InputNumberProps,
+  InputProps,
   Select,
   Tooltip
 } from 'antd';
@@ -24,8 +26,8 @@ type Props = {
   typeMoneyStorages?: 'common' | 'obligation';
 }
 
-const InputParams = withParams<string | undefined>(Input);
-const InputNumberParams = withParams<string | undefined>(InputNumber);
+const InputParams = withParams<string | undefined, InputProps>(Input);
+const InputNumberParams = withParams<string | undefined, InputNumberProps<string>>(InputNumber);
 
 export const AccountsActions: React.FC<Props> = ({
   className,
@@ -85,20 +87,20 @@ export const AccountsActions: React.FC<Props> = ({
     }
   };
 
-  const onChangeBalanceFrom = (value?: number) => {
+  const onChangeBalanceFrom = (value?: string | number) => {
     if (value) {
       updateAccountsFilters({
-        balanceFrom: toAmountApi(value).toString(),
+        balanceFrom: toAmountApi(Number(value)).toString(),
       });
     } else {
       deleteParam(['balanceFrom']);
     }
   };
 
-  const onChangeBalanceTo = (value?: number) => {
+  const onChangeBalanceTo = (value?: string) => {
     if (value) {
       updateAccountsFilters({
-        balanceTo: toAmountApi(value).toString(),
+        balanceTo: toAmountApi(Number(value)).toString(),
       });
     } else {
       deleteParam(['balanceTo']);
@@ -124,12 +126,13 @@ export const AccountsActions: React.FC<Props> = ({
             className={s.input}
             onChange={onChangeInput}
             value={params.query}
+            allowClear
           />
           <InputNumberParams
             placeholder='Input balance From'
             className={s.input}
             onChange={onChangeBalanceFrom}
-            value={params.balanceFrom ? Number(fromAmountApi(params.balanceFrom)) : undefined}
+            value={params.balanceFrom ? fromAmountApi(params.balanceFrom) : undefined}
             precision={2}
             step={'0.01'}
             formatter={inputFormatter}
@@ -138,7 +141,7 @@ export const AccountsActions: React.FC<Props> = ({
             placeholder='Input balance To'
             className={s.input}
             onChange={onChangeBalanceTo}
-            defaultValue={params.balanceTo ? Number(fromAmountApi(params.balanceTo)) : undefined}
+            defaultValue={params.balanceTo ? fromAmountApi(params.balanceTo) : undefined}
             precision={2}
             step={'0.01'}
             formatter={inputFormatter}
@@ -150,6 +153,7 @@ export const AccountsActions: React.FC<Props> = ({
             value={selectedMoneyStorages}
             onChange={onChangeMoneyStorage}
             className={s.select}
+            allowClear
           />
           <Select
             mode='multiple'
@@ -158,6 +162,7 @@ export const AccountsActions: React.FC<Props> = ({
             value={selectedStatuses}
             onChange={onChangeStatus}
             className={s.select}
+            allowClear
           />
         </>
       </div>
