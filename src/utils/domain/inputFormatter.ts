@@ -1,4 +1,4 @@
-export const inputFormatter = (value: number | undefined) => {
+export const inputFormatter = (value: number | string | undefined): string => {
   if (!value) {
     return String(value ?? '');
   }

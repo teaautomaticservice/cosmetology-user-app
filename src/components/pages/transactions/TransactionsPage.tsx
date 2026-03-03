@@ -34,7 +34,7 @@ export const TransactionsPage: React.FC = () => {
         page: page ? Number(page) : undefined,
         pageSize: pageSize ? Number(pageSize) : undefined,
         status,
-        amountFrom:amountTo ? Number(amountFrom) : undefined,
+        amountFrom: amountFrom ? Number(amountFrom) : undefined,
         amountTo: amountTo ? Number(amountTo) : undefined,
         anyAccountIds: anyAccountIds ? anyAccountIds.map(Number) : undefined,
         creditIds: creditIds ? creditIds.map(Number) : undefined,
