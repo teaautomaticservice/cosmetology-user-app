@@ -8,6 +8,8 @@ import {
   GetAccountsControllerListParams,
   GetMoneyStorageListSort,
   GetObligationStoragesListParams,
+  NewLent,
+  NewLentRepayment,
   NewLoan,
   NewLoanRepayment,
   NewOpenBalanceObligation,
@@ -260,6 +262,18 @@ export const createLoanApi = (newData: NewLoan) => {
 
 export const createLoanRepaymentApi = (newData: NewLoanRepayment) => {
   return CashierService.transactionsControllerLoanRepayment({
+    requestBody: newData,
+  });
+};
+
+export const createLentApi = (newData: NewLent) => {
+  return CashierService.transactionsControllerLent({
+    requestBody: newData,
+  });
+};
+
+export const createLentRepaymentApi = (newData: NewLentRepayment) => {
+  return CashierService.transactionsControllerLentRepayment({
     requestBody: newData,
   });
 };

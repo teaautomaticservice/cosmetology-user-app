@@ -7,6 +7,7 @@ import { MessageModal } from '@components/domain/rootModal/messageModal/MessageM
 import { CreateAccountsModal } from './createAccountsModal/CreateAccountsModal';
 import { CreateCashOutModal } from './createCashOutModal/CreateCashOutModal';
 import { CreateCurrencyModal } from './createCurrencyModal/CreateCurrencyModal';
+import { CreateLentRepaymentModal } from './createLentRepaymentModal/CreateLentRepaymentModal';
 import { CreateLoanRepaymentModal } from './createLoanRepaymentModal/CreateLoanRepaymentModal';
 import { CreateObligationStorageModal } from './createObligationStorageModal/CreateObligationStorageModal';
 import { CreateOpenBalanceModal } from './createOpenBalanceModal/CreateOpenBalanceModal';
@@ -17,6 +18,7 @@ import { CreateReceiptModal } from './createReceiptModal/CreateReceiptModal';
 import { EditAccountWithStorages } from './editAccountWithStorages/EditAccountWithStorages';
 import { EditAggregatedAccount } from './editAggregatedAccount/EditAggregatedAccount';
 import { EditCurrency } from './editCurrency/EditCurrency';
+import { GiveLentModal } from './giveLentModal/GiveLentModal';
 import { TakeLoanModal } from './takeLoanModal/TakeLoanModal';
 import { TransferModal } from './transferModal/TransferModal';
 
@@ -37,4 +39,6 @@ export const ModalsMap = {
   'createReceiptModal': CreateReceiptModal,
   'createLoanRepaymentModal': CreateLoanRepaymentModal,
   'transferModal': TransferModal,
+  'giveLentModal': GiveLentModal,
+  'createLentRepaymentModal': CreateLentRepaymentModal,
 };

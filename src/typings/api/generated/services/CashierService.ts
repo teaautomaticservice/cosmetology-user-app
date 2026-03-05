@@ -14,6 +14,8 @@ import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
 import type { GetAccountWithStorageDto } from '../models/GetAccountWithStorageDto';
 import type { MoneyStorageDto } from '../models/MoneyStorageDto';
 import type { MoneyStoragePaginatedDto } from '../models/MoneyStoragePaginatedDto';
+import type { NewLentDto } from '../models/NewLentDto';
+import type { NewLentRepaymentDto } from '../models/NewLentRepaymentDto';
 import type { NewLoanDto } from '../models/NewLoanDto';
 import type { NewLoanRepaymentDto } from '../models/NewLoanRepaymentDto';
 import type { NewOpenBalanceObligationDto } from '../models/NewOpenBalanceObligationDto';
@@ -664,6 +666,44 @@ export class CashierService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/cashier/transactions/loan-repayment',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any New transaction Lent successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerLent({
+        requestBody,
+    }: {
+        /**
+         * Lent
+         */
+        requestBody: NewLentDto,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/lent',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any New transaction Lent Repayment successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerLentRepayment({
+        requestBody,
+    }: {
+        /**
+         * Lent
+         */
+        requestBody: NewLentRepaymentDto,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/lent-repayment',
             body: requestBody,
             mediaType: 'application/json',
         });

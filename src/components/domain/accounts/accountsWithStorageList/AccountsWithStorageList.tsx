@@ -1,11 +1,12 @@
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
 import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { TableUi } from '@components/ui/table/TableUi';
+import { getColorStatus } from '@constants/colorStatusMap';
 import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { AccountWithStorageStatusEnum, AccountWithStore, Currency, MoneyStorage } from '@typings/api/cashier';
 import { fromAmountApi } from '@utils/amount';
-import { Button } from 'antd';
+import { Badge, Button } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import cn from 'classnames';
 
@@ -52,6 +53,11 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     open('takeLoanModal');
   };
 
+  const openGiveLentModal = (account: AccountWithStore) => {
+    setCurrentAccountWithStore(account);
+    open('giveLentModal');
+  };
+
   const openReceiptModal = (account: AccountWithStore) => {
     setCurrentAccountWithStore(account);
     open('createReceiptModal');
@@ -73,7 +79,12 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     },
     {
       title: 'Status',
-      dataIndex: 'status',
+      render: ({ status }: AccountWithStore) => (
+        <Badge
+          color={getColorStatus(status)}
+          text={status}
+        />
+      )
     },
     {
       title: 'Balance',
@@ -127,6 +138,15 @@ export const AccountsWithStorageList: React.FC<Props> = ({
             ) && (
               <Button onClick={() => openTakeLoanModal(account)}>
                   Take loan
+              </Button>
+            )}
+            {(
+              Number(account.balance) !== 0 &&
+              Number(account.available) !== 0 &&
+              account.status === AccountWithStorageStatusEnum.ACTIVE
+            ) && (
+              <Button onClick={() => openGiveLentModal(account)}>
+                  Give lent
               </Button>
             )}
             {(

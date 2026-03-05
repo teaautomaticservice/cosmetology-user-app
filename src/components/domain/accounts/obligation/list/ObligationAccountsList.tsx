@@ -36,6 +36,11 @@ export const ObligationAccountsList: React.FC<Props> = ({
     open('createLoanRepaymentModal');
   };
 
+  const openLentRepayment = (account: AccountWithStore) => {
+    setCurrentAccountWithStore(account);
+    open('createLentRepaymentModal');
+  };
+
   const columns: ColumnsType<AccountWithStore> = [
     {
       title: 'ID',
@@ -90,6 +95,13 @@ export const ObligationAccountsList: React.FC<Props> = ({
             ) && (
               <Button onClick={() => openLoanRepayment(account)}>
                   Loan Repayment
+              </Button>
+            )}
+            {(
+              account.status === AccountWithStorageStatusEnum.ACTIVE
+            ) && (
+              <Button onClick={() => openLentRepayment(account)}>
+                  Lent Repayment
               </Button>
             )}
           </div>
