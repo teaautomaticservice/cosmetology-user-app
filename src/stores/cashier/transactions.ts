@@ -1,5 +1,7 @@
 import {
   createCashOutApi,
+  createLentApi,
+  createLentRepaymentApi,
   createLoanApi,
   createLoanRepaymentApi,
   createOpenBalanceApi,
@@ -9,6 +11,8 @@ import {
   getTransactionsListApi
 } from '@apiMethods/cashier';
 import {
+  NewLent,
+  NewLentRepayment,
   NewLoan,
   NewLoanRepayment,
   NewOpenBalanceObligation,
@@ -126,6 +130,32 @@ export const useTransactionsStore = () => {
     }
   };
 
+  const createLent = async (data: NewLent) => {
+    setState({
+      isLoading: true,
+    });
+    try {
+      await createLentApi(data);
+    } finally {
+      setState({
+        isLoading: false,
+      });
+    }
+  };
+
+  const createLentRepayment = async (data: NewLentRepayment) => {
+    setState({
+      isLoading: true,
+    });
+    try {
+      await createLentRepaymentApi(data);
+    } finally {
+      setState({
+        isLoading: false,
+      });
+    }
+  };
+
   const createReceipt = async (data: NewTransaction) => {
     setState({
       isLoading: true,
@@ -162,6 +192,8 @@ export const useTransactionsStore = () => {
     createOpenBalanceObligation,
     createLoan,
     createLoanRepayment,
+    createLent,
+    createLentRepayment,
     createReceipt,
     createTransfer,
   };

@@ -43,6 +43,8 @@ export namespace GetTransactionDto {
         ADJ = 'ADJ',
         WRO = 'WRO',
         DPR = 'DPR',
+        LNT = 'LNT',
+        LRT = 'LRT',
     }
 }
 

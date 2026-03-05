@@ -75,6 +75,7 @@ export const useAccountsStore = () => {
         }),
         getAccountsWithObligationStoragesApi(params),
       ]);
+
       setState({
         accountsByStores: accountsByStoresResp.data,
         accountsByObligationStores: accountsByObligationStoresResp.data,

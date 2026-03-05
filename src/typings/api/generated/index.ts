@@ -32,6 +32,8 @@ export type { LogsDto } from './models/LogsDto';
 export type { LogsPaginatedDto } from './models/LogsPaginatedDto';
 export { MoneyStorageDto } from './models/MoneyStorageDto';
 export type { MoneyStoragePaginatedDto } from './models/MoneyStoragePaginatedDto';
+export type { NewLentDto } from './models/NewLentDto';
+export type { NewLentRepaymentDto } from './models/NewLentRepaymentDto';
 export type { NewLoanDto } from './models/NewLoanDto';
 export type { NewLoanRepaymentDto } from './models/NewLoanRepaymentDto';
 export type { NewOpenBalanceObligationDto } from './models/NewOpenBalanceObligationDto';

@@ -9,6 +9,8 @@ import {
   GetAccountWithStorageDto,
   GetTransactionDto,
   MoneyStorageDto,
+  NewLentDto,
+  NewLentRepaymentDto,
   NewLoanDto,
   NewLoanRepaymentDto,
   NewOpenBalanceObligationDto,
@@ -73,4 +75,6 @@ export type NewTransaction = NewTransactionDto
 export type NewOpenBalanceObligation = NewOpenBalanceObligationDto;
 export type NewLoan = NewLoanDto;
 export type NewLoanRepayment = NewLoanRepaymentDto;
+export type NewLent = NewLentDto;
+export type NewLentRepayment = NewLentRepaymentDto;
 export type NewTransfer = NewTransferDto;
