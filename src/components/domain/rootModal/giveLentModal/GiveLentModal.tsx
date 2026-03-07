@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
 import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntityModal';
 import { useAccountsStore } from '@stores/cashier/accounts';
-import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useObligationAccountStore } from '@stores/cashier/obligationAccount';
 import { useTransactionsStore } from '@stores/cashier/transactions';
 import { AccountWithStorageStatusEnum, NewLoan } from '@typings/api/cashier';
 import { toAmountApi } from '@utils/amount';
-import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
 import { createTitle } from '../utils/createTitile';
 
 type FormData = {
-  moneyStorageId: number;
   description?: string;
   amount: number;
   creditObligationAccountId: number;
@@ -30,23 +27,12 @@ export const GiveLentModal: React.FC = () => {
     isAccountsLoading,
     updateAccountsListParams,
   } = useAccountsStore();
-  const {
-    moneyStorages,
-  } = useMoneyStoragesStore();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const moneyStoragesOptions = fromEntityToOptionsList(moneyStorages);
   const activeObligationStorages =
     obligationAccountsStorages?.filter(({ status }) => status === AccountWithStorageStatusEnum.ACTIVE);
   const optionsObligationsStorages = fromEntityToOptionsList(activeObligationStorages);
-
-  const updateFilterAccounts = debounce((filterData: FormData) => {
-    updateAccountsListParams({
-      balanceFrom: toAmountApi(filterData.amount ?? 1),
-      moneyStoragesIds: filterData.moneyStorageId ? [filterData.moneyStorageId.toString()] : undefined,
-    });
-  }, 500);
 
   const onSubmit = async ({
     amount,
@@ -98,18 +84,7 @@ export const GiveLentModal: React.FC = () => {
             }
             return Number(Number(value).toFixed(2));
           },
-          onChange: (_, formInstance) =>
-            updateFilterAccounts(formInstance.getFieldsValue()),
           suffix: currentAccountWithStore?.currency.code ?? 'n/a',
-        },
-        {
-          label: 'Filter accounts by Money Storage',
-          name: 'moneyStorageId',
-          type: 'select',
-          isSearch: true,
-          options: moneyStoragesOptions,
-          onChange: (_, formInstance) =>
-            updateFilterAccounts(formInstance.getFieldsValue()),
         },
         {
           label: 'Obligation Storage',

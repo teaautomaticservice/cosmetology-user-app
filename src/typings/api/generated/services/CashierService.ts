@@ -253,7 +253,7 @@ export class CashierService {
     }: {
         page?: number,
         pageSize?: number,
-        sort?: 'status',
+        sort?: 'status' | 'available' | 'balance' | 'name',
         order?: 'ASC' | 'DESC',
     }): CancelablePromise<AccountsByStorePaginated> {
         return __request(OpenAPI, {
@@ -279,7 +279,7 @@ export class CashierService {
     }: {
         page?: number,
         pageSize?: number,
-        sort?: 'status',
+        sort?: 'status' | 'available' | 'balance' | 'name',
         order?: 'ASC' | 'DESC',
     }): CancelablePromise<AccountsByStorePaginated> {
         return __request(OpenAPI, {
