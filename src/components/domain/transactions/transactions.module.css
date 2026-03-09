@@ -4,4 +4,11 @@
   .actions {
     margin-bottom: 16px;
   }
+
+  .tableWrapper {
+    width: 100%;
+    max-width: 100%;
+    min-width: 300px;
+    overflow-x: auto;
+  }
 }

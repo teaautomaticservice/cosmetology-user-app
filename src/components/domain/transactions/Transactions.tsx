@@ -10,7 +10,9 @@ export const Transactions: React.FC = () => {
     <div className={s.root}>
       <Title>Transactions</Title>
       <TransactionsActions className={s.actions} />
-      <TransactionsList />
+      <div className={s.tableWrapper}>
+        <TransactionsList />
+      </div>
     </div>
   );
 };

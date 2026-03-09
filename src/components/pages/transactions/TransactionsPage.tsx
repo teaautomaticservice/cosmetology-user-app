@@ -26,6 +26,8 @@ export const TransactionsPage: React.FC = () => {
     creditIds,
     debitIds,
     status,
+    anyId,
+    query,
   } = params;
 
   const updateAccountListWithParams = debounce(() => {
@@ -39,6 +41,8 @@ export const TransactionsPage: React.FC = () => {
         anyAccountIds: anyAccountIds ? anyAccountIds.map(Number) : undefined,
         creditIds: creditIds ? creditIds.map(Number) : undefined,
         debitIds: debitIds ? debitIds.map(Number) : undefined,
+        anyId,
+        query,
       });
     }
   }, 100);

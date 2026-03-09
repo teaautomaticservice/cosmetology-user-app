@@ -1,5 +1,6 @@
 import { useAppParams } from '@shared/hooks/useParams';
 import { TransactionStatus } from '@typings/api/generated';
+import { clarifyObject } from '@utils/clarifyObject';
 import { PaginationProps } from 'antd';
 
 type Props = {
@@ -11,6 +12,8 @@ type Props = {
   anyAccountIds?: string[],
   creditIds?: string[],
   debitIds?: string[],
+  anyId?: string;
+  query?: string;
 };
 
 export const useTransactionsParams = () => {
@@ -32,33 +35,8 @@ export const useTransactionsParams = () => {
       });
     };
 
-  const updateTransactionsFilters = ({
-    amountFrom,
-    amountTo,
-    status,
-    anyAccountIds,
-    creditIds,
-    debitIds,
-    ids,
-  }: {
-    amountFrom?: string,
-    amountTo?: string,
-    status?: TransactionStatus[],
-    anyAccountIds?: string[],
-    creditIds?: string[],
-    debitIds?: string[],
-    ids?: string[],
-  }) => {
-    const newParams = {
-      ...params,
-      ...(amountFrom && { amountFrom }),
-      ...(amountTo && { amountTo }),
-      ...(status && { status }),
-      ...(anyAccountIds && { anyAccountIds }),
-      ...(creditIds && { creditIds }),
-      ...(debitIds && { debitIds }),
-      ...(ids && { ids }),
-    };
+  const updateTransactionsFilters = (currentParam: Props) => {
+    const newParams = clarifyObject(currentParam);
     delete newParams.page;
     delete newParams.pageSize;
     setParams(newParams);
