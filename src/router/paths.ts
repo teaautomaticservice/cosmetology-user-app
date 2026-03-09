@@ -1,3 +1,5 @@
+import { TransactionsParams } from '@components/pages/transactions/useTransactionsParams';
+
 export const paths = {
   // unauthorized
   login: '/login',
@@ -13,7 +15,8 @@ export const paths = {
   accountsByStorage: '/accounts/by-storage',
   obligationAccounts: '/accounts/obligation',
   currencies: '/currencies',
-  transactions: '/transactions',
+  transactions: (params?: Pick<TransactionsParams, 'anyAccountIds'>) =>
+    params?.anyAccountIds ? `/transactions?anyAccountIds[]=${params.anyAccountIds}` : '/transactions',
 
   // history
   history: '/history',

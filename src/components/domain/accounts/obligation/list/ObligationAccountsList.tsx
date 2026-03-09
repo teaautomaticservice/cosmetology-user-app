@@ -1,11 +1,13 @@
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
 import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { ColumnsType, TableUi } from '@components/ui/table/TableUi';
+import { paths } from '@router/paths';
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useModalStore } from '@stores/modal';
 import { AccountWithStorageStatusEnum, AccountWithStore, Currency, MoneyStorage } from '@typings/api/cashier';
 import { fromAmountApi } from '@utils/amount';
 import { Button } from 'antd';
+import Link from 'antd/es/typography/Link';
 
 import s from './obligationAccountsList.module.css';
 
@@ -104,6 +106,11 @@ export const ObligationAccountsList: React.FC<Props> = ({
                   Lent Repayment
               </Button>
             )}
+            <Link className={s.link} href={paths.transactions({
+              anyAccountIds: [account.id.toString()],
+            })}>
+              History
+            </Link>
           </div>
         </div>
       )

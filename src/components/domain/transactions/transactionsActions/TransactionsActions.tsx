@@ -45,6 +45,20 @@ export const TransactionsActions: React.FC<Props> = ({ className }) => {
     <div className={cn(s.root, className)}>
       <div className={s.wrapper}>
         <InputParams
+          placeholder='Any id'
+          className={s.input}
+          onChange={(val) => onChangeInput('anyId', val)}
+          value={params.anyId ?? ''}
+          allowClear
+        />
+        <InputParams
+          placeholder='Query'
+          className={s.input}
+          onChange={(val) => onChangeInput('query', val)}
+          value={params.query ?? ''}
+          allowClear
+        />
+        <InputParams
           placeholder='Any accounts IDs'
           className={s.input}
           onChange={(val) => onChangeInput('anyAccountIds', val)}

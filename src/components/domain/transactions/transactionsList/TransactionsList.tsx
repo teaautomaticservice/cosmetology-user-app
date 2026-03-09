@@ -8,7 +8,13 @@ import { Transaction } from '@typings/api/cashier';
 import { fromAmountApi } from '@utils/amount';
 import { ColumnsType } from 'antd/es/table';
 
-export const TransactionsList: React.FC = () => {
+type Props = {
+  className?: string;
+}
+
+export const TransactionsList: React.FC<Props> = ({
+  className,
+}) => {
   const {
     transactions,
     isLoading,
@@ -105,6 +111,7 @@ export const TransactionsList: React.FC = () => {
 
   return (
     <TableUi
+      className={className}
       columns={finalColumns}
       dataSource={transactions}
       loading={isLoading}

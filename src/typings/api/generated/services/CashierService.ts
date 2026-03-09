@@ -531,6 +531,8 @@ export class CashierService {
         anyAccountIds,
         creditIds,
         debitIds,
+        anyId,
+        query,
     }: {
         page?: number,
         pageSize?: number,
@@ -540,6 +542,8 @@ export class CashierService {
         anyAccountIds?: Array<number>,
         creditIds?: Array<number>,
         debitIds?: Array<number>,
+        anyId?: string,
+        query?: string,
     }): CancelablePromise<TransactionsPaginated> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -553,6 +557,8 @@ export class CashierService {
                 'anyAccountIds': anyAccountIds,
                 'creditIds': creditIds,
                 'debitIds': debitIds,
+                'anyId': anyId,
+                'query': query,
             },
         });
     }

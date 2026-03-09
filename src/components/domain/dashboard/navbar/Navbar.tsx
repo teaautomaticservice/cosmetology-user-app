@@ -17,7 +17,7 @@ const dashboardsMenu: MenuItemGroupType<MenuItemType> = {
     },
     {
       label: 'Transactions',
-      key: paths.transactions,
+      key: paths.transactions(),
     },
     {
       type: 'divider',
