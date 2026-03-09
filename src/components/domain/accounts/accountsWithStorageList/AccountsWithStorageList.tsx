@@ -2,12 +2,14 @@ import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorage
 import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { TableUi } from '@components/ui/table/TableUi';
 import { getColorStatus } from '@constants/colorStatusMap';
+import { paths } from '@router/paths';
 import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { AccountWithStorageStatusEnum, AccountWithStore, Currency, MoneyStorage } from '@typings/api/cashier';
 import { fromAmountApi } from '@utils/amount';
 import { Badge, Button } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import Link from 'antd/es/typography/Link';
 import cn from 'classnames';
 
 import s from './accountsWithStorageList.module.css';
@@ -173,6 +175,11 @@ export const AccountsWithStorageList: React.FC<Props> = ({
                   Cash Out
               </Button>
             )}
+            <Link className={s.link} href={paths.transactions({
+              anyAccountIds: [account.id.toString()],
+            })}>
+              History
+            </Link>
           </div>
         </div>
       )

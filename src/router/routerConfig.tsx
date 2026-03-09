@@ -72,7 +72,7 @@ const dashboards: RouterPage[] = [
     roles: [RouterRoleEnum.OPERATOR],
   },
   {
-    path: paths.transactions,
+    path: paths.transactions(),
     Layout: DashboardLayout,
     Component: TransactionsPage,
     roles: [RouterRoleEnum.OPERATOR],

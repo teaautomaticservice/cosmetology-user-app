@@ -3,7 +3,7 @@ import { TransactionStatus } from '@typings/api/generated';
 import { clarifyObject } from '@utils/clarifyObject';
 import { PaginationProps } from 'antd';
 
-type Props = {
+export type TransactionsParams = {
   page?: string;
   pageSize?: string;
   amountFrom?: string,
@@ -17,7 +17,7 @@ type Props = {
 };
 
 export const useTransactionsParams = () => {
-  const { params, isReady, setParams } = useAppParams<Props>({
+  const { params, isReady, setParams } = useAppParams<TransactionsParams>({
     customDefaultKeys: {
       page: '1',
       pageSize: '10',
@@ -35,14 +35,14 @@ export const useTransactionsParams = () => {
       });
     };
 
-  const updateTransactionsFilters = (currentParam: Props) => {
+  const updateTransactionsFilters = (currentParam: TransactionsParams) => {
     const newParams = clarifyObject(currentParam);
     delete newParams.page;
     delete newParams.pageSize;
     setParams(newParams);
   };
 
-  const deleteParam = (keys: (keyof Props)[]) => {
+  const deleteParam = (keys: (keyof TransactionsParams)[]) => {
     const currentParam = {
       ...params,
     };
