@@ -1,9 +1,11 @@
 import { useTransactionsParams } from '@components/pages/transactions/useTransactionsParams';
 import { withParams } from '@hocs/withParams';
+import { TransactionOperationTypeEnum } from '@typings/api/cashier';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
 import { inputFormatter } from '@utils/domain/inputFormatter';
-import { Input, InputNumber, InputNumberProps, InputProps } from 'antd';
+import { Input, InputNumber, InputNumberProps, InputProps, Select } from 'antd';
 import cn from 'classnames';
+import { OptionOfList } from 'src/adapters/fromEntityToOptionsList';
 
 import s from './transactionsActions.module.css';
 
@@ -21,6 +23,12 @@ export const TransactionsActions: React.FC<Props> = ({ className }) => {
     updateTransactionsFilters,
   } = useTransactionsParams();
 
+  const transactionOperationTypesOptions: OptionOfList[] =
+    Object.entries(TransactionOperationTypeEnum).map(([key, val]) => ({
+      label: key,
+      value: val,
+    }));
+
   const onChangeInput = (key: keyof typeof params, value?: string) => {
     if (value) {
       updateTransactionsFilters({
@@ -35,6 +43,16 @@ export const TransactionsActions: React.FC<Props> = ({ className }) => {
     if (value) {
       updateTransactionsFilters({
         [key]: toAmountApi(Number(value)),
+      });
+    } else {
+      deleteParam([key]);
+    }
+  };
+
+  const onChangeArray = (key: keyof typeof params, value?: string[]) => {
+    if (value) {
+      updateTransactionsFilters({
+        [key]: value,
       });
     } else {
       deleteParam([key]);
@@ -77,6 +95,15 @@ export const TransactionsActions: React.FC<Props> = ({ className }) => {
           className={s.input}
           onChange={(val) => onChangeInput('debitIds', val)}
           value={params.debitIds?.[0] ?? ''}
+          allowClear
+        />
+        <Select
+          mode='multiple'
+          options={transactionOperationTypesOptions}
+          placeholder='Select operations types'
+          value={params.operationTypes}
+          onChange={(val) => onChangeArray('operationTypes', val)}
+          className={s.select}
           allowClear
         />
         <InputNumberParams

@@ -3,6 +3,7 @@ import { Transactions } from '@components/domain/transactions/Transactions';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useObligationAccountStore } from '@stores/cashier/obligationAccount';
 import { useTransactionsStore } from '@stores/cashier/transactions';
+import { TransactionsControllerGetListParams } from '@typings/api/cashier';
 import { debounce } from 'lodash';
 
 import { useTransactionsParams } from './useTransactionsParams';
@@ -28,6 +29,7 @@ export const TransactionsPage: React.FC = () => {
     status,
     anyId,
     query,
+    operationTypes,
   } = params;
 
   const updateAccountListWithParams = debounce(() => {
@@ -43,6 +45,7 @@ export const TransactionsPage: React.FC = () => {
         debitIds: debitIds ? debitIds.map(Number) : undefined,
         anyId,
         query,
+        operationTypes: operationTypes as TransactionsControllerGetListParams['operationTypes'],
       });
     }
   }, 100);

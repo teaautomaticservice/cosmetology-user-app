@@ -14,6 +14,7 @@ export type TransactionsParams = {
   debitIds?: string[],
   anyId?: string;
   query?: string;
+  operationTypes?: string[];
 };
 
 export const useTransactionsParams = () => {
