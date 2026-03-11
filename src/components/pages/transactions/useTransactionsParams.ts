@@ -37,7 +37,11 @@ export const useTransactionsParams = () => {
     };
 
   const updateTransactionsFilters = (currentParam: TransactionsParams) => {
-    const newParams = clarifyObject(currentParam);
+    const newParams = clarifyObject({
+      ...params,
+      ...currentParam,
+    });
+
     delete newParams.page;
     delete newParams.pageSize;
     setParams(newParams);
