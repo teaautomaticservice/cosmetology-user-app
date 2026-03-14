@@ -24,7 +24,7 @@ const dashboardsMenu: MenuItemGroupType<MenuItemType> = {
     },
     {
       label: 'Accounts',
-      key: paths.accounts,
+      key: paths.accounts(),
     },
     {
       label: 'Accounts by Storage',
