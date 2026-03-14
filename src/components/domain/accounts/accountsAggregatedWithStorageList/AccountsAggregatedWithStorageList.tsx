@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
 import { TableUi } from '@components/ui/table/TableUi';
+import { paths } from '@router/paths';
 import { useAccountsAggregatedWithStorageStore } from '@stores/cashier/accountsAggregatedWithStorage';
 import { useModalStore } from '@stores/modal';
 import { AccountAggregatedWithStorage, Currency } from '@typings/api/cashier';
 import { fromAmountApi } from '@utils/amount';
 import { Button } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import Link from 'antd/es/typography/Link';
 import cn from 'classnames';
 
 import s from './accountsAggregatedWithStorageList.module.css';
@@ -53,21 +55,20 @@ export const AccountsAggregatedWithStorageList: React.FC<Props> = ({
     isLoading,
     setCurrentAggregatedAccount,
   } = useAccountsAggregatedWithStorageStore();
-  const [currentColumns, setCurrentColumns] = useState<ColumnsType<AccountAggregatedWithStorage>>(columns);
   const { open } = useModalStore();
 
-  useEffect(() => {
-    if (isExtended) {
-      setCurrentColumns([
-        {
+  const currentColumns: ColumnsType<AccountAggregatedWithStorage> =
+    useMemo((): ColumnsType<AccountAggregatedWithStorage> => {
+      return [
+        ...(isExtended ? [{
           title: 'IDs',
           className: s.ids,
           render: (_, account) => (
             <span>{account.ids.join(', ')}</span>
           ),
-        },
+        }] satisfies ColumnsType<AccountAggregatedWithStorage> : []),
         ...columns,
-        {
+        ...(isExtended ? [{
           title: 'Money storage',
           dataIndex: 'moneyStorage',
           className: s.moneyStoragesCell,
@@ -86,24 +87,30 @@ export const AccountsAggregatedWithStorageList: React.FC<Props> = ({
               ))}
             </div>
           ),
-        },
+        },] satisfies ColumnsType<AccountAggregatedWithStorage> : []),
         {
           title: 'Actions',
           className: s.actionsCol,
           render: (_, account) => (
             <div className={s.actions}>
-              <Button onClick={() => {
-                setCurrentAggregatedAccount(account);
-                open('editAggregatedAccount');
-              }}>
-                Edit
-              </Button>
+              {isExtended && (
+                <Button onClick={() => {
+                  setCurrentAggregatedAccount(account);
+                  open('editAggregatedAccount');
+                }}>
+                  Edit
+                </Button>
+              )}
+              <Link className={s.link} href={paths.accounts(({
+                query: account.name.toString(),
+              }))}>
+                Accounts
+              </Link>
             </div>
           )
         }
-      ]);
-    };
-  }, [isExtended]);
+      ];
+    }, [isExtended]);
 
   return (
     <div className={cn(className)}>

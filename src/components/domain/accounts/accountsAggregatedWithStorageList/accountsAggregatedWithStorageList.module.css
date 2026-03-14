@@ -27,4 +27,10 @@
   .actionsCol {
     width: 100px;
   }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
 }

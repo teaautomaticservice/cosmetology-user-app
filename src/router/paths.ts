@@ -1,4 +1,6 @@
 import { TransactionsParams } from '@components/pages/transactions/useTransactionsParams';
+import { GetAccountsControllerListParams } from '@typings/api/cashier';
+import { buildSearchParams } from '@utils/buildSearchParams';
 
 export const paths = {
   // unauthorized
@@ -10,13 +12,14 @@ export const paths = {
   // dashboards
   main: '/',
   moneyStorages: '/money-storages',
-  accounts: '/accounts',
+  accounts: (params?: Pick<GetAccountsControllerListParams, 'query'>) =>
+    params ? `/accounts?${buildSearchParams(params)}` : '/accounts',
   accountsAggregated: '/accounts/aggregated',
   accountsByStorage: '/accounts/by-storage',
   obligationAccounts: '/accounts/obligation',
   currencies: '/currencies',
   transactions: (params?: Pick<TransactionsParams, 'anyAccountIds'>) =>
-    params?.anyAccountIds ? `/transactions?anyAccountIds[]=${params.anyAccountIds}` : '/transactions',
+    params ? `/transactions?${buildSearchParams(params)}` : '/transactions',
 
   // history
   history: '/history',
