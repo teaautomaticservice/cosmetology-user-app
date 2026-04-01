@@ -14,11 +14,15 @@ import {
   NewLoanDto,
   NewLoanRepaymentDto,
   NewOpenBalanceObligationDto,
+  NewRefundInDto,
+  NewRefundOutDto,
   NewTransactionDto,
   NewTransferDto,
 } from './generated';
-
-export { TransactionStatus } from './generated';
+export {
+  TransactionStatus,
+  OperationType as TransactionOperationType,
+} from './generated';
 
 export type GetMoneyStorageListParams =
   Parameters<typeof CashierService.moneyStoragesControllerGetList>[0];
@@ -78,5 +82,5 @@ export type NewLoanRepayment = NewLoanRepaymentDto;
 export type NewLent = NewLentDto;
 export type NewLentRepayment = NewLentRepaymentDto;
 export type NewTransfer = NewTransferDto;
-export type TransactionOperationType = GetTransactionDto['operationType'];
-export const TransactionOperationTypeEnum = GetTransactionDto['operationType'];
+export type NewRefundInApi = NewRefundInDto;
+export type NewRefundOutApi = NewRefundOutDto;

@@ -3,9 +3,9 @@ import type { Event } from 'effector';
 import { createEffect, createEvent, createStore } from 'effector';
 import { useUnit } from 'effector-react';
 
-type Reducer<State, Payload> = (state: State, payload: Payload) => State | void;
+export type Reducer<State, Payload> = (state: State, payload: Payload) => State | void;
 
-type UpdateCallback<State> = (prevState: State) => State;
+export type UpdateCallback<State> = (prevState: State) => State;
 
 export const storeFactory = <State>(initValue: State) => {
   const $currentStore = createStore<State>(initValue);
@@ -53,7 +53,6 @@ export const storeFactory = <State>(initValue: State) => {
   return {
     useStore: () => useUnit([$currentStore, changeEvent]),
     useMiddleWare,
-    dispatchEvent,
     changeEvent,
     setEvent,
   };

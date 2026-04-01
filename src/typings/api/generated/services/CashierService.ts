@@ -19,6 +19,8 @@ import type { NewLentRepaymentDto } from '../models/NewLentRepaymentDto';
 import type { NewLoanDto } from '../models/NewLoanDto';
 import type { NewLoanRepaymentDto } from '../models/NewLoanRepaymentDto';
 import type { NewOpenBalanceObligationDto } from '../models/NewOpenBalanceObligationDto';
+import type { NewRefundInDto } from '../models/NewRefundInDto';
+import type { NewRefundOutDto } from '../models/NewRefundOutDto';
 import type { NewTransactionDto } from '../models/NewTransactionDto';
 import type { NewTransferDto } from '../models/NewTransferDto';
 import type { TransactionsPaginated } from '../models/TransactionsPaginated';
@@ -732,6 +734,44 @@ export class CashierService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/cashier/transactions/transfer',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any New transaction Refund In successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerRefundIn({
+        requestBody,
+    }: {
+        /**
+         * Refund In
+         */
+        requestBody: NewRefundInDto,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/refundIn',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any New transaction Refund Out successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerRefundOut({
+        requestBody,
+    }: {
+        /**
+         * Refund Out
+         */
+        requestBody: NewRefundOutDto,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/refundOut',
             body: requestBody,
             mediaType: 'application/json',
         });

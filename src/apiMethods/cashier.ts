@@ -13,6 +13,8 @@ import {
   NewLoan,
   NewLoanRepayment,
   NewOpenBalanceObligation,
+  NewRefundInApi,
+  NewRefundOutApi,
   NewTransaction,
   NewTransfer,
   TransactionsControllerGetListParams,
@@ -286,6 +288,18 @@ export const createReceiptApi = (newData: NewTransaction) => {
 
 export const createTransferApi = (newData: NewTransfer) => {
   return CashierService.transactionsControllerTransfer({
+    requestBody: newData,
+  });
+};
+
+export const createRefundInApi = (newData: NewRefundInApi) => {
+  return CashierService.transactionsControllerRefundIn({
+    requestBody: newData,
+  });
+};
+
+export const createRefundOutApi = (newData: NewRefundOutApi) => {
+  return CashierService.transactionsControllerRefundOut({
     requestBody: newData,
   });
 };

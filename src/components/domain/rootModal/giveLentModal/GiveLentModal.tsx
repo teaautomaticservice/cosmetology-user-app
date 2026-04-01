@@ -7,7 +7,7 @@ import { AccountWithStorageStatusEnum, NewLoan } from '@typings/api/cashier';
 import { toAmountApi } from '@utils/amount';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
-import { createTitle } from '../utils/createTitile';
+import { createAccountTitle } from '../utils/createTitile';
 
 type FormData = {
   description?: string;
@@ -66,7 +66,7 @@ export const GiveLentModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewLoan & FormData, FormData >
-      title={createTitle(currentAccountWithStore, { title: 'Give lent' })}
+      title={createAccountTitle(currentAccountWithStore, { title: 'Give lent' })}
       onSubmit={onSubmit}
       rows={[
         {
