@@ -1,6 +1,6 @@
 import { TransactionsParams } from '@components/pages/transactions/useTransactionsParams';
+import { buildSearchParams } from '@shared/utils/buildSearchParams';
 import { GetAccountsControllerListParams } from '@typings/api/cashier';
-import { buildSearchParams } from '@utils/buildSearchParams';
 
 export const paths = {
   // unauthorized
