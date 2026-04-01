@@ -5,7 +5,7 @@
 export type NewLentDto = {
     amount: number;
     creditId: number;
-    creditObligationAccountId: number;
+    creditObligationStorageId: number;
     description: string | null;
 };
 

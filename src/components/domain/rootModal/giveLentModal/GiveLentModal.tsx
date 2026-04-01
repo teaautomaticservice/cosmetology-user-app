@@ -12,7 +12,7 @@ import { createTitle } from '../utils/createTitile';
 type FormData = {
   description?: string;
   amount: number;
-  creditObligationAccountId: number;
+  creditObligationStorageId: number;
 }
 
 export const GiveLentModal: React.FC = () => {
@@ -37,7 +37,7 @@ export const GiveLentModal: React.FC = () => {
   const onSubmit = async ({
     amount,
     description,
-    creditObligationAccountId,
+    creditObligationStorageId,
   }: FormData) => {
     if (!currentAccountWithStore) {
       return;
@@ -45,7 +45,7 @@ export const GiveLentModal: React.FC = () => {
 
     await createLent({
       amount: toAmountApi(amount),
-      creditObligationAccountId,
+      creditObligationStorageId,
       description: description ?? null,
       creditId: currentAccountWithStore.id,
     });
@@ -88,7 +88,7 @@ export const GiveLentModal: React.FC = () => {
         },
         {
           label: 'Obligation Storage',
-          name: 'creditObligationAccountId',
+          name: 'creditObligationStorageId',
           isRequired: true,
           type: 'select',
           isSearch: true,

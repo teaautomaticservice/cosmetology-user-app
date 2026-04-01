@@ -545,7 +545,7 @@ export class CashierService {
         debitIds?: Array<number>,
         anyId?: string,
         query?: string,
-        operationTypes?: Array<'OBL' | 'CBL' | 'RCP' | 'CSH' | 'TRN' | 'RFI' | 'RFO' | 'LON' | 'LOR' | 'LOO' | 'LRO' | 'ADJ' | 'WRO' | 'DPR' | 'LNT' | 'LRT'>,
+        operationTypes?: Array<string>,
     }): CancelablePromise<TransactionsPaginated> {
         return __request(OpenAPI, {
             method: 'GET',
