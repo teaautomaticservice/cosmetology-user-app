@@ -9,7 +9,7 @@ import { fromAmountApi, toAmountApi } from '@utils/amount';
 import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
-import { createTitle } from '../utils/createTitile';
+import { createAccountTitle } from '../utils/createTitile';
 
 type FormData = {
   moneyStorageId: number;
@@ -88,7 +88,7 @@ export const TransferModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewTransfer & FormData, FormData >
-      title={createTitle(currentAccountWithStore, { title: 'Transfer' })}
+      title={createAccountTitle(currentAccountWithStore, { title: 'Transfer' })}
       onSubmit={onSubmit}
       rows={[
         {

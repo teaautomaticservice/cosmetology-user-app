@@ -1,12 +1,18 @@
+import { MenuOutlined } from '@ant-design/icons';
 import { useTransactionsParams } from '@components/pages/transactions/useTransactionsParams';
 import { TableUi } from '@components/ui/table/TableUi';
 import { dateUtils } from '@shared/utils/dateUtils';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useObligationAccountStore } from '@stores/cashier/obligationAccount';
 import { useTransactionsStore } from '@stores/cashier/transactions';
-import { Transaction } from '@typings/api/cashier';
+import { useModalStore } from '@stores/modal';
+import { Transaction, TransactionOperationType, TransactionStatus } from '@typings/api/cashier';
 import { fromAmountApi } from '@utils/amount';
+import { Button, Dropdown, MenuProps } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import cn from 'classnames';
+
+import s from './transactionsList.module.css';
 
 type Props = {
   className?: string;
@@ -19,6 +25,7 @@ export const TransactionsList: React.FC<Props> = ({
     transactions,
     isLoading,
     count,
+    setCurrentTransaction,
   } = useTransactionsStore();
   const {
     params,
@@ -30,6 +37,9 @@ export const TransactionsList: React.FC<Props> = ({
   const {
     obligationAccountsStorages,
   } = useObligationAccountStore();
+  const {
+    open,
+  } = useModalStore();
 
   const storages = [
     ...moneyStorages,
@@ -43,6 +53,35 @@ export const TransactionsList: React.FC<Props> = ({
 
     return storages.find(({ id }) => id === currentId)?.code ?? '-';
   };
+
+  const createNewRefundIn = (transaction: Transaction) => {
+    setCurrentTransaction(transaction);
+    open('createRefundInModal');
+  };
+
+  const createNewRefundOut = (transaction: Transaction) => {
+    setCurrentTransaction(transaction);
+    open('createRefundOutModal');
+  };
+
+  const otherActionsItems = (transaction: Transaction): MenuProps['items'] => [
+    ...((
+      transaction.status === TransactionStatus.COMPLETED &&
+      transaction.operationType === TransactionOperationType.CSH
+    ) ? [{
+        label: 'Refund In',
+        key: '3',
+        onClick: () => createNewRefundIn(transaction),
+      }] : []),
+    ...((
+      transaction.status === TransactionStatus.COMPLETED &&
+      transaction.operationType === TransactionOperationType.RCP
+    ) ? [{
+        label: 'Refund Out',
+        key: '3',
+        onClick: () => createNewRefundOut(transaction),
+      }] : []),
+  ];
 
   const finalColumns: ColumnsType<Transaction> = [
     {
@@ -107,11 +146,33 @@ export const TransactionsList: React.FC<Props> = ({
       title: 'Status',
       dataIndex: 'status'
     },
+    {
+      title: 'Actions',
+      className: s.actionsCol,
+      render: (_, account) => (
+        <div className={s.actions}>
+          {
+            otherActionsItems(account)?.length ? (
+              <div className={s.actionsWrapper}>
+                <Dropdown menu={{ items: otherActionsItems(account) }} trigger={['click']}>
+                  <Button
+                    type="default"
+                    title='Other actions'
+                    icon={<MenuOutlined />}
+                  />
+                </Dropdown>
+              </div>
+            ) : '-'
+          }
+
+        </div>
+      )
+    },
   ];
 
   return (
     <TableUi
-      className={className}
+      className={cn(s.root, className)}
       columns={finalColumns}
       dataSource={transactions}
       loading={isLoading}

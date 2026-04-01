@@ -2,10 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type NewLentDto = {
+export type NewRefundOutDto = {
     amount: number;
-    creditId: number;
-    creditObligationStorageId: number;
+    transactionId: string;
     description: string | null;
 };
 

@@ -1,6 +1,6 @@
 import { useTransactionsParams } from '@components/pages/transactions/useTransactionsParams';
 import { withParams } from '@hocs/withParams';
-import { TransactionOperationTypeEnum } from '@typings/api/cashier';
+import { TransactionOperationType } from '@typings/api/cashier';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
 import { inputFormatter } from '@utils/domain/inputFormatter';
 import { Input, InputNumber, InputNumberProps, InputProps, Select } from 'antd';
@@ -24,7 +24,7 @@ export const TransactionsActions: React.FC<Props> = ({ className }) => {
   } = useTransactionsParams();
 
   const transactionOperationTypesOptions: OptionOfList[] =
-    Object.entries(TransactionOperationTypeEnum).map(([key, val]) => ({
+    Object.entries(TransactionOperationType).map(([key, val]) => ({
       label: key,
       value: val,
     }));

@@ -2,7 +2,7 @@ import { GetAccountWithStorageDto } from '@typings/api/generated';
 import { fromAmountApi } from '@utils/amount';
 import cn from 'classnames';
 
-export const createTitle = (account: GetAccountWithStorageDto | null, {
+export const createAccountTitle = (account: GetAccountWithStorageDto | null, {
   title,
 }: {
   title: string;

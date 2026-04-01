@@ -7,12 +7,12 @@ import { AccountWithStorageStatusEnum, NewLoan } from '@typings/api/cashier';
 import { toAmountApi } from '@utils/amount';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
-import { createTitle } from '../utils/createTitile';
+import { createAccountTitle } from '../utils/createTitile';
 
 type FormData = {
   description?: string;
   amount: number;
-  creditObligationAccountId: number;
+  creditObligationStorageId: number;
 }
 
 export const GiveLentModal: React.FC = () => {
@@ -37,7 +37,7 @@ export const GiveLentModal: React.FC = () => {
   const onSubmit = async ({
     amount,
     description,
-    creditObligationAccountId,
+    creditObligationStorageId,
   }: FormData) => {
     if (!currentAccountWithStore) {
       return;
@@ -45,7 +45,7 @@ export const GiveLentModal: React.FC = () => {
 
     await createLent({
       amount: toAmountApi(amount),
-      creditObligationAccountId,
+      creditObligationStorageId,
       description: description ?? null,
       creditId: currentAccountWithStore.id,
     });
@@ -66,7 +66,7 @@ export const GiveLentModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewLoan & FormData, FormData >
-      title={createTitle(currentAccountWithStore, { title: 'Give lent' })}
+      title={createAccountTitle(currentAccountWithStore, { title: 'Give lent' })}
       onSubmit={onSubmit}
       rows={[
         {
@@ -88,7 +88,7 @@ export const GiveLentModal: React.FC = () => {
         },
         {
           label: 'Obligation Storage',
-          name: 'creditObligationAccountId',
+          name: 'creditObligationStorageId',
           isRequired: true,
           type: 'select',
           isSearch: true,

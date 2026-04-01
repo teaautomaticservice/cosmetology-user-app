@@ -1,3 +1,4 @@
+import { MenuOutlined } from '@ant-design/icons';
 import { MoneyStorageBadge } from '@components/domain/moneyStorages/moneyStorageBadge/MoneyStorageBadge';
 import { useAccountsParams } from '@components/pages/accounts/useAccountsParams';
 import { TableUi } from '@components/ui/table/TableUi';
@@ -7,7 +8,7 @@ import { useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { AccountWithStorageStatusEnum, AccountWithStore, Currency, MoneyStorage } from '@typings/api/cashier';
 import { fromAmountApi } from '@utils/amount';
-import { Badge, Button } from 'antd';
+import { Badge, Button, Dropdown, MenuProps } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import Link from 'antd/es/typography/Link';
 import cn from 'classnames';
@@ -70,6 +71,37 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     open('transferModal');
   };
 
+  const otherActionsItems = (account: AccountWithStore): MenuProps['items'] => [
+    {
+      label: 'Edit',
+      key: '1',
+      onClick: () => openEditModal(account),
+    },
+    ...((
+      Number(account.balance) === 0 &&
+      Number(account.available) === 0 &&
+      account.status === AccountWithStorageStatusEnum.ACTIVE
+    ) ? [{
+        label: 'Open Balance',
+        key: '2',
+        onClick: () => openOpenBalanceModal(account),
+      }] : []),
+    ...(account.status === AccountWithStorageStatusEnum.ACTIVE ? [{
+      label: 'Take loan',
+      key: '3',
+      onClick: () => openTakeLoanModal(account),
+    }] : []),
+    ...((
+      Number(account.balance) !== 0 &&
+      Number(account.available) !== 0 &&
+      account.status === AccountWithStorageStatusEnum.ACTIVE
+    ) ? [{
+        label: 'Give lent',
+        key: '4',
+        onClick: () => openGiveLentModal(account),
+      }] : []),
+  ];
+
   const columns: ColumnsType<AccountWithStore> = [
     {
       title: 'ID',
@@ -123,34 +155,6 @@ export const AccountsWithStorageList: React.FC<Props> = ({
       render: (_, account) => (
         <div className={s.actions}>
           <div className={s.actionsWrapper}>
-            <Button onClick={() => openEditModal(account)}>
-              Edit
-            </Button>
-            {(
-              Number(account.balance) === 0 &&
-              Number(account.available) === 0 &&
-              account.status === AccountWithStorageStatusEnum.ACTIVE
-            ) && (
-              <Button onClick={() => openOpenBalanceModal(account)}>
-                  Open Balance
-              </Button>
-            )}
-            {(
-              account.status === AccountWithStorageStatusEnum.ACTIVE
-            ) && (
-              <Button onClick={() => openTakeLoanModal(account)}>
-                  Take loan
-              </Button>
-            )}
-            {(
-              Number(account.balance) !== 0 &&
-              Number(account.available) !== 0 &&
-              account.status === AccountWithStorageStatusEnum.ACTIVE
-            ) && (
-              <Button onClick={() => openGiveLentModal(account)}>
-                  Give lent
-              </Button>
-            )}
             {(
               account.status === AccountWithStorageStatusEnum.ACTIVE
             ) && (
@@ -175,6 +179,13 @@ export const AccountsWithStorageList: React.FC<Props> = ({
                   Cash Out
               </Button>
             )}
+            <Dropdown menu={{ items: otherActionsItems(account) }} trigger={['click']}>
+              <Button
+                type="default"
+                title='Other actions'
+                icon={<MenuOutlined />}
+              />
+            </Dropdown>
             <Link className={s.link} href={paths.transactions({
               anyAccountIds: [account.id.toString()],
             })}>

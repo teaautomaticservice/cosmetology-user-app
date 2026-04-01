@@ -7,6 +7,8 @@ import {
   createOpenBalanceApi,
   createOpenBalanceObligationApi,
   createReceiptApi,
+  createRefundInApi,
+  createRefundOutApi,
   createTransferApi,
   getTransactionsListApi
 } from '@apiMethods/cashier';
@@ -16,6 +18,8 @@ import {
   NewLoan,
   NewLoanRepayment,
   NewOpenBalanceObligation,
+  NewRefundInApi,
+  NewRefundOutApi,
   NewTransaction,
   NewTransfer,
   Transaction,
@@ -25,12 +29,14 @@ import { storeFactory } from '@utils/storeFactory';
 
 type Store = {
   transactions: Transaction[];
+  currentTransactions: Transaction | null;
   count: number;
   isLoading: boolean;
 };
 
 const { useStore } = storeFactory<Store>({
   transactions: [],
+  currentTransactions: null,
   count: 0,
   isLoading: true,
 });
@@ -40,23 +46,17 @@ export const useTransactionsStore = () => {
 
   const {
     transactions,
+    currentTransactions,
     isLoading,
     count,
   } = state;
 
-  const updateTransactionsList = async (params: TransactionsControllerGetListParams = {}) => {
+  const withLoader = async (handler: () => Promise<void>) => {
     setState({
       isLoading: true,
     });
     try {
-      const {
-        data,
-        meta,
-      } = await getTransactionsListApi(params);
-      setState({
-        transactions: data,
-        count: meta.count,
-      });
+      await handler();
     } finally {
       setState((state) => ({
         ...state,
@@ -65,127 +65,88 @@ export const useTransactionsStore = () => {
     }
   };
 
-  const createOpenBalance = async (data: NewTransaction) => {
+  const setCurrentTransaction = (currentTransactions: Transaction | null) => {
     setState({
-      isLoading: true,
+      currentTransactions,
     });
-    try {
+  };
+
+  const updateTransactionsList = async (params: TransactionsControllerGetListParams = {}) =>
+    withLoader(async () => {
+      const {
+        data,
+        meta,
+      } = await getTransactionsListApi(params);
+      setState({
+        transactions: data,
+        count: meta.count,
+      });
+    });
+
+  const createOpenBalance = async (data: NewTransaction) =>
+    withLoader(async () => {
       await createOpenBalanceApi(data);
-    } finally {
-      setState({
-        isLoading: false,
-      });
-    }
-  };
-
-  const createOpenBalanceObligation = async (data: NewOpenBalanceObligation) => {
-    setState({
-      isLoading: true,
     });
-    try {
+
+  const createOpenBalanceObligation = async (data: NewOpenBalanceObligation) =>
+    withLoader(async () => {
       await createOpenBalanceObligationApi(data);
-    } finally {
-      setState({
-        isLoading: false,
-      });
-    }
-  };
-
-  const createCashOut = async (data: NewTransaction) => {
-    setState({
-      isLoading: true,
     });
-    try {
+
+  const createCashOut = async (data: NewTransaction) =>
+    withLoader(async () => {
       await createCashOutApi(data);
-    } finally {
-      setState({
-        isLoading: false,
-      });
-    }
-  };
-
-  const createLoan = async (data: NewLoan) => {
-    setState({
-      isLoading: true,
     });
-    try {
+
+  const createLoan = async (data: NewLoan) =>
+    withLoader(async () => {
+      setState({
+        isLoading: true,
+      });
       await createLoanApi(data);
-    } finally {
-      setState({
-        isLoading: false,
-      });
-    }
-  };
-
-  const createLoanRepayment = async (data: NewLoanRepayment) => {
-    setState({
-      isLoading: true,
     });
-    try {
+
+  const createLoanRepayment = async (data: NewLoanRepayment) =>
+    withLoader(async () => {
       await createLoanRepaymentApi(data);
-    } finally {
-      setState({
-        isLoading: false,
-      });
-    }
-  };
-
-  const createLent = async (data: NewLent) => {
-    setState({
-      isLoading: true,
     });
-    try {
+
+  const createLent = async (data: NewLent) =>
+    withLoader(async () => {
       await createLentApi(data);
-    } finally {
-      setState({
-        isLoading: false,
-      });
-    }
-  };
-
-  const createLentRepayment = async (data: NewLentRepayment) => {
-    setState({
-      isLoading: true,
     });
-    try {
+
+  const createLentRepayment = async (data: NewLentRepayment) =>
+    withLoader(async () => {
       await createLentRepaymentApi(data);
-    } finally {
-      setState({
-        isLoading: false,
-      });
-    }
-  };
-
-  const createReceipt = async (data: NewTransaction) => {
-    setState({
-      isLoading: true,
     });
-    try {
+
+  const createReceipt = async (data: NewTransaction) =>
+    withLoader(async () => {
       await createReceiptApi(data);
-    } finally {
-      setState({
-        isLoading: false,
-      });
-    }
-  };
-
-  const createTransfer = async (data: NewTransfer) => {
-    setState({
-      isLoading: true,
     });
-    try {
+
+  const createTransfer = async (data: NewTransfer) =>
+    withLoader(async () => {
       await createTransferApi(data);
-    } finally {
-      setState({
-        isLoading: false,
-      });
-    }
-  };
+    });
+
+  const createRefundIn = async (data: NewRefundInApi) =>
+    withLoader(async () => {
+      await createRefundInApi(data);
+    });
+
+  const createRefundOut = async (data: NewRefundOutApi) =>
+    withLoader(async () => {
+      await createRefundOutApi(data);
+    });
 
   return {
     transactions,
+    currentTransactions,
     isLoading,
     count,
+    setCurrentTransaction,
     updateTransactionsList,
     createOpenBalance,
     createCashOut,
@@ -196,5 +157,7 @@ export const useTransactionsStore = () => {
     createLentRepayment,
     createReceipt,
     createTransfer,
+    createRefundIn,
+    createRefundOut,
   };
 };
