@@ -1,4 +1,12 @@
-import { Form, FormInstance, Input, InputNumber, Select } from 'antd';
+import {
+  Button,
+  type ButtonProps as ComponentButtonProps,
+  Form,
+  FormInstance,
+  Input,
+  InputNumber,
+  Select
+} from 'antd';
 import { NamePath } from 'antd/es/form/interface';
 import TextArea from 'antd/es/input/TextArea';
 import { DefaultOptionType } from 'antd/es/select';
@@ -6,7 +14,7 @@ import cn from 'classnames';
 
 import s from './formItemRow.module.css';
 
-export type FormInputType = 'input' | 'textarea' | 'select' | 'inputNumber';
+export type FormInputType = 'input' | 'textarea' | 'select' | 'inputNumber' | 'button';
 
 type FilterOption = (input: string, option: DefaultOptionType) => boolean;
 type FilterSort = (optionA: DefaultOptionType, optionB: DefaultOptionType) => number;
@@ -16,6 +24,7 @@ const formItemMap: Record<FormInputType, React.FC> = {
   'textarea': TextArea,
   'select': Select,
   'inputNumber': InputNumber,
+  'button': Button,
 };
 
 type InputProps<FormData> = {
@@ -48,8 +57,14 @@ type InputNumberProps<FormData> = {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>, formInstance: FormInstance<FormData>) => void;
 };
 
+type ButtonProps<FormData> = {
+  type: 'button';
+  buttonLabel: string;
+  onClick?: (event: React.MouseEvent<Element, MouseEvent>, formInstance:  FormInstance<FormData>) => void;
+}
+
 export type Props<T extends object, FormData> = {
-  label: string;
+  label?: string;
   name: NamePath<T>;
   isRequired?: boolean;
   className?: string;
@@ -58,7 +73,8 @@ export type Props<T extends object, FormData> = {
     InputProps<FormData> |
     TextareaProps<FormData> |
     MultiselectProps<FormData> |
-    InputNumberProps<FormData>
+    InputNumberProps<FormData> |
+    ButtonProps<FormData>
   );
 
 type FormItemRowProps<T extends object, FormData> = Props<T, FormData> & {
@@ -75,8 +91,9 @@ export const FormItemRow = <Entity extends object, FormData extends Record<strin
     isRequired,
     className,
     type = 'input',
-    onChange,
   } = props;
+  const onChange = 'onChange' in props ? props.onChange : undefined;
+
   const Component: React.FC<{
     onChange?: React.ChangeEventHandler;
     className?: string;
@@ -122,6 +139,10 @@ export const FormItemRow = <Entity extends object, FormData extends Record<strin
       step: (props as InputNumberProps<FormData>).step,
       formatter: (props as InputNumberProps<FormData>).formatter,
     })),
+    ...(type === 'button' && ({
+      children: 'buttonLabel' in props ? props.buttonLabel : undefined,
+      onClick: 'onClick' in props ? (e) => props.onClick?.(e, formInstance) : undefined,
+    } satisfies ComponentButtonProps)),
   };
 
   return (

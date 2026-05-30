@@ -72,6 +72,15 @@ export const AccountsWithStorageList: React.FC<Props> = ({
   };
 
   const otherActionsItems = (account: AccountWithStore): MenuProps['items'] => [
+    ...((
+      Number(account.balance) > 0 &&
+      Number(account.available) > 0 &&
+      account.status === AccountWithStorageStatusEnum.ACTIVE
+    ) ? [{
+        label: 'Distribution',
+        key: '0',
+        onClick: () => open('distributionModal'),
+      }] : []),
     {
       label: 'Edit',
       key: '1',
