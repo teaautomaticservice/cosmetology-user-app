@@ -1,4 +1,23 @@
 .root {
+  width: 700px !important;
+
+  .contentWrapper {
+    display: flex;
+    min-width: 1px;
+  }
+
+  .contentContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .formContainer {
+    width: 400px;
+    flex: 0 0 400px;
+  }
+
   .accountRow {
     width: 100%;
   }
@@ -22,7 +41,7 @@
 
   .accountAmount {
     min-width: 1px;
-    flex: 0 0 150px;
+    flex: 0 0 140px;
   }
 
   .accountBtn {

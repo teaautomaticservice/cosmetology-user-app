@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { INTERNAL_ERROR } from '@constants/errors';
 import { useModalStore } from '@stores/modal';
 import { UserDataApiError } from '@typings/errors';
@@ -16,6 +16,10 @@ type Props<Entity extends object, FormData extends Record<keyof Entity, unknown>
   onSubmit: (formData: FormData) => Promise<void>;
   isLoading?: boolean;
   className?: string;
+  classNameContainer?: string;
+  classNameForm?: string;
+  children?: JSX.Element,
+  onFormChange?: (formData: FormData) => void;
 }
 
 export const CreateEntityModal = <
@@ -27,9 +31,15 @@ export const CreateEntityModal = <
     onSubmit,
     isLoading,
     className,
+    classNameContainer,
+    classNameForm,
+    children,
+    onFormChange,
   }: Props<Entity, FormData>) => {
   const { close } = useModalStore();
   const [formInstance] = Form.useForm<FormData>();
+
+  const allValues = Form.useWatch([], formInstance);
 
   const currentRows = useMemo(() => {
     return rows.map((data) => (
@@ -75,6 +85,10 @@ export const CreateEntityModal = <
     }
   };
 
+  useEffect(() => {
+    onFormChange?.(allValues);
+  }, [allValues]);
+
   return (
     <Modal
       title={title}
@@ -85,14 +99,18 @@ export const CreateEntityModal = <
       getContainer={false}
       className={className}
     >
-      <Form
-        form={formInstance}
-        layout="vertical"
-        onFinish={onSubmitForm}
-        disabled={isLoading}
-      >
-        {currentRows}
-      </Form>
+      <div className={classNameContainer}>
+        {children}
+        <Form
+          form={formInstance}
+          layout="vertical"
+          onFinish={onSubmitForm}
+          disabled={isLoading}
+          className={classNameForm}
+        >
+          {currentRows}
+        </Form>
+      </div>
     </Modal>
   );
 };
