@@ -1,3 +1,5 @@
+import { selectFIlterOption } from '@utils/selectFIlterOption';
+import { selectFilterSort } from '@utils/selectFilterSort';
 import {
   Button,
   type ButtonProps as ComponentButtonProps,
@@ -14,12 +16,18 @@ import cn from 'classnames';
 
 import s from './formItemRow.module.css';
 
-export type FormInputType = 'input' | 'textarea' | 'select' | 'inputNumber' | 'button';
+export type FormInputType =
+  'input' |
+  'textarea' |
+  'select' |
+  'inputNumber' |
+  'button' |
+  'custom';
 
 type FilterOption = (input: string, option: DefaultOptionType) => boolean;
 type FilterSort = (optionA: DefaultOptionType, optionB: DefaultOptionType) => number;
 
-const formItemMap: Record<FormInputType, React.FC> = {
+const formItemMap: Record<Exclude<FormInputType, 'custom'>, React.FC> = {
   'input': Input,
   'textarea': TextArea,
   'select': Select,
@@ -60,7 +68,17 @@ type InputNumberProps<FormData> = {
 type ButtonProps<FormData> = {
   type: 'button';
   buttonLabel: string;
-  onClick?: (event: React.MouseEvent<Element, MouseEvent>, formInstance:  FormInstance<FormData>) => void;
+  onClick?: (event: React.MouseEvent<Element, MouseEvent>, formInstance: FormInstance<FormData>) => void;
+}
+
+export type CustomRowProps<FormData> = {
+  FormItem: typeof Form.Item<FormData>;
+  formInstance: FormInstance<FormData>;
+};
+
+type CustomProps<FormData> = {
+  type: 'custom';
+  CustomComponent?: React.FC<CustomRowProps<FormData>>;
 }
 
 export type Props<T extends object, FormData> = {
@@ -74,7 +92,8 @@ export type Props<T extends object, FormData> = {
     TextareaProps<FormData> |
     MultiselectProps<FormData> |
     InputNumberProps<FormData> |
-    ButtonProps<FormData>
+    ButtonProps<FormData> |
+    CustomProps<FormData>
   );
 
 type FormItemRowProps<T extends object, FormData> = Props<T, FormData> & {
@@ -97,7 +116,11 @@ export const FormItemRow = <Entity extends object, FormData extends Record<strin
   const Component: React.FC<{
     onChange?: React.ChangeEventHandler;
     className?: string;
-  }> = formItemMap[type];
+  }> | undefined = type !== 'custom' ? formItemMap[type] : undefined;
+
+  const CustomComponent = type === 'custom' ?
+    (props as CustomProps<FormData>).CustomComponent :
+    undefined;
 
   const rules = [];
   if (isRequired) {
@@ -110,6 +133,19 @@ export const FormItemRow = <Entity extends object, FormData extends Record<strin
     }
   };
 
+  if (CustomComponent) {
+    return (
+      <CustomComponent
+        FormItem={Form.Item<FormData>}
+        formInstance={formInstance}
+      />
+    );
+  }
+
+  if (!Component) {
+    return null;
+  }
+
   const componentProps = {
     className: cn(s.item, props.className),
     onChange: onCurrentChange,
@@ -118,17 +154,10 @@ export const FormItemRow = <Entity extends object, FormData extends Record<strin
       options: (props as MultiselectProps<FormData>).options,
       ...((props as MultiselectProps<FormData>).isSearch && {
         showSearch: true,
-        filterOption: ((input: string, option: DefaultOptionType): boolean => {
-          const label = option?.label || '';
-          return String(label).toLowerCase().includes(input.toLowerCase());
-        }) satisfies FilterOption,
+        filterOption: selectFIlterOption,
       }),
       ...((props as MultiselectProps<FormData>).isSort && {
-        filterSort: ((optionA: DefaultOptionType, optionB: DefaultOptionType): number => {
-          const labelA = String(optionA?.label || '');
-          const labelB = String(optionB?.label || '');
-          return labelA.toLowerCase().localeCompare(labelB.toLowerCase());
-        }) satisfies FilterSort,
+        filterSort: selectFilterSort,
       }),
     })),
     ...(type === 'inputNumber' && ({

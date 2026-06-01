@@ -1,0 +1,31 @@
+.root {
+  .accountRow {
+    width: 100%;
+  }
+
+  .accountRowContent {
+    display: flex;
+    align-items: end;
+    width: 100%;
+    gap: 4px;
+  }
+
+  .accountSelect {
+    min-width: 1px;
+    width: 100%;
+    flex: 1 1;
+  }
+
+  .item {
+    width: 100%;
+  }
+
+  .accountAmount {
+    min-width: 1px;
+    flex: 0 0 150px;
+  }
+
+  .accountBtn {
+    flex: 0 0 32px;
+  }
+}

@@ -4,7 +4,7 @@ import { useAccountsParams } from '@components/pages/accounts/useAccountsParams'
 import { TableUi } from '@components/ui/table/TableUi';
 import { getColorStatus } from '@constants/colorStatusMap';
 import { paths } from '@router/paths';
-import { useModalStore } from '@stores/modal';
+import { ModalsType, useModalStore } from '@stores/modal';
 import { useAccountsPageStore } from '@stores/pages/accountsPage';
 import { AccountWithStorageStatusEnum, AccountWithStore, Currency, MoneyStorage } from '@typings/api/cashier';
 import { fromAmountApi } from '@utils/amount';
@@ -36,39 +36,15 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     updateAggregatedAccountsPagination,
   } = useAccountsParams();
 
-  const openEditModal = (account: AccountWithStore) => {
+  const openModalWithAccounts = ({
+    modalType,
+    account,
+  }: {
+    modalType: ModalsType;
+    account: AccountWithStore;
+  }) => {
     setCurrentAccountWithStore(account);
-    open('editAccountWithStorages');
-  };
-
-  const openOpenBalanceModal = (account: AccountWithStore) => {
-    setCurrentAccountWithStore(account);
-    open('createOpenBalanceModal');
-  };
-
-  const openCashOutModal = (account: AccountWithStore) => {
-    setCurrentAccountWithStore(account);
-    open('createCashOutModal');
-  };
-
-  const openTakeLoanModal = (account: AccountWithStore) => {
-    setCurrentAccountWithStore(account);
-    open('takeLoanModal');
-  };
-
-  const openGiveLentModal = (account: AccountWithStore) => {
-    setCurrentAccountWithStore(account);
-    open('giveLentModal');
-  };
-
-  const openReceiptModal = (account: AccountWithStore) => {
-    setCurrentAccountWithStore(account);
-    open('createReceiptModal');
-  };
-
-  const openTransferModal = (account: AccountWithStore) => {
-    setCurrentAccountWithStore(account);
-    open('transferModal');
+    open(modalType);
   };
 
   const otherActionsItems = (account: AccountWithStore): MenuProps['items'] => [
@@ -79,12 +55,18 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     ) ? [{
         label: 'Distribution',
         key: '0',
-        onClick: () => open('distributionModal'),
+        onClick: () => openModalWithAccounts({
+          account,
+          modalType: 'distributionModal',
+        }),
       }] : []),
     {
       label: 'Edit',
       key: '1',
-      onClick: () => openEditModal(account),
+      onClick: () => openModalWithAccounts({
+        account,
+        modalType: 'editAccountWithStorages',
+      }),
     },
     ...((
       Number(account.balance) === 0 &&
@@ -93,12 +75,18 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     ) ? [{
         label: 'Open Balance',
         key: '2',
-        onClick: () => openOpenBalanceModal(account),
+        onClick: () => openModalWithAccounts({
+          account,
+          modalType: 'createOpenBalanceModal',
+        }),
       }] : []),
     ...(account.status === AccountWithStorageStatusEnum.ACTIVE ? [{
       label: 'Take loan',
       key: '3',
-      onClick: () => openTakeLoanModal(account),
+      onClick: () => openModalWithAccounts({
+        account,
+        modalType: 'takeLoanModal',
+      }),
     }] : []),
     ...((
       Number(account.balance) !== 0 &&
@@ -107,7 +95,10 @@ export const AccountsWithStorageList: React.FC<Props> = ({
     ) ? [{
         label: 'Give lent',
         key: '4',
-        onClick: () => openGiveLentModal(account),
+        onClick: () => openModalWithAccounts({
+          account,
+          modalType: 'giveLentModal',
+        }),
       }] : []),
   ];
 
@@ -167,7 +158,10 @@ export const AccountsWithStorageList: React.FC<Props> = ({
             {(
               account.status === AccountWithStorageStatusEnum.ACTIVE
             ) && (
-              <Button onClick={() => openReceiptModal(account)}>
+              <Button onClick={() => openModalWithAccounts({
+                account,
+                modalType: 'createReceiptModal',
+              })}>
                   Receipt
               </Button>
             )}
@@ -176,7 +170,10 @@ export const AccountsWithStorageList: React.FC<Props> = ({
               Number(account.available) > 0 &&
               account.status === AccountWithStorageStatusEnum.ACTIVE
             ) && (
-              <Button onClick={() => openTransferModal(account)}>
+              <Button onClick={() => openModalWithAccounts({
+                account,
+                modalType: 'transferModal',
+              })}>
                   Transfer to
               </Button>
             )}
@@ -184,7 +181,10 @@ export const AccountsWithStorageList: React.FC<Props> = ({
               Number(account.available) > 0 &&
               account.status === AccountWithStorageStatusEnum.ACTIVE
             ) && (
-              <Button onClick={() => openCashOutModal(account)}>
+              <Button onClick={() => openModalWithAccounts({
+                account,
+                modalType: 'createCashOutModal',
+              })}>
                   Cash Out
               </Button>
             )}

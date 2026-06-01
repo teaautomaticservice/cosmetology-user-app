@@ -2,7 +2,7 @@ import { ComponentProps } from 'react';
 import { ModalsMap } from '@components/domain/rootModal/constants';
 import { storeFactory } from '@utils/storeFactory';
 
-type ModalsType = keyof typeof ModalsMap;
+export type ModalsType = keyof typeof ModalsMap;
 
 type GetComponentsMapProp<T extends ModalsType = ModalsType> = ComponentProps<(typeof ModalsMap[T])>;
 

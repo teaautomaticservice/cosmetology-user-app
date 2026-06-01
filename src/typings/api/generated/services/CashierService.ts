@@ -8,6 +8,7 @@ import type { AccountStatus } from '../models/AccountStatus';
 import type { AccountsWithStoragePaginatedDto } from '../models/AccountsWithStoragePaginatedDto';
 import type { CreateAccountDto } from '../models/CreateAccountDto';
 import type { CreateCurrencyDto } from '../models/CreateCurrencyDto';
+import type { CreateDistributionDto } from '../models/CreateDistributionDto';
 import type { CreateMoneyStorageDto } from '../models/CreateMoneyStorageDto';
 import type { CurrencyDto } from '../models/CurrencyDto';
 import type { CurrencyPaginatedDto } from '../models/CurrencyPaginatedDto';
@@ -772,6 +773,25 @@ export class CashierService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/cashier/transactions/refundOut',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any New transaction Refund Out successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerDistribution({
+        requestBody,
+    }: {
+        /**
+         * Distributio
+         */
+        requestBody: CreateDistributionDto,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/distribution',
             body: requestBody,
             mediaType: 'application/json',
         });
