@@ -132,12 +132,29 @@ export const DistributionModal: React.FC = () => {
       name: `account-${key}`,
       type: 'custom',
       className: s.accountRow,
-      CustomComponent: ({ FormItem }) => (
+      CustomComponent: ({ FormItem, formInstance }) => (
         <div className={s.accountRowContent}>
           <FormItem
             className={s.accountSelect}
             name={['debitAccounts', key, 'debitId']}
-            rules={[{ required: true, message: 'Please select account' }]}
+            rules={[
+              { required: true, message: 'Please select account' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value) {
+                    return Promise.resolve();
+                  }
+                  const accounts: FormData['debitAccounts'] =
+                    getFieldValue('debitAccounts') ?? {};
+                  const isDuplicate = Object.entries(accounts).some(
+                    ([rowKey, acc]) => rowKey !== key && acc?.debitId === value
+                  );
+                  return isDuplicate
+                    ? Promise.reject(new Error('Account already selected'))
+                    : Promise.resolve();
+                },
+              }),
+            ]}
             label='Debit account'
           >
             <Select
@@ -146,6 +163,11 @@ export const DistributionModal: React.FC = () => {
               filterOption={selectFIlterOption}
               filterSort={selectFilterSort}
               className={s.item}
+              onChange={() => {
+                formInstance.validateFields(
+                  rowAccountsKeys.map((k) => ['debitAccounts', k, 'debitId'])
+                );
+              }}
             />
           </FormItem>
           <FormItem
