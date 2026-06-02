@@ -3,7 +3,6 @@ import { CloseOutlined } from '@ant-design/icons';
 import { CreateEntityModal, CreateModalRow } from '@components/ui/createEntityModal/CreateEntityModal';
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useTransactionsStore } from '@stores/cashier/transactions';
-import { DistributionAccountsApi } from '@typings/api/cashier';
 import { AccountStatus } from '@typings/api/generated';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
 import { selectFIlterOption } from '@utils/selectFIlterOption';
@@ -28,7 +27,13 @@ type FormData = {
   debitAccounts: Record<string, DebitAccount>;
 }
 
-type Modal = CreateModalRow<any, FormData>;
+type ModalEntity = {
+  [key: `account-${string}`]: unknown;
+  buttonClick: unknown;
+  description: unknown;
+};
+
+type Modal = CreateModalRow<ModalEntity, FormData>;
 
 export const DistributionModal: React.FC = () => {
   const {
@@ -58,7 +63,7 @@ export const DistributionModal: React.FC = () => {
       .filter(({ id }) => (
         id !== currentAccountWithStore?.id
       ))
-      .map((({
+      .map(({
         id,
         name,
         moneyStorage,
@@ -67,7 +72,7 @@ export const DistributionModal: React.FC = () => {
       }) => ({
         value: id,
         label: `${name}: ${moneyStorage?.name ?? 'n/a'}, ${fromAmountApi(available)} ${currency?.code ?? ''}`,
-      }))), [accountsWithStoresForParams]);
+      })), [accountsWithStoresForParams]);
 
   const updateFilterAccounts = debounce(() => {
     updateAccountsListParams({
@@ -196,7 +201,7 @@ export const DistributionModal: React.FC = () => {
   );
 
   return (
-    <CreateEntityModal<DistributionAccountsApi & FormData, FormData >
+    <CreateEntityModal<ModalEntity, FormData>
       title={createAccountTitle(currentAccountWithStore, { title: 'Distribution' })}
       onSubmit={onSubmit}
       className={s.root}
