@@ -24,9 +24,6 @@ export type FormInputType =
   'button' |
   'custom';
 
-type FilterOption = (input: string, option: DefaultOptionType) => boolean;
-type FilterSort = (optionA: DefaultOptionType, optionB: DefaultOptionType) => number;
-
 const formItemMap: Record<Exclude<FormInputType, 'custom'>, React.FC> = {
   'input': Input,
   'textarea': TextArea,

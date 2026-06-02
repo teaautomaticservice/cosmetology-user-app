@@ -2,6 +2,7 @@ import { UseSort } from './common';
 import {
   CashierService,
   CreateAccountDto,
+  CreateDistributionDto,
   CurrencyDto,
   GetAccountAggregatedWithStorage,
   GetAccountDto,
@@ -84,3 +85,4 @@ export type NewLentRepayment = NewLentRepaymentDto;
 export type NewTransfer = NewTransferDto;
 export type NewRefundInApi = NewRefundInDto;
 export type NewRefundOutApi = NewRefundOutDto;
+export type DistributionAccountsApi = CreateDistributionDto;

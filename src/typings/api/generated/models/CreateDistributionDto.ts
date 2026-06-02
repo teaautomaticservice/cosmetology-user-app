@@ -6,6 +6,6 @@ import type { DistributedAccountDto } from './DistributedAccountDto';
 export type CreateDistributionDto = {
     creditId: number;
     description: string | null;
-    distributedAccouns: Array<DistributedAccountDto>;
+    distributedAccounts: Array<DistributedAccountDto>;
 };
 

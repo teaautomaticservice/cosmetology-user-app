@@ -10,9 +10,11 @@ import {
   createRefundInApi,
   createRefundOutApi,
   createTransferApi,
+  distributionAccountsApi,
   getTransactionsListApi
 } from '@apiMethods/cashier';
 import {
+  DistributionAccountsApi,
   NewLent,
   NewLentRepayment,
   NewLoan,
@@ -141,6 +143,11 @@ export const useTransactionsStore = () => {
       await createRefundOutApi(data);
     });
 
+  const distributionAccounts = async (data: DistributionAccountsApi) =>
+    withLoader(async () => {
+      await distributionAccountsApi(data);
+    });
+
   return {
     transactions,
     currentTransactions,
@@ -159,5 +166,6 @@ export const useTransactionsStore = () => {
     createTransfer,
     createRefundIn,
     createRefundOut,
+    distributionAccounts,
   };
 };

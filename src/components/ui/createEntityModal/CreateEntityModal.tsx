@@ -19,6 +19,7 @@ type Props<Entity extends object, FormData extends Record<keyof Entity, unknown>
   classNameContainer?: string;
   classNameForm?: string;
   children?: JSX.Element,
+  externalDisabled?: boolean;
   onFormChange?: (formData: FormData) => void;
 }
 
@@ -34,6 +35,7 @@ export const CreateEntityModal = <
     classNameContainer,
     classNameForm,
     children,
+    externalDisabled,
     onFormChange,
   }: Props<Entity, FormData>) => {
   const { close } = useModalStore();
@@ -98,6 +100,7 @@ export const CreateEntityModal = <
       onCancel={close}
       getContainer={false}
       className={className}
+      okButtonProps={{ disabled: externalDisabled }}
     >
       <div className={classNameContainer}>
         {children}

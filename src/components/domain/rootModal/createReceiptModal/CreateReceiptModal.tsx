@@ -4,7 +4,7 @@ import { useTransactionsStore } from '@stores/cashier/transactions';
 import { NewTransaction } from '@typings/api/cashier';
 import { toAmountApi } from '@utils/amount';
 
-import { createAccountTitle } from '../utils/createTitile';
+import { createAccountTitle } from '../utils/createAccountTitle';
 
 type FormData = {
   amount: number;
