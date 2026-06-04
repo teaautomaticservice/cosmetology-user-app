@@ -17,6 +17,7 @@ import {
 import { CreateReceiptModal } from './createReceiptModal/CreateReceiptModal';
 import { CreateRefundInModal } from './createRefundInModal/CreateRefundInModal';
 import { CreateRefundOutModal } from './createRefundOutModal/CreateRefundOutModal';
+import { DistributionModal } from './distributionModal/DistributionModal';
 import { EditAccountWithStorages } from './editAccountWithStorages/EditAccountWithStorages';
 import { EditAggregatedAccount } from './editAggregatedAccount/EditAggregatedAccount';
 import { EditCurrency } from './editCurrency/EditCurrency';
@@ -45,4 +46,5 @@ export const ModalsMap = {
   'createLentRepaymentModal': CreateLentRepaymentModal,
   'createRefundInModal': CreateRefundInModal,
   'createRefundOutModal': CreateRefundOutModal,
+  'distributionModal': DistributionModal,
 };

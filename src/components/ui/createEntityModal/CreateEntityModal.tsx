@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react';
 import { INTERNAL_ERROR } from '@constants/errors';
 import { useModalStore } from '@stores/modal';
 import { UserDataApiError } from '@typings/errors';
@@ -7,11 +8,19 @@ import { NamePath } from 'antd/es/form/interface';
 
 import { FormItemRow, type Props as CreateModalRow } from '../formItemRow/FormItemRow';
 
+export { type Props as CreateModalRow } from '../formItemRow/FormItemRow';
+
 type Props<Entity extends object, FormData extends Record<keyof Entity, unknown>> = {
   title: string;
   rows: CreateModalRow<Entity, FormData>[];
   onSubmit: (formData: FormData) => Promise<void>;
   isLoading?: boolean;
+  className?: string;
+  classNameContainer?: string;
+  classNameForm?: string;
+  children?: JSX.Element,
+  externalDisabled?: boolean;
+  onFormChange?: (formData: FormData) => void;
 }
 
 export const CreateEntityModal = <
@@ -22,9 +31,27 @@ export const CreateEntityModal = <
     rows,
     onSubmit,
     isLoading,
+    className,
+    classNameContainer,
+    classNameForm,
+    children,
+    externalDisabled,
+    onFormChange,
   }: Props<Entity, FormData>) => {
   const { close } = useModalStore();
   const [formInstance] = Form.useForm<FormData>();
+
+  const allValues = Form.useWatch([], formInstance);
+
+  const currentRows = useMemo(() => {
+    return rows.map((data) => (
+      <FormItemRow
+        key={data.name as string}
+        {...data}
+        formInstance={formInstance}
+      />
+    ));
+  }, [rows]);
 
   const okClick = () => {
     formInstance.submit();
@@ -60,6 +87,10 @@ export const CreateEntityModal = <
     }
   };
 
+  useEffect(() => {
+    onFormChange?.(allValues);
+  }, [allValues]);
+
   return (
     <Modal
       title={title}
@@ -68,21 +99,21 @@ export const CreateEntityModal = <
       onOk={okClick}
       onCancel={close}
       getContainer={false}
+      className={className}
+      okButtonProps={{ disabled: externalDisabled }}
     >
-      <Form
-        form={formInstance}
-        layout="vertical"
-        onFinish={onSubmitForm}
-        disabled={isLoading}
-      >
-        {rows.map((data) => (
-          <FormItemRow
-            key={data.name as string}
-            {...data}
-            formInstance={formInstance}
-          />
-        ))}
-      </Form>
+      <div className={classNameContainer}>
+        {children}
+        <Form
+          form={formInstance}
+          layout="vertical"
+          onFinish={onSubmitForm}
+          disabled={isLoading}
+          className={classNameForm}
+        >
+          {currentRows}
+        </Form>
+      </div>
     </Modal>
   );
 };

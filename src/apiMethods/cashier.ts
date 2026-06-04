@@ -3,6 +3,7 @@ import {
   CreateAccount,
   CreateCurrencyData,
   CreateMoneyStorageData,
+  DistributionAccountsApi,
   GetAccountsAggregatedWithMoneyStoragesListParams,
   GetAccountsByMoneyStoragesListParams,
   GetAccountsControllerListParams,
@@ -300,6 +301,12 @@ export const createRefundInApi = (newData: NewRefundInApi) => {
 
 export const createRefundOutApi = (newData: NewRefundOutApi) => {
   return CashierService.transactionsControllerRefundOut({
+    requestBody: newData,
+  });
+};
+
+export const distributionAccountsApi = (newData: DistributionAccountsApi) => {
+  return CashierService.transactionsControllerDistribution({
     requestBody: newData,
   });
 };

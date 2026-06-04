@@ -9,7 +9,7 @@ import { fromAmountApi, toAmountApi } from '@utils/amount';
 import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
-import { createAccountTitle } from '../utils/createTitile';
+import { createAccountTitle } from '../utils/createAccountTitle';
 
 type FormData = {
   moneyStorageId: number;

@@ -14,11 +14,13 @@ export type { AccountsWithStoragePaginatedDto } from './models/AccountsWithStora
 export type { AppConfigDto } from './models/AppConfigDto';
 export type { CreateAccountDto } from './models/CreateAccountDto';
 export type { CreateCurrencyDto } from './models/CreateCurrencyDto';
+export type { CreateDistributionDto } from './models/CreateDistributionDto';
 export type { CreateMoneyStorageDto } from './models/CreateMoneyStorageDto';
 export { CreateUserDto } from './models/CreateUserDto';
 export { CurrencyDto } from './models/CurrencyDto';
 export type { CurrencyPaginatedDto } from './models/CurrencyPaginatedDto';
 export { CurrentUserDto } from './models/CurrentUserDto';
+export type { DistributedAccountDto } from './models/DistributedAccountDto';
 export { GetAccountAggregatedWithStorage } from './models/GetAccountAggregatedWithStorage';
 export { GetAccountDto } from './models/GetAccountDto';
 export { GetAccountsByStoreDto } from './models/GetAccountsByStoreDto';

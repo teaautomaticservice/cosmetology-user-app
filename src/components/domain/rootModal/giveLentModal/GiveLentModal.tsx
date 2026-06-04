@@ -7,7 +7,7 @@ import { AccountWithStorageStatusEnum, NewLoan } from '@typings/api/cashier';
 import { toAmountApi } from '@utils/amount';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
-import { createAccountTitle } from '../utils/createTitile';
+import { createAccountTitle } from '../utils/createAccountTitle';
 
 type FormData = {
   description?: string;
