@@ -8,7 +8,6 @@ import { fromAmountApi, toAmountApi } from '@utils/amount';
 import { selectFIlterOption } from '@utils/selectFIlterOption';
 import { selectFilterSort } from '@utils/selectFilterSort';
 import { Button, InputNumber, Select, Typography } from 'antd';
-import { debounce } from 'lodash';
 
 import { createAccountTitle } from '../utils/createAccountTitle';
 
@@ -72,9 +71,12 @@ export const DistributionModal: React.FC = () => {
       }) => ({
         value: id,
         label: `${name}: ${moneyStorage?.name ?? 'n/a'}, ${fromAmountApi(available)} ${currency?.code ?? ''}`,
-      })), [accountsWithStoresForParams]);
+      })), [
+    accountsWithStoresForParams,
+    currentAccountWithStore,
+  ]);
 
-  const updateFilterAccounts = debounce(() => {
+  const updateFilterAccounts = () => {
     updateAccountsListParams({
       moneyStoragesIds:
         currentAccountWithStore?.moneyStorageId ?
@@ -82,7 +84,7 @@ export const DistributionModal: React.FC = () => {
           undefined,
       status: [AccountStatus.ACTIVE]
     });
-  }, 500);
+  };
 
   const addAccountRow = () => {
     setRowAccountsKeys((state) => [...state, crypto.randomUUID()]);
@@ -117,7 +119,8 @@ export const DistributionModal: React.FC = () => {
     await distributionAccounts({
       creditId: currentAccountWithStore.id,
       description: description ?? null,
-      distributedAccounts: Object.values(debitAccounts),
+      distributedAccounts:
+        Object.values(debitAccounts).map((data) => ({ ...data, amount: toAmountApi(data.amount) })),
     });
     window.location.reload();
   };
@@ -197,7 +200,7 @@ export const DistributionModal: React.FC = () => {
         </div>
       ),
     })),
-    [rowAccountsKeys],
+    [rowAccountsKeys, accountsOptions],
   );
 
   return (
