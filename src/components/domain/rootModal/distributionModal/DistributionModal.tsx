@@ -50,7 +50,6 @@ export const DistributionModal: React.FC = () => {
     available: currentAccountWithStore?.available ?? 0,
   };
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [rowAccountsKeys, setRowAccountsKeys] = useState<string[]>([crypto.randomUUID()]);
   const [calculation, setCalculation] = useState(initialCalculation);
 
@@ -128,12 +127,6 @@ export const DistributionModal: React.FC = () => {
   useEffect(() => {
     updateFilterAccounts();
   }, []);
-
-  useEffect(() => {
-    if (!isAccountsLoading) {
-      setIsLoading(false);
-    }
-  }, [isAccountsLoading]);
 
   const accountsRows = useMemo<Modal[]>(
     () => rowAccountsKeys.map((key) => ({
@@ -222,7 +215,7 @@ export const DistributionModal: React.FC = () => {
         },
         { label: 'Description', name: 'description', type: 'textarea' },
       ]}
-      isLoading={isLoading}
+      isLoading={isAccountsLoading}
     >
       <div className={s.contentContainer}>
         <Text>Available</Text>
