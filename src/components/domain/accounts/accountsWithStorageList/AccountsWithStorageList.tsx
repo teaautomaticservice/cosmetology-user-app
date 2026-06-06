@@ -53,6 +53,18 @@ export const AccountsWithStorageList: React.FC<Props> = ({
       Number(account.available) > 0 &&
       account.status === AccountWithStorageStatusEnum.ACTIVE
     ) ? [{
+        label: 'Transfer to',
+        key: '-1',
+        onClick: () => openModalWithAccounts({
+          account,
+          modalType: 'transferModal',
+        }),
+      }] : []),
+    ...((
+      Number(account.balance) > 0 &&
+      Number(account.available) > 0 &&
+      account.status === AccountWithStorageStatusEnum.ACTIVE
+    ) ? [{
         label: 'Distribution',
         key: '0',
         onClick: () => openModalWithAccounts({
@@ -172,9 +184,9 @@ export const AccountsWithStorageList: React.FC<Props> = ({
             ) && (
               <Button onClick={() => openModalWithAccounts({
                 account,
-                modalType: 'transferModal',
+                modalType: 'exchangeAccountsStoragesModal',
               })}>
-                  Transfer to
+                  Exchange
               </Button>
             )}
             {(
