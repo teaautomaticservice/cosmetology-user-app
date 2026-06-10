@@ -1,49 +1,30 @@
 import { useEffect, useMemo, useState } from 'react';
+import { getAccountsWithMoneyStoragesApi } from '@apiMethods/cashier';
 import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntityModal';
+import { useApiCall } from '@hooks/useApiCall';
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
-import { useTransactionsStore } from '@stores/cashier/transactions';
+// import { useTransactionsStore } from '@stores/cashier/transactions';
 import { AccountWithStore, NewTransfer } from '@typings/api/cashier';
 import { AccountStatus } from '@typings/api/generated';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
+import { FormInstance } from 'antd';
 import { debounce } from 'lodash';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
 import { createAccountTitle } from '../utils/createAccountTitle';
 
 type FormData = {
-  moneyStorageId?: number;
   description?: string;
   amount: number;
   firstDebitId: number;
   secondCreditId: number;
   secondDebitId: number;
+  secondMoneyStorageId?: number;
 }
 
-export const ExchangeAccountsStoragesModal: React.FC = () => {
-  const {
-    createTransfer,
-  } = useTransactionsStore();
-  const {
-    accountsWithStoresForParams,
-    currentAccountWithStore,
-    isAccountsLoading,
-    updateAccountsListParams,
-  } = useAccountsStore();
-  const {
-    moneyStorages,
-  } = useMoneyStoragesStore();
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [selectedSecondMoneyStorageId, setSelectedSecondMoneyStorageId] =
-    useState<number | null>(null);
-  const [selectedSecondCreditAccount, setSelectedSecondCreditAccount] =
-    useState<AccountWithStore | null>(null);
-
-  const accountsFiltered = accountsWithStoresForParams.filter(({ id }) => (
-    id !== currentAccountWithStore?.id
-  ));
-  const accountsOptions = accountsFiltered.map((({
+const createOptionsFromAccounts = (list: AccountWithStore[]) =>
+  list.map((({
     id,
     name,
     moneyStorage,
@@ -54,44 +35,109 @@ export const ExchangeAccountsStoragesModal: React.FC = () => {
     label: `${name}: ${moneyStorage?.name ?? 'n/a'}, ${fromAmountApi(available)} ${currency?.code ?? ''}`,
   })));
 
-  const secondDebitAccount = useMemo<AccountWithStore | undefined>(() => {
+export const ExchangeAccountsStoragesModal: React.FC = () => {
+  // const { createTransfer } = useTransactionsStore();
+  const { currentAccountWithStore } = useAccountsStore();
+  const { moneyStorages } = useMoneyStoragesStore();
+
+  const {
+    execute: updateAccountsList,
+    isApiLoading: isAccountsLoading,
+    data,
+  } = useApiCall(getAccountsWithMoneyStoragesApi);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [selectedSecondMoneyStorageId, setSelectedSecondMoneyStorageId] =
+    useState<number | null>(null);
+  const [currentAmount, setCurrentAmount] =
+    useState<number>(0);
+
+  const { data: accountsList } = data ?? {};
+
+  const firstStorageAccounts = useMemo<AccountWithStore[]>(() =>
+    accountsList?.filter(({ moneyStorageId }) => (moneyStorageId === currentAccountWithStore?.moneyStorageId)) ?? [],
+  [accountsList]);
+
+  const secondStorageAccounts = useMemo<AccountWithStore[]>(() => {
+    if (!accountsList) {
+      return [];
+    }
+
     if (!selectedSecondMoneyStorageId) {
+      return accountsList.filter(({ moneyStorageId }) => (moneyStorageId !== currentAccountWithStore?.moneyStorageId));
+    }
+
+    return accountsList.filter(({ moneyStorageId }) => (moneyStorageId === selectedSecondMoneyStorageId));
+  }, [accountsList, selectedSecondMoneyStorageId, currentAmount]);
+
+  const firstStorageAccountsOptions = createOptionsFromAccounts(firstStorageAccounts);
+  const secondStorageAccountsOptions = createOptionsFromAccounts(secondStorageAccounts);
+  const secondCreditAccountsOptions = createOptionsFromAccounts(
+    secondStorageAccounts.filter(
+      ({ available }) =>
+        available >= toAmountApi(currentAmount) &&
+        available > 0
+    )
+  );
+
+  const moneyStoragesOptions = fromEntityToOptionsList(
+    moneyStorages.filter(({ id }) => id !== currentAccountWithStore?.moneyStorageId)
+  );
+
+  const updateFilterAccounts = debounce(async (moneyStorageId?: number) => {
+    setIsLoading(true);
+    try {
+      await updateAccountsList({
+        moneyStoragesIds: [
+          ...(currentAccountWithStore?.moneyStorageId ? [currentAccountWithStore.moneyStorageId.toString()] : []),
+          ...(moneyStorageId ? [moneyStorageId.toString()] : []),
+        ],
+        status: [AccountStatus.ACTIVE],
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }, 500);
+
+  const onSecondStorageChange = (form: FormInstance<FormData>) => {
+    const { secondMoneyStorageId } = form.getFieldsValue();
+
+    setSelectedSecondMoneyStorageId(secondMoneyStorageId ?? null);
+
+    if (!secondMoneyStorageId || !currentAccountWithStore) {
       return;
     }
 
-    console.log(currentAccountWithStore?.id, selectedSecondCreditAccount?.name, accountsWithStoresForParams);
+    updateFilterAccounts(secondMoneyStorageId);
 
-    return accountsWithStoresForParams.find(({
-      moneyStorageId,
-      name,
-    }) => (
-      moneyStorageId === currentAccountWithStore?.id &&
-      name === selectedSecondCreditAccount?.name
-    ));
-  }, [
-    accountsWithStoresForParams,
-    currentAccountWithStore,
-    selectedSecondMoneyStorageId,
-    selectedSecondCreditAccount,
-  ]);
+    const foundedAccount = accountsList?.find(({ name, moneyStorageId }) =>
+      name.toLowerCase() === currentAccountWithStore.name.toLowerCase() &&
+      moneyStorageId === secondMoneyStorageId);
 
-  const moneyStoragesOptions = fromEntityToOptionsList(moneyStorages);
+    form.setFieldValue('firstDebitId', foundedAccount?.id);
+  };
 
-  const updateFilterAccounts = debounce((filterData: FormData) => {
-    updateAccountsListParams({
-      moneyStoragesIds: [
-        // ...(currentAccountWithStore?.moneyStorageId ? [currentAccountWithStore.moneyStorageId.toString()] : []),
-        ...(filterData?.moneyStorageId ? [filterData.moneyStorageId.toString()] : []),
-      ],
-    });
-  }, 500);
+  const onSecondCreditAccountChange = (form: FormInstance<FormData>) => {
+    const formData = form.getFieldsValue();
+    const secondCreditAccount = accountsList?.find(({ id }) => id === formData?.secondCreditId);
+
+    if (!secondCreditAccount || !currentAccountWithStore) {
+      return;
+    }
+
+    const foundedAccount = accountsList?.find(({ name, moneyStorageId }) =>
+      name.toLowerCase() === secondCreditAccount.name.toLowerCase() &&
+      moneyStorageId === currentAccountWithStore.moneyStorageId);
+
+    form.setFieldValue('secondDebitId', foundedAccount?.id);
+  };
 
   const onSubmit = async ({
-    amount,
-    description,
-    firstDebitId,
-    secondCreditId,
-    secondDebitId,
+    // amount,
+    // description,
+    // firstDebitId,
+    // secondCreditId,
+    // secondDebitId,
   }: FormData) => {
     if (!currentAccountWithStore) {
       return;
@@ -106,24 +152,10 @@ export const ExchangeAccountsStoragesModal: React.FC = () => {
     // window.location.reload();
   };
 
-  const onFormChange = (formData: FormData | undefined) => {
-    if (!formData) {
-      return;
-    }
-
-    const {
-      moneyStorageId,
-      secondCreditId,
-    } = formData;
-    
-    setSelectedSecondMoneyStorageId(moneyStorageId ?? null);
-    const secondCreditAccount = accountsWithStoresForParams.find(({ id }) => id === secondCreditId);
-    setSelectedSecondCreditAccount(secondCreditAccount ?? null);
-  };
-
   useEffect(() => {
-    updateAccountsListParams({
+    updateAccountsList({
       status: [AccountStatus.ACTIVE],
+      pageSize: 1000,
     });
   }, []);
 
@@ -135,9 +167,8 @@ export const ExchangeAccountsStoragesModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewTransfer & FormData, FormData >
-      title={createAccountTitle(currentAccountWithStore, { title: secondDebitAccount?.name ?? '' })}
+      title={createAccountTitle(currentAccountWithStore, { title: 'Exchange' })}
       onSubmit={onSubmit}
-      onFormChange={onFormChange}
       rows={[
         {
           initialValue: 0,
@@ -155,18 +186,19 @@ export const ExchangeAccountsStoragesModal: React.FC = () => {
             }
             return Number(Number(value).toFixed(2));
           },
-          onChange: (_, formInstance) =>
-            updateFilterAccounts(formInstance.getFieldsValue()),
           suffix: currentAccountWithStore?.currency.code ?? 'n/a',
+          onChange: (_, form) =>
+            setCurrentAmount(form.getFieldValue('amount') ?? 0)
         },
         {
-          label: 'Filter accounts by Money Storage',
-          name: 'moneyStorageId',
+          label: 'Select second Money Storage',
+          name: 'secondMoneyStorageId',
           type: 'select',
           isSearch: true,
           options: moneyStoragesOptions,
           onChange: (_, formInstance) =>
-            updateFilterAccounts(formInstance.getFieldsValue()),
+            onSecondStorageChange(formInstance),
+          initialValue: currentAmount,
         },
         {
           label: 'First debit account',
@@ -175,7 +207,7 @@ export const ExchangeAccountsStoragesModal: React.FC = () => {
           type: 'select',
           isSearch: true,
           isSort: true,
-          options: accountsOptions,
+          options: secondStorageAccountsOptions,
         },
         {
           label: 'Second credit account',
@@ -184,7 +216,9 @@ export const ExchangeAccountsStoragesModal: React.FC = () => {
           type: 'select',
           isSearch: true,
           isSort: true,
-          options: accountsOptions,
+          options: secondCreditAccountsOptions,
+          onChange: (_, formInstance) =>
+            onSecondCreditAccountChange(formInstance)
         },
         {
           label: 'Second debit account',
@@ -193,8 +227,7 @@ export const ExchangeAccountsStoragesModal: React.FC = () => {
           type: 'select',
           isSearch: true,
           isSort: true,
-          options: accountsOptions,
-          initialValue: secondDebitAccount?.id,
+          options: firstStorageAccountsOptions,
         },
         { label: 'Description', name: 'description', type: 'textarea' },
       ]}
