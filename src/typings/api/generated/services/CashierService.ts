@@ -22,6 +22,7 @@ import type { NewLoanRepaymentDto } from '../models/NewLoanRepaymentDto';
 import type { NewOpenBalanceObligationDto } from '../models/NewOpenBalanceObligationDto';
 import type { NewRefundInDto } from '../models/NewRefundInDto';
 import type { NewRefundOutDto } from '../models/NewRefundOutDto';
+import type { NewSwapDto } from '../models/NewSwapDto';
 import type { NewTransactionDto } from '../models/NewTransactionDto';
 import type { NewTransferDto } from '../models/NewTransferDto';
 import type { TransactionsPaginated } from '../models/TransactionsPaginated';
@@ -778,20 +779,39 @@ export class CashierService {
         });
     }
     /**
-     * @returns any New transaction Refund Out successful created
+     * @returns any New distributions accounts transaction successful created
      * @throws ApiError
      */
     public static transactionsControllerDistribution({
         requestBody,
     }: {
         /**
-         * Distributio
+         * Distribution
          */
         requestBody: CreateDistributionDto,
     }): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/cashier/transactions/distribution',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any New transactions swap successful created
+     * @throws ApiError
+     */
+    public static transactionsControllerSwap({
+        requestBody,
+    }: {
+        /**
+         * Swap
+         */
+        requestBody: NewSwapDto,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/cashier/transactions/swap',
             body: requestBody,
             mediaType: 'application/json',
         });

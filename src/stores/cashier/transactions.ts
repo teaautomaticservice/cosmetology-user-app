@@ -11,7 +11,8 @@ import {
   createRefundOutApi,
   createTransferApi,
   distributionAccountsApi,
-  getTransactionsListApi
+  getTransactionsListApi,
+  swapAccountsApi
 } from '@apiMethods/cashier';
 import {
   DistributionAccountsApi,
@@ -22,6 +23,7 @@ import {
   NewOpenBalanceObligation,
   NewRefundInApi,
   NewRefundOutApi,
+  NewSwapApi,
   NewTransaction,
   NewTransfer,
   Transaction,
@@ -148,6 +150,11 @@ export const useTransactionsStore = () => {
       await distributionAccountsApi(data);
     });
 
+  const swapAccounts = async (data: NewSwapApi) =>
+    withLoader(async () => {
+      await swapAccountsApi(data);
+    });
+
   return {
     transactions,
     currentTransactions,
@@ -167,5 +174,6 @@ export const useTransactionsStore = () => {
     createRefundIn,
     createRefundOut,
     distributionAccounts,
+    swapAccounts,
   };
 };

@@ -4,7 +4,7 @@ import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntity
 import { useApiCall } from '@hooks/useApiCall';
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
-// import { useTransactionsStore } from '@stores/cashier/transactions';
+import { useTransactionsStore } from '@stores/cashier/transactions';
 import { AccountWithStore, NewTransfer } from '@typings/api/cashier';
 import { AccountStatus } from '@typings/api/generated';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
@@ -35,8 +35,8 @@ const createOptionsFromAccounts = (list: AccountWithStore[]) =>
     label: `${name}: ${moneyStorage?.name ?? 'n/a'}, ${fromAmountApi(available)} ${currency?.code ?? ''}`,
   })));
 
-export const ExchangeAccountsStoragesModal: React.FC = () => {
-  // const { createTransfer } = useTransactionsStore();
+export const SwapAccountsStoragesModal: React.FC = () => {
+  const { swapAccounts } = useTransactionsStore();
   const { currentAccountWithStore } = useAccountsStore();
   const { moneyStorages } = useMoneyStoragesStore();
 
@@ -133,23 +133,25 @@ export const ExchangeAccountsStoragesModal: React.FC = () => {
   };
 
   const onSubmit = async ({
-    // amount,
-    // description,
-    // firstDebitId,
-    // secondCreditId,
-    // secondDebitId,
+    amount,
+    description,
+    firstDebitId,
+    secondCreditId,
+    secondDebitId,
   }: FormData) => {
     if (!currentAccountWithStore) {
       return;
     }
 
-    // await createTransfer({
-    //   amount: toAmountApi(amount),
-    //   description: description ?? null,
-    //   creditId: currentAccountWithStore.id,
-    //   debitId,
-    // });
-    // window.location.reload();
+    await swapAccounts({
+      amount: toAmountApi(amount),
+      description: description ?? null,
+      firstCreditId: currentAccountWithStore.id,
+      firstDebitId,
+      secondCreditId,
+      secondDebitId,
+    });
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -167,7 +169,7 @@ export const ExchangeAccountsStoragesModal: React.FC = () => {
 
   return (
     <CreateEntityModal<NewTransfer & FormData, FormData >
-      title={createAccountTitle(currentAccountWithStore, { title: 'Exchange' })}
+      title={createAccountTitle(currentAccountWithStore, { title: 'Swap' })}
       onSubmit={onSubmit}
       rows={[
         {

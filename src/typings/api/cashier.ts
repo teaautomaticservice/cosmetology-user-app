@@ -17,6 +17,7 @@ import {
   NewOpenBalanceObligationDto,
   NewRefundInDto,
   NewRefundOutDto,
+  NewSwapDto,
   NewTransactionDto,
   NewTransferDto,
 } from './generated';
@@ -86,3 +87,4 @@ export type NewTransfer = NewTransferDto;
 export type NewRefundInApi = NewRefundInDto;
 export type NewRefundOutApi = NewRefundOutDto;
 export type DistributionAccountsApi = CreateDistributionDto;
+export type NewSwapApi = NewSwapDto;

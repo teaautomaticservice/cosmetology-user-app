@@ -184,9 +184,9 @@ export const AccountsWithStorageList: React.FC<Props> = ({
             ) && (
               <Button onClick={() => openModalWithAccounts({
                 account,
-                modalType: 'exchangeAccountsStoragesModal',
+                modalType: 'swapAccountsStoragesModal',
               })}>
-                  Exchange
+                  Swap
               </Button>
             )}
             {(

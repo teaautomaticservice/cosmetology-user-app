@@ -16,6 +16,7 @@ import {
   NewOpenBalanceObligation,
   NewRefundInApi,
   NewRefundOutApi,
+  NewSwapApi,
   NewTransaction,
   NewTransfer,
   TransactionsControllerGetListParams,
@@ -307,6 +308,12 @@ export const createRefundOutApi = (newData: NewRefundOutApi) => {
 
 export const distributionAccountsApi = (newData: DistributionAccountsApi) => {
   return CashierService.transactionsControllerDistribution({
+    requestBody: newData,
+  });
+};
+
+export const swapAccountsApi = (newData: NewSwapApi) => {
+  return CashierService.transactionsControllerSwap({
     requestBody: newData,
   });
 };
