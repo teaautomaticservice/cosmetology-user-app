@@ -52,7 +52,7 @@ export const TransferModal: React.FC = () => {
 
   const updateFilterAccounts = debounce((filterData: FormData) => {
     updateAccountsListParams({
-      moneyStoragesIds: filterData.moneyStorageId ? [filterData.moneyStorageId.toString()] : undefined,
+      moneyStoragesIds: filterData.moneyStorageId ? [filterData.moneyStorageId] : undefined,
     });
   }, 500);
 

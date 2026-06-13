@@ -31,7 +31,7 @@ export const AccountsPage: React.FC = () => {
   const updateAccountListWithParams = debounce(() => {
     if (isReady) {
       updateAccountsList({
-        moneyStoragesIds: accountsMoneyStoragesIds,
+        moneyStoragesIds: accountsMoneyStoragesIds?.map(Number),
         ...(page && { page: Number(page) }),
         ...(pageSize && { pageSize: Number(pageSize) }),
         status,

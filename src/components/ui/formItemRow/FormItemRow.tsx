@@ -48,6 +48,9 @@ type MultiselectProps<FormData> = {
   isMultiply?: boolean;
   isSearch?: boolean;
   isSort?: boolean;
+  loading?: boolean;
+  onSearch?: (value: string) => void;
+  onOpenChange?: (open: boolean) => void;
   onChange?: (value: string | number, formInstance: FormInstance<FormData>) => void;
 };
 
@@ -149,12 +152,22 @@ export const FormItemRow = <Entity extends object, FormData extends Record<strin
     ...(type === 'select' && ({
       mode: (props as MultiselectProps<FormData>).isMultiply ? 'multiple' : undefined,
       options: (props as MultiselectProps<FormData>).options,
-      ...((props as MultiselectProps<FormData>).isSearch && {
-        showSearch: true,
-        filterOption: selectFIlterOption,
-      }),
+      loading: (props as MultiselectProps<FormData>).loading,
+      ...((props as MultiselectProps<FormData>).onSearch
+        ? {
+          showSearch: true,
+          filterOption: false,
+          onSearch: (props as MultiselectProps<FormData>).onSearch,
+        }
+        : ((props as MultiselectProps<FormData>).isSearch && {
+          showSearch: true,
+          filterOption: selectFIlterOption,
+        })),
       ...((props as MultiselectProps<FormData>).isSort && {
         filterSort: selectFilterSort,
+      }),
+      ...((props as MultiselectProps<FormData>).onOpenChange && {
+        onOpenChange: (props as MultiselectProps<FormData>).onOpenChange,
       }),
     })),
     ...(type === 'inputNumber' && ({

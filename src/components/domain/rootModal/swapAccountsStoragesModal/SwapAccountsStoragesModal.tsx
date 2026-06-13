@@ -1,15 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
-import { getAccountsWithMoneyStoragesApi } from '@apiMethods/cashier';
+import { useEffect, useState } from 'react';
 import { CreateEntityModal } from '@components/ui/createEntityModal/CreateEntityModal';
-import { useApiCall } from '@hooks/useApiCall';
+import { useAccountsLoading } from '@hooks/domain/useAccountsLoading';
 import { useAccountsStore } from '@stores/cashier/accounts';
 import { useMoneyStoragesStore } from '@stores/cashier/moneyStorages';
 import { useTransactionsStore } from '@stores/cashier/transactions';
 import { AccountWithStore, NewTransfer } from '@typings/api/cashier';
 import { AccountStatus } from '@typings/api/generated';
 import { fromAmountApi, toAmountApi } from '@utils/amount';
-import { FormInstance } from 'antd';
-import { debounce } from 'lodash';
+import { Form } from 'antd';
 import { fromEntityToOptionsList } from 'src/adapters/fromEntityToOptionsList';
 
 import { createAccountTitle } from '../utils/createAccountTitle';
@@ -39,97 +37,114 @@ export const SwapAccountsStoragesModal: React.FC = () => {
   const { swapAccounts } = useTransactionsStore();
   const { currentAccountWithStore } = useAccountsStore();
   const { moneyStorages } = useMoneyStoragesStore();
+  const [formInstance] = Form.useForm<FormData>();
 
-  const {
-    execute: updateAccountsList,
-    isApiLoading: isAccountsLoading,
-    data,
-  } = useApiCall(getAccountsWithMoneyStoragesApi);
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [selectedSecondMoneyStorageId, setSelectedSecondMoneyStorageId] =
-    useState<number | null>(null);
-  const [currentAmount, setCurrentAmount] =
-    useState<number>(0);
-
-  const { data: accountsList } = data ?? {};
-
-  const firstStorageAccounts = useMemo<AccountWithStore[]>(() =>
-    accountsList?.filter(({ moneyStorageId }) => (moneyStorageId === currentAccountWithStore?.moneyStorageId)) ?? [],
-  [accountsList]);
-
-  const secondStorageAccounts = useMemo<AccountWithStore[]>(() => {
-    if (!accountsList) {
-      return [];
-    }
-
-    if (!selectedSecondMoneyStorageId) {
-      return accountsList.filter(({ moneyStorageId }) => (moneyStorageId !== currentAccountWithStore?.moneyStorageId));
-    }
-
-    return accountsList.filter(({ moneyStorageId }) => (moneyStorageId === selectedSecondMoneyStorageId));
-  }, [accountsList, selectedSecondMoneyStorageId, currentAmount]);
-
-  const firstStorageAccountsOptions = createOptionsFromAccounts(firstStorageAccounts);
-  const secondStorageAccountsOptions = createOptionsFromAccounts(secondStorageAccounts);
-  const secondCreditAccountsOptions = createOptionsFromAccounts(
-    secondStorageAccounts.filter(
-      ({ available }) =>
-        available >= toAmountApi(currentAmount) &&
-        available > 0
-    )
-  );
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const moneyStoragesOptions = fromEntityToOptionsList(
     moneyStorages.filter(({ id }) => id !== currentAccountWithStore?.moneyStorageId)
   );
 
-  const updateFilterAccounts = debounce(async (moneyStorageId?: number) => {
-    setIsLoading(true);
-    try {
-      await updateAccountsList({
-        moneyStoragesIds: [
-          ...(currentAccountWithStore?.moneyStorageId ? [currentAccountWithStore.moneyStorageId.toString()] : []),
-          ...(moneyStorageId ? [moneyStorageId.toString()] : []),
-        ],
-        status: [AccountStatus.ACTIVE],
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }, 500);
+  const firstDebitAccountsState = useAccountsLoading();
+  const secondCreditAccountsState = useAccountsLoading();
+  const secondDebitAccountsState = useAccountsLoading();
 
-  const onSecondStorageChange = (form: FormInstance<FormData>) => {
-    const { secondMoneyStorageId } = form.getFieldsValue();
+  const firstDebitAccountsFilterUpdate = ({
+    query,
+  }: {
+    query?: string;
+  } = {}) => {
+    const { secondMoneyStorageId } = formInstance.getFieldsValue();
 
-    setSelectedSecondMoneyStorageId(secondMoneyStorageId ?? null);
-
-    if (!secondMoneyStorageId || !currentAccountWithStore) {
+    if (!secondMoneyStorageId) {
       return;
     }
 
-    updateFilterAccounts(secondMoneyStorageId);
-
-    const foundedAccount = accountsList?.find(({ name, moneyStorageId }) =>
-      name.toLowerCase() === currentAccountWithStore.name.toLowerCase() &&
-      moneyStorageId === secondMoneyStorageId);
-
-    form.setFieldValue('firstDebitId', foundedAccount?.id);
+    firstDebitAccountsState.patchFilters({
+      notMoneyStoragesIds: currentAccountWithStore?.moneyStorageId ?
+        [currentAccountWithStore.moneyStorageId] :
+        undefined,
+      moneyStoragesIds: [secondMoneyStorageId],
+      status: [AccountStatus.ACTIVE],
+      query,
+      pageSize: 1000,
+    });
   };
 
-  const onSecondCreditAccountChange = (form: FormInstance<FormData>) => {
-    const formData = form.getFieldsValue();
-    const secondCreditAccount = accountsList?.find(({ id }) => id === formData?.secondCreditId);
+  const secondCreditAccountsFilterUpdate = ({
+    query,
+  }: {
+    query?: string;
+  } = {}) => {
+    const { secondMoneyStorageId, amount } = formInstance.getFieldsValue();
 
-    if (!secondCreditAccount || !currentAccountWithStore) {
+    if (!secondMoneyStorageId) {
       return;
     }
 
-    const foundedAccount = accountsList?.find(({ name, moneyStorageId }) =>
+    secondCreditAccountsState.patchFilters({
+      notMoneyStoragesIds: currentAccountWithStore?.moneyStorageId ?
+        [currentAccountWithStore.moneyStorageId] :
+        undefined,
+      moneyStoragesIds: [secondMoneyStorageId],
+      balanceFrom: amount ? toAmountApi(amount) : 1,
+      status: [AccountStatus.ACTIVE],
+      query,
+      pageSize: 1000,
+    });
+  };
+
+  const secondDebitAccountsFilterUpdate = ({
+    query,
+  }: {
+    query?: string;
+  } = {}) => {
+    secondDebitAccountsState.patchFilters({
+      moneyStoragesIds: currentAccountWithStore?.moneyStorageId ?
+        [currentAccountWithStore.moneyStorageId] :
+        undefined,
+      status: [AccountStatus.ACTIVE],
+      query,
+      pageSize: 1000,
+    });
+  };
+
+  const onSecondStorageChange = () => {
+    formInstance.setFieldsValue({
+      firstDebitId: undefined,
+      secondCreditId: undefined,
+      secondDebitId: undefined,
+    });
+    firstDebitAccountsState.pin(null);
+    secondCreditAccountsState.pin(null);
+
+    firstDebitAccountsFilterUpdate();
+    secondCreditAccountsFilterUpdate();
+  };
+
+  const trySetSecondDebitAccount = () => {
+    const { secondCreditId } = formInstance.getFieldsValue();
+
+    if (!secondCreditId || !currentAccountWithStore) {
+      return;
+    }
+
+    const secondCreditAccount = secondCreditAccountsState.accounts.find(
+      ({ id }) => id === secondCreditId
+    );
+
+    if (!secondCreditAccount) {
+      return;
+    }
+
+    const foundedAccount = secondDebitAccountsState.accounts.find(({ name, moneyStorageId }) =>
       name.toLowerCase() === secondCreditAccount.name.toLowerCase() &&
       moneyStorageId === currentAccountWithStore.moneyStorageId);
 
-    form.setFieldValue('secondDebitId', foundedAccount?.id);
+    if (foundedAccount) {
+      secondDebitAccountsState.pin(foundedAccount.id);
+      formInstance.setFieldValue('secondDebitId', foundedAccount.id);
+    }
   };
 
   const onSubmit = async ({
@@ -143,43 +158,57 @@ export const SwapAccountsStoragesModal: React.FC = () => {
       return;
     }
 
-    await swapAccounts({
-      amount: toAmountApi(amount),
-      description: description ?? null,
-      firstCreditId: currentAccountWithStore.id,
-      firstDebitId,
-      secondCreditId,
-      secondDebitId,
-    });
-    window.location.reload();
+    setIsSubmitting(true);
+    try {
+      await swapAccounts({
+        amount: toAmountApi(amount),
+        description: description ?? null,
+        firstCreditId: currentAccountWithStore.id,
+        firstDebitId,
+        secondCreditId,
+        secondDebitId,
+      });
+      window.location.reload();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   useEffect(() => {
-    updateAccountsList({
-      status: [AccountStatus.ACTIVE],
-      pageSize: 1000,
-    });
-  }, []);
+    const { secondMoneyStorageId, firstDebitId } = formInstance.getFieldsValue();
+
+    if (firstDebitId || !secondMoneyStorageId || !currentAccountWithStore) {
+      return;
+    }
+
+    const foundedAccount = firstDebitAccountsState.accounts.find(({ name, moneyStorageId }) =>
+      name.toLowerCase() === currentAccountWithStore.name.toLowerCase() &&
+      moneyStorageId === secondMoneyStorageId);
+
+    if (foundedAccount) {
+      firstDebitAccountsState.pin(foundedAccount.id);
+      formInstance.setFieldValue('firstDebitId', foundedAccount.id);
+    }
+  }, [firstDebitAccountsState.accounts]);
 
   useEffect(() => {
-    if (!isAccountsLoading) {
-      setIsLoading(false);
-    }
-  }, [isAccountsLoading]);
+    secondDebitAccountsFilterUpdate();
+  }, []);
 
   return (
     <CreateEntityModal<NewTransfer & FormData, FormData >
       title={createAccountTitle(currentAccountWithStore, { title: 'Swap' })}
       onSubmit={onSubmit}
+      form={formInstance}
+      isLoading={isSubmitting}
       rows={[
         {
-          initialValue: 0,
           label: 'Amount',
           name: 'amount',
           isRequired: true,
           type: 'inputNumber',
           min: 0.01,
-          max: currentAccountWithStore?.available,
+          max: Number(fromAmountApi(currentAccountWithStore?.available ?? 0)),
           precision: 2,
           step: '0.01',
           formatter: (value) => {
@@ -189,8 +218,7 @@ export const SwapAccountsStoragesModal: React.FC = () => {
             return Number(Number(value).toFixed(2));
           },
           suffix: currentAccountWithStore?.currency.code ?? 'n/a',
-          onChange: (_, form) =>
-            setCurrentAmount(form.getFieldValue('amount') ?? 0)
+          onChange: () => secondCreditAccountsFilterUpdate(),
         },
         {
           label: 'Select second Money Storage',
@@ -198,42 +226,46 @@ export const SwapAccountsStoragesModal: React.FC = () => {
           type: 'select',
           isSearch: true,
           options: moneyStoragesOptions,
-          onChange: (_, formInstance) =>
-            onSecondStorageChange(formInstance),
-          initialValue: currentAmount,
+          onChange: () => onSecondStorageChange(),
         },
         {
           label: 'First debit account',
           name: 'firstDebitId',
           isRequired: true,
           type: 'select',
-          isSearch: true,
           isSort: true,
-          options: secondStorageAccountsOptions,
+          loading: firstDebitAccountsState.isLoading,
+          options: createOptionsFromAccounts(firstDebitAccountsState.accounts),
+          onSearch: (query) => firstDebitAccountsFilterUpdate({ query: query || undefined }),
+          onChange: (value) => firstDebitAccountsState.pin(Number(value)),
         },
         {
           label: 'Second credit account',
           name: 'secondCreditId',
           isRequired: true,
           type: 'select',
-          isSearch: true,
           isSort: true,
-          options: secondCreditAccountsOptions,
-          onChange: (_, formInstance) =>
-            onSecondCreditAccountChange(formInstance)
+          loading: secondCreditAccountsState.isLoading,
+          options: createOptionsFromAccounts(secondCreditAccountsState.accounts),
+          onSearch: (query) => secondCreditAccountsFilterUpdate({ query: query || undefined }),
+          onChange: (value) => {
+            secondCreditAccountsState.pin(Number(value));
+            trySetSecondDebitAccount();
+          },
         },
         {
           label: 'Second debit account',
           name: 'secondDebitId',
           isRequired: true,
           type: 'select',
-          isSearch: true,
           isSort: true,
-          options: firstStorageAccountsOptions,
+          loading: secondDebitAccountsState.isLoading,
+          options: createOptionsFromAccounts(secondDebitAccountsState.accounts),
+          onSearch: (query) => secondDebitAccountsFilterUpdate({ query: query || undefined }),
+          onChange: (value) => secondDebitAccountsState.pin(Number(value)),
         },
         { label: 'Description', name: 'description', type: 'textarea' },
       ]}
-      isLoading={isLoading}
     />
   );
 };

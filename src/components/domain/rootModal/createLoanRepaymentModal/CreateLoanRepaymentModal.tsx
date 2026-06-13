@@ -45,7 +45,7 @@ export const CreateLoanRepaymentModal: React.FC = () => {
 
   const updateFilterAccounts = debounce((filterData: FormData) => {
     updateAccountsListParams({
-      moneyStoragesIds: filterData.obligationStorageId ? [filterData.obligationStorageId.toString()] : undefined,
+      moneyStoragesIds: filterData.obligationStorageId ? [filterData.obligationStorageId] : undefined,
     });
   }, 500);
 

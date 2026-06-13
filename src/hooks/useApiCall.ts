@@ -37,5 +37,17 @@ export const useApiCall = <TArgs extends any[], TResult>(
     [apiFn, options]
   );
 
-  return { execute, isApiLoading, apiError, data };
+  const clearData = () => {
+    setIsApiLoading(false);
+    setApiError({} as CustomAxiosError);
+    setData(null);
+  };
+
+  return {
+    isApiLoading,
+    apiError,
+    data,
+    execute,
+    clearData,
+  };
 };

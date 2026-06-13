@@ -79,7 +79,7 @@ export const DistributionModal: React.FC = () => {
     updateAccountsListParams({
       moneyStoragesIds:
         currentAccountWithStore?.moneyStorageId ?
-          [currentAccountWithStore.moneyStorageId.toString()] :
+          [currentAccountWithStore.moneyStorageId] :
           undefined,
       status: [AccountStatus.ACTIVE]
     });
