@@ -62,7 +62,7 @@ export const TakeLoanModal: React.FC = () => {
   const updateFilterAccounts = debounce((filterData: FormData) => {
     updateAccountsListParams({
       balanceFrom: toAmountApi(filterData.amount ?? 1),
-      moneyStoragesIds: filterData.moneyStorageId ? [filterData.moneyStorageId.toString()] : undefined,
+      moneyStoragesIds: filterData.moneyStorageId ? [filterData.moneyStorageId] : undefined,
     });
   }, 500);
 

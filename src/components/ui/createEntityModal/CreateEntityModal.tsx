@@ -3,7 +3,7 @@ import { INTERNAL_ERROR } from '@constants/errors';
 import { useModalStore } from '@stores/modal';
 import { UserDataApiError } from '@typings/errors';
 import { addToast } from '@utils/domain/toastEventBus';
-import { Form, Modal } from 'antd';
+import { Form, FormInstance, Modal } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
 
 import { FormItemRow, type Props as CreateModalRow } from '../formItemRow/FormItemRow';
@@ -20,7 +20,8 @@ type Props<Entity extends object, FormData extends Record<keyof Entity, unknown>
   classNameForm?: string;
   children?: JSX.Element,
   externalDisabled?: boolean;
-  onFormChange?: (formData: FormData) => void;
+  onFormChange?: (formData?: FormData) => void;
+  form?: FormInstance<FormData>;
 }
 
 export const CreateEntityModal = <
@@ -37,9 +38,10 @@ export const CreateEntityModal = <
     children,
     externalDisabled,
     onFormChange,
+    form,
   }: Props<Entity, FormData>) => {
   const { close } = useModalStore();
-  const [formInstance] = Form.useForm<FormData>();
+  const [formInstance] = Form.useForm<FormData>(form);
 
   const allValues = Form.useWatch([], formInstance);
 

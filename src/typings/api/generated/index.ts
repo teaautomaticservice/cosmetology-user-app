@@ -41,6 +41,7 @@ export type { NewLoanRepaymentDto } from './models/NewLoanRepaymentDto';
 export type { NewOpenBalanceObligationDto } from './models/NewOpenBalanceObligationDto';
 export type { NewRefundInDto } from './models/NewRefundInDto';
 export type { NewRefundOutDto } from './models/NewRefundOutDto';
+export type { NewSwapDto } from './models/NewSwapDto';
 export type { NewTransactionDto } from './models/NewTransactionDto';
 export type { NewTransferDto } from './models/NewTransferDto';
 export { OperationType } from './models/OperationType';

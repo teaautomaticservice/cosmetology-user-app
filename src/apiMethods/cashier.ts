@@ -16,6 +16,7 @@ import {
   NewOpenBalanceObligation,
   NewRefundInApi,
   NewRefundOutApi,
+  NewSwapApi,
   NewTransaction,
   NewTransfer,
   TransactionsControllerGetListParams,
@@ -109,6 +110,7 @@ export const getAccountsWithMoneyStoragesApi = ({
   order,
   sort,
   moneyStoragesIds,
+  notMoneyStoragesIds,
   status,
   query,
   balanceFrom,
@@ -120,6 +122,7 @@ export const getAccountsWithMoneyStoragesApi = ({
     order,
     sort,
     moneyStoragesIds,
+    notMoneyStoragesIds,
     status,
     query,
     balanceFrom,
@@ -307,6 +310,12 @@ export const createRefundOutApi = (newData: NewRefundOutApi) => {
 
 export const distributionAccountsApi = (newData: DistributionAccountsApi) => {
   return CashierService.transactionsControllerDistribution({
+    requestBody: newData,
+  });
+};
+
+export const swapAccountsApi = (newData: NewSwapApi) => {
+  return CashierService.transactionsControllerSwap({
     requestBody: newData,
   });
 };

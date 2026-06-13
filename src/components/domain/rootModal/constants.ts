@@ -22,6 +22,7 @@ import { EditAccountWithStorages } from './editAccountWithStorages/EditAccountWi
 import { EditAggregatedAccount } from './editAggregatedAccount/EditAggregatedAccount';
 import { EditCurrency } from './editCurrency/EditCurrency';
 import { GiveLentModal } from './giveLentModal/GiveLentModal';
+import { SwapAccountsStoragesModal } from './swapAccountsStoragesModal/SwapAccountsStoragesModal';
 import { TakeLoanModal } from './takeLoanModal/TakeLoanModal';
 import { TransferModal } from './transferModal/TransferModal';
 
@@ -47,4 +48,5 @@ export const ModalsMap = {
   'createRefundInModal': CreateRefundInModal,
   'createRefundOutModal': CreateRefundOutModal,
   'distributionModal': DistributionModal,
+  'swapAccountsStoragesModal': SwapAccountsStoragesModal,
 };

@@ -44,7 +44,7 @@ export const CreateLentRepaymentModal: React.FC = () => {
 
   const updateFilterAccounts = debounce((filterData: FormData) => {
     updateAccountsListParams({
-      moneyStoragesIds: filterData.storageId ? [filterData.storageId.toString()] : undefined,
+      moneyStoragesIds: filterData.storageId ? [Number(filterData.storageId)] : undefined,
     });
   }, 500);
 
